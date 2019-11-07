@@ -1,4 +1,6 @@
 ---
+layout: default
+theme: default
 title: About
 ---
 # About page
