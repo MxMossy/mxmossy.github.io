@@ -34,7 +34,7 @@ github_username: mxmossy
 # theme: minima
 # theme: jekyll-theme-minimal
 # remote_theme: vszhub/not-pure-poole
-remote_theme: stackbit-fresh-unibit
+remote_theme: stackbit-themes/fresh-unibit
 
 # plugins:
 #   - jekyll-remote-theme
