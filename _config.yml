@@ -23,7 +23,7 @@ email: mossberg.max@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   and this is my description
 avatar: head_shot.jpg
-cover_image: mount_huang_shan.jpg
+cover_image: mt_huang_shan.jpg
 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
