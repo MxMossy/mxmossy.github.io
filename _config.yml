@@ -35,9 +35,9 @@ github_username: mxmossy
 # theme: jekyll-theme-minimal
 remote_theme: vszhub/not-pure-poole
 
-plugins:
-  - jekyll-remote-theme
-  - jekyll-feed
+# plugins:
+#   - jekyll-remote-theme
+#   - jekyll-feed
 
 # Exclude from processing.
 # The following items will not be processed, by default.
