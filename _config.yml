@@ -34,7 +34,8 @@ github_username: mxmossy
 # theme: minima
 # theme: jekyll-theme-minimal
 # remote_theme: vszhub/not-pure-poole
-remote_theme: codebushi/gatsby-starter-strata/
+# remote_theme: codebushi/gatsby-starter-strata/
+remote_theme: andrewbanchich/strata-jekyll-theme
 # remote_theme: sergiokopplin/indigo
 
 # plugins:
