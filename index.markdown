@@ -4,6 +4,13 @@
 
 layout: default
 ---
-# Hello World
+# Hello, and welcome to my website!
 
-This is a test.
+There isn't much on here at the moment, but feel free to take a look at my socials.
+
+## Things to Come:
+ - Blog
+ - Portfolio
+ - Projects Page
+ - Resume
+ - and more...(?)
