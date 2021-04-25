@@ -4,7 +4,7 @@
 
 layout: default
 ---
-# Hello, and welcome to my website!
+# Welcome to my website!
 
 There isn't much on here at the moment, but feel free to take a look at my socials.
 
