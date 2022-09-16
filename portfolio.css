@@ -46,6 +46,17 @@ h1 {
     justify-content: center;
 }
 
+.icon > a {
+    color: #fdfdfd;
+    text-decoration: none;
+}
+
+.icon > a:hover {
+    color:#d60606; 
+    text-decoration:none; 
+    cursor:pointer;  
+}
+
 i {
     font-size: 1.3em;
     margin: .7rem;
@@ -55,6 +66,7 @@ i {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 30px;
 }
 
 hr {
@@ -70,8 +82,8 @@ hr {
 
 
 img {
-    width: 175px;
-    height: 175px;
+    /* width: 175px;
+    height: 175px; */
     display: block;
     text-align: center;
     border-radius: 30px;
