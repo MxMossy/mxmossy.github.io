@@ -1,0 +1,105 @@
+body {
+    background-color: #161616;
+    color: #f9f9f9;
+}
+
+
+header {
+    height: 200px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    
+}
+
+canvas {
+    position: absolute;
+    /* display: block; */
+    /* width: 100%; */
+}
+
+.header-title{
+    position: absolute;
+    display: flex;
+    color: white;
+    width: 70%
+}
+
+h1 {
+    font-size: 50px;
+    text-align: center;
+    /* -webkit-text-fill-color: white;
+    -webkit-text-stroke: 2px black; */
+}
+
+#projects-list{
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+}
+
+.icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon > a {
+    color: #fdfdfd;
+    text-decoration: none;
+}
+
+.fa-youtube:hover {
+    color:#d60606; 
+    text-decoration:none; 
+    cursor:pointer;  
+}
+
+i {
+    font-size: 1.3em;
+    margin: .7rem;
+}
+
+.divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+hr {
+    width: 50%;
+    border: 1px solid #f9f9f9;
+}
+
+.pic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+img {
+    /* width: 175px;
+    height: 175px; */
+    display: block;
+    text-align: center;
+    border-radius: 30px;
+}
+
+@media only screen and (max-width: 991px){
+    .header-title {
+        justify-content: center;
+    }
+
+    .icons {
+        flex-direction: row;
+    }
+
+    i {
+        font-size: 1.3em;
+        margin: .7rem;
+    }
+}
