@@ -57,6 +57,30 @@ h1 {
     cursor:pointer;  
 }
 
+.fa-google-drive:hover {
+    color:#106940; 
+    text-decoration:none; 
+    cursor:pointer;  
+}
+
+.fa-github:hover {
+    color:#500ce4; 
+    text-decoration:none; 
+    cursor:pointer;  
+}
+
+.fa-itch-io:hover {
+    color:#c223d3; 
+    text-decoration:none; 
+    cursor:pointer;  
+}
+
+.fa-dev:hover {
+    color:#4475bf; 
+    text-decoration:none; 
+    cursor:pointer;  
+}
+
 i {
     font-size: 1.3em;
     margin: .7rem;
