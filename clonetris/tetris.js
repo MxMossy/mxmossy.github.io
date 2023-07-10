@@ -797,9 +797,9 @@ class InputManager {
 
 class Settings{
     // gravity = 1000;
-    das = 110;
-    arr = 0;
-    softDrop = 0;
+    das = 130;
+    arr = 10;
+    softDrop = 20;
     keybinds = {
         leftKey: 'ArrowLeft',
         rightKey: 'ArrowRight',
@@ -815,8 +815,11 @@ class Settings{
         // spinKey: 'a',
     };
 
-    constructor(input){
+    constructor(input, pauseInput, resumeInput){
         this.input = input;
+        this.pause = pauseInput;
+        this.resume = resumeInput;
+
 
         document.getElementById("settings").innerHTML = "";
 
@@ -824,17 +827,17 @@ class Settings{
         html += "<button onclick=\"game.startGame()\"> New game </button>";
 
         for(const [k, v] of Object.entries(this)){
-            if(!(k === "keybinds" || k === "input")){
+            if(k === "das" || k === "arr" || k === "softDrop"){
                 html += "<div class=\"setting\">";
-                html += "<p id=\"" + k + "Text" + "\">" + k + " : " + v + "</p>";
+                html += "<p id=\"" + k + "Text" + "\">" + k + " (ms)" +  " : " + v + "</p>";
                 html += "<input id=\"" + k + "Field" + "\">" + "</input>";
                 html += "</div>";
             }
         }
         document.getElementById("settings").innerHTML += html;
 
-        html = "<p id=\"Instructions\"><em>Press desired key and click change</em></p>"
         html += "<div id=\"keyBinds\">"
+        html = "<button id=\"changeAll\"> Change All</button>"
         for(const [k, v] of Object.entries(this.keybinds)){
             html += "<div class=\"setting\">";
             html += "<p id=\"" + k + "Text" + "\" >" + k + " : " + (v === " " ? "Space" : v) + "</p>";
@@ -846,58 +849,81 @@ class Settings{
 
 
         for(const [k, v] of Object.entries(this)){
-            if(!(k === "keybinds" || k === "input")){
+            if(k === "das" || k === "arr" || k === "softDrop"){
                 document.getElementById(k + "Field").addEventListener("keyup", (e) => {
                     if(e.key === "Enter"){
                         this.update(k, document.getElementById(k+"Field").value);
+                        document.getElementById(k+"Field").value = "";
                     }
                 })
             }
         }
 
+        document.getElementById("changeAll").addEventListener("click", (e) => this.changeAllKeys());
+
         for(const [k, v] of Object.entries(this.keybinds)){
             document.getElementById(k).addEventListener("click", (e) => {
+                document.getElementById(k).blur(); // needed to make sure spacebar doesn't retrigger button
                 this.updateKey(k);
             })
-
         }
 
     }
 
     updateDisplay(){
         for(const [k, v] of Object.entries(this)){
-            if(!(k === "keybinds" || k === "input")){
-                document.getElementById(k+"Text").innerHTML = k + " : " + v;
+            if(k === "das" || k === "arr" || k === "softDrop"){
+                document.getElementById(k+"Text").innerHTML = k + " (ms) : " + v;
             }
         }
 
         for(const [k, v] of Object.entries(this.keybinds)){
-            document.getElementById(k+"Text").innerHTML = k + " : " + v;
+            document.getElementById(k+"Text").innerHTML = k + " : " + (v === " " ? "Space" : v);
         }
+    }
 
-        console.log("t")
+    async changeAllKeys(){
+        this.pause();
+        for(const [k, v] of Object.entries(this.keybinds)){
+            document.getElementById(k+"Text").innerHTML = k + " : " + "Waiting...";
+            let newKey = await this.awaitKey();
+            this.keybinds[k] = newKey;
+            this.updateDisplay();
+        }
+        this.resume();
     }
 
     update(s, newVal){
         this[s] = parseInt(newVal);
-        // this.displaySettings();
         this.updateDisplay();
     }
 
-    //TODO Fix
-    updateKey(k){
-        console.log("test");
-        this.keybinds[k] = this.input.lastKey;
+    async updateKey(k){
+        this.pause();
+        document.getElementById(k+"Text").innerHTML = k + " : " + "Waiting...";
+
+        let newKey = await this.awaitKey();
+        this.keybinds[k] = newKey;
+
+        this.resume();
         this.updateDisplay();
-        // this.displaySettings();
     }
 
-
+    awaitKey() {
+        let waitKey = new Promise((resolve) => {
+            document.addEventListener("keydown", (e) => {
+                resolve(e.key);
+                }, {once: true}
+            )
+        })
+        return waitKey;
+    }
 }
 
 class Game {
     start = false;
     startTime;
+    takingInput = true;
 
     curDir;
     dasFired = false;
@@ -910,7 +936,7 @@ class Game {
 
         this.input = new InputManager((key, state) => this.handleInput(key, state));
         this.board = new GameBoard(20, 10, 40);
-        this.settings = new Settings(this.input);
+        this.settings = new Settings(this.input, () => this.pauseInput(), () => this.resumeInput());
         // this.history = new History(this.board, this.queue, this.hold);
 
         this.lastTick = performance.now();
@@ -925,10 +951,9 @@ class Game {
         if(this.start){
             // spawn piece
             if(!this.board.activePiece){
-                // restart game if can't spawn
-                console.log("test");
+                // stop game if can't spawn
                 if(!this.board.spawnPiece()) {
-                    this.startGame();
+                    this.start = false;
                 }
             }
             else{
@@ -969,57 +994,61 @@ class Game {
     }
 
     handleInput(key, state) {
-        if(key === this.settings.keybinds.leftKey){
-            if(state) this.initiateDas(key,"left");
-            else if(this.curDir === "left") this.cancelDas();
-        }
-        else if(key === this.settings.keybinds.rightKey){
-            if(state) this.initiateDas(key,"right");
-            else if(this.curDir === "right") this.cancelDas();
-        }
-        else if(key === this.settings.keybinds.softKey){
-            if(state){
-                this.softDrop = true;
-                if(this.settings.softDrop === 0) this.board.shiftInstant("down");
-                this.softCancel = setInterval(() => {
-                    if(this.input.keysDown[key]) this.board.shiftPiece("down");
-                    else clearInterval(this.softCancel); 
-                }, this.settings.softDrop);
+        if(this.takingInput){
+            if(key === this.settings.keybinds.leftKey){
+                if(state) this.initiateDas(key,"left");
+                else if(this.curDir === "left") this.cancelDas();
             }
-            else if(this.softDrop) {
-                this.softDrop = false;
-                clearInterval(this.softCancel);
+            else if(key === this.settings.keybinds.rightKey){
+                if(state) this.initiateDas(key,"right");
+                else if(this.curDir === "right") this.cancelDas();
             }
-        }
-        else if(state && key === this.settings.keybinds.hardKey){
-            this.board.hardDrop();
-            // this.queue.queueStep();
-        }
-        else if(state && key === this.settings.keybinds.holdKey){
-            this.board.holdPiece();
-        }
-        else if(state && key === this.settings.keybinds.crKey){
-            this.board.rotateActive(1);
-        }
-        else if(state && key === this.settings.keybinds.ccrKey){
-            this.board.rotateActive(-1);
-        }
-        else if(state && key === this.settings.keybinds.r180Key){
-            this.board.rotateActive(2);
-        }
-        else if(state && key === this.settings.keybinds.restartKey){
-            this.startGame();
-        }
-        else if(state && key === this.settings.keybinds.undoKey){
-            this.board.setState(-1);
-        }
-        else if(state && key === this.settings.keybinds.redoKey){
-            this.board.setState(1);
-        }
-        // else if(state && key === this.settings.keybinds.spinKey){
-        //     this.spinBoard();
-        // }
+            else if(key === this.settings.keybinds.softKey){
+                if(state){
+                    this.softDrop = true;
+                    if(this.settings.softDrop === 0) this.board.shiftInstant("down");
+                    this.softCancel = setInterval(() => {
+                        if(this.input.keysDown[key]) this.board.shiftPiece("down");
+                        else clearInterval(this.softCancel); 
+                    }, this.settings.softDrop);
+                }
+                else if(this.softDrop) {
+                    this.softDrop = false;
+                    clearInterval(this.softCancel);
+                }
+            }
+            else if(state && key === this.settings.keybinds.hardKey){
+                this.board.hardDrop();
+                // this.queue.queueStep();
+            }
+            else if(state && key === this.settings.keybinds.holdKey){
+                this.board.holdPiece();
+            }
+            else if(state && key === this.settings.keybinds.crKey){
+                this.board.rotateActive(1);
+            }
+            else if(state && key === this.settings.keybinds.ccrKey){
+                this.board.rotateActive(-1);
+            }
+            else if(state && key === this.settings.keybinds.r180Key){
+                this.board.rotateActive(2);
+            }
+            // }
+            else if(state && key === this.settings.keybinds.restartKey){
+                this.startGame();
+            }
+            else if(state && key === this.settings.keybinds.undoKey){
+                this.start = false;
+                // this.board.setState(-1);
+            }
+            else if(state && key === this.settings.keybinds.redoKey){
+                this.board.setState(1);
+            }
+            // else if(state && key === this.settings.keybinds.spinKey){
+            //     this.spinBoard();
+            // }
 
+        }
     }
 
     // dumb
@@ -1044,6 +1073,14 @@ class Game {
         this.startTime = performance.now();
         this.board.resetBoard();
         this.start = true;
+    }
+
+    pauseInput(){
+        this.takingInput = false;
+    }
+
+    resumeInput(){
+        this.takingInput = true;
     }
 
 }

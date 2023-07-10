@@ -11,7 +11,6 @@ body {
   justify-content: center;
 }
 
-
 #container {
   display: flex;
   justify-content: center;
@@ -23,17 +22,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 15px;
-}
-
-/* #Instructions{
-  font-weight: 200;
-} */
-
-#keybinds {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
+  border: solid rgb(23, 22, 22);
 }
 
 .setting {
@@ -41,8 +30,3 @@ body {
   justify-content: space-between;
   gap: 10px;
 }
-
-/* #slider {
-  appearance: slider-vertical;
-  align-self: flex-end;
-} */
