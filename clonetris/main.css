@@ -25,6 +25,10 @@ body {
   gap: 15px;
 }
 
+/* #Instructions{
+  font-weight: 200;
+} */
+
 #keybinds {
   display: flex;
   flex-direction: column;
@@ -37,8 +41,6 @@ body {
   justify-content: space-between;
   gap: 10px;
 }
-
-#keybinds
 
 /* #slider {
   appearance: slider-vertical;

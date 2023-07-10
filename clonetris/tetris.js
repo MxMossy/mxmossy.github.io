@@ -801,17 +801,17 @@ class Settings{
     arr = 0;
     softDrop = 0;
     keybinds = {
-        leftKey: 's',
-        rightKey: 'f',
-        softKey: 'd',
-        hardKey: 'j',
-        holdKey: 'e',
-        crKey: 'l',
-        ccrKey: 'k',
-        r180Key: ';',
+        leftKey: 'ArrowLeft',
+        rightKey: 'ArrowRight',
+        softKey: 'ArrowDown',
+        hardKey: ' ',
+        holdKey: 'c',
+        crKey: 'ArrowUp',
+        ccrKey: 'z',
+        r180Key: 'a',
         restartKey: 'r',
-        undoKey: 'z',
-        redoKey: 'q',
+        undoKey: 'q',
+        redoKey: 'w',
         // spinKey: 'a',
     };
 
@@ -837,7 +837,7 @@ class Settings{
         html += "<div id=\"keyBinds\">"
         for(const [k, v] of Object.entries(this.keybinds)){
             html += "<div class=\"setting\">";
-            html += "<p id=\"" + k + "Text" + "\" >" + k + " : " + v + "</p>";
+            html += "<p id=\"" + k + "Text" + "\" >" + k + " : " + (v === " " ? "Space" : v) + "</p>";
             html += "<button id =\"" + k + "\">change</button>"
             html += "</div>";
         }
