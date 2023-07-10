@@ -1,0 +1,46 @@
+body {
+  background: rgb(26, 28, 36);
+  color: rgb(215, 212, 212);
+  font-family: Sans-serif;
+  font-size: 13;
+}
+
+#gameboard{
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+
+#container {
+  display: flex;
+  justify-content: center;
+}
+
+#settings {
+  background: rgb(43, 46, 59);
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#keybinds {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
+
+.setting {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+#keybinds
+
+/* #slider {
+  appearance: slider-vertical;
+  align-self: flex-end;
+} */
