@@ -1033,20 +1033,15 @@ class Game {
             else if(state && key === this.settings.keybinds.r180Key){
                 this.board.rotateActive(2);
             }
-            // }
             else if(state && key === this.settings.keybinds.restartKey){
                 this.startGame();
             }
             else if(state && key === this.settings.keybinds.undoKey){
-                this.start = false;
-                // this.board.setState(-1);
+                this.board.setState(-1);
             }
             else if(state && key === this.settings.keybinds.redoKey){
                 this.board.setState(1);
             }
-            // else if(state && key === this.settings.keybinds.spinKey){
-            //     this.spinBoard();
-            // }
 
         }
     }
