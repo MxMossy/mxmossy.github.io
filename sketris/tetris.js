@@ -1110,9 +1110,10 @@ class Settings{
     }
     
     loadSettings() {
-        // let cookieSettings = JSON.parse(document.cookie.split("; ").find((row) => row.startsWith("settings="))?.split("=")[1]);
-        if(document.cookie != ''){
-            let cookieSettings = JSON.parse(decodeURIComponent(document.cookie).split("; ").find((row) => row.startsWith("settings="))?.split("=")[1]);
+        // if(document.cookie != '')
+        let cookieSettingsRaw = decodeURIComponent(document.cookie).split("; ").find((row) => row.startsWith("settings="));
+        if(cookieSettingsRaw){
+            let cookieSettings = JSON.parse(cookieSettingsRaw.split("=")[1]);
             this.das = cookieSettings.das;
             this.arr = cookieSettings.arr;
             this.softDrop = cookieSettings.softDrop;
