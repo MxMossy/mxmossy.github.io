@@ -1,4 +1,3 @@
-
 class GameBoard {
 
     constructor(rows, cols, tileSize=30, spawnArea=2) {
@@ -24,7 +23,8 @@ class GameBoard {
     update(){
         this.queue.updateQueue();
         if(!this.activePiece || this.activePiece.name !== this.queue.getCurrent()){
-            this.activePiece = new Piece(this.queue.getCurrent());
+            // this.activePiece = new Piece(this.queue.getCurrent());
+            this.spawnPiece();
         }
     }
 
@@ -75,7 +75,8 @@ class GameBoard {
     }
 
     spawnPiece(newState=true, das=null) {
-        this.activePiece = new Piece(this.queue.getCurrent());
+        let spawnX = Math.ceil(this.cols / 2) - 2;
+        this.activePiece = new Piece(this.queue.getCurrent(), spawnX, 0);
         if(this.collisionCheck(this.activePiece, this.playfield)){
             this.activePiece = null;
             return false;
@@ -673,7 +674,7 @@ class Tile {
 }
 
 class Piece {
-    constructor(p, x=3, y=0, rot=0){
+    constructor(p, x=0, y=0, rot=0){
         this.name = p;
         this.pos = {x: x, y: y};
         this.rot = rot;
@@ -996,7 +997,7 @@ class InputManager {
 class Settings{
     // gravity = 1000;
 
-    // // Max's settings
+    // Max's settings
     // das = 100;
     // arr = 0;
     // softDrop = 0;
@@ -1012,9 +1013,9 @@ class Settings{
     //     restartKey: 'r',
     //     undoKey: 'z',
     //     redoKey: 'a',
-    //     // spinKey: 'a',
     // };
 
+    // Default Settings
     das = 130;
     arr = 50;
     softDrop = 20;
@@ -1038,6 +1039,8 @@ class Settings{
         this.pause = pauseInput;
         this.resume = resumeInput;
         this.board = board;
+
+        this.loadSettings();
 
         document.getElementById("settings").innerHTML = "";
 
@@ -1105,6 +1108,32 @@ class Settings{
         }
 
     }
+    
+    loadSettings() {
+        // let cookieSettings = JSON.parse(document.cookie.split("; ").find((row) => row.startsWith("settings="))?.split("=")[1]);
+        let cookieSettings = JSON.parse(decodeURIComponent(document.cookie).split("; ").find((row) => row.startsWith("settings="))?.split("=")[1]);
+        if(cookieSettings != {}){
+            this.das = cookieSettings.das;
+            this.arr = cookieSettings.arr;
+            this.softDrop = cookieSettings.softDrop;
+            this.keybinds = cookieSettings.keybinds;
+        }
+    }
+
+    saveSettings() {
+        let cookie = {
+            das : this.das,
+            arr : this.arr,
+            softDrop : this.softDrop,
+            keybinds : this.keybinds
+        }
+        
+        document.cookie = "settings=" + encodeURIComponent(JSON.stringify(cookie)) //.replace(/;/, "%3B")
+        // document.cookie = "test=test"
+        // console.log(cookie);
+        // console.log(JSON.stringify(cookie));
+        // document.cookie = ""
+    }
 
     removeFocus() {
         document.getElementById("queueUpdate").blur();
@@ -1120,6 +1149,8 @@ class Settings{
         for(const [k, v] of Object.entries(this.keybinds)){
             document.getElementById(k).innerHTML = (v === " " ? "Space" : v);
         }
+
+        this.saveSettings();
     }
 
     async changeAllKeys(){
