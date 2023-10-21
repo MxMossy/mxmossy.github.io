@@ -1,7 +1,7 @@
 
 class GameBoard {
 
-    constructor(rows, cols, tileSize=40, spawnArea=2) {
+    constructor(rows, cols, tileSize=30, spawnArea=2) {
 
         this.rows = rows;
         this.cols = cols;
@@ -12,14 +12,24 @@ class GameBoard {
         this.boardWidth = cols*tileSize;   
 
         this.playfield = new Playfield(this.rows, this.cols, this.tileSize, this.spawnArea);
-        this.sketcher = new Sketcher(this.playfield);
-        this.hold = new Hold();
-        this.queue = new Queue();
-        this.history = new BoardHistory(this.board, this.queue, this.hold);
+        this.hold = new Hold(this.tileSize);
+        this.queue = new Queue(this.tileSize);
+
+        this.sketcher = new Sketcher(this.playfield, () => this.getActivePiece());
+        this.history = new BoardHistory();
 
         this.activePiece =  null;
+    }
+    
+    update(){
+        this.queue.updateQueue();
+        if(!this.activePiece || this.activePiece.name !== this.queue.getCurrent()){
+            this.activePiece = new Piece(this.queue.getCurrent());
+        }
+    }
 
-        this.renderBoard();
+    getActivePiece() {
+        return this.activePiece;
     }
 
     renderBoard(){
@@ -47,17 +57,17 @@ class GameBoard {
         }
     }
 
-    loadPlayfield(p) {
-        this.playfield = p;
-        this.sketcher = new Sketcher(this.playfield);
-    }
+    // loadPlayfield(p) {
+    //     this.playfield = p;
+    //     this.sketcher = new Sketcher(thiskplayfield);
+    // }
 
     setState(n){
         let state = this.history.getState(n);
         if(state){
-            this.loadPlayfield(state.playfield.copy());
-            this.queue.setQueueIndex(state.queueIndex);
-            this.hold.setHold(state.holdPiece);
+            this.playfield.setField(state);
+            this.queue = state.queue.copy();
+            this.hold = state.hold.copy();
             this.spawnPiece(false);
             // this.activePiece = new Piece(this.queue.getCurrent());
             this.renderBoard();
@@ -72,7 +82,7 @@ class GameBoard {
         };
 
         if(newState){
-            this.history.addState(this.playfield.copy(), this.queue.queueIndex, this.hold.pieceName);
+            this.history.addState(this.playfield.copy(), this.queue.copy(), this.hold.copy());
         }
 
         if(das === 'r') this.shiftInstant('right');
@@ -86,7 +96,8 @@ class GameBoard {
             if(this.hold.pieceName){
                 let holdName = this.hold.getHold();
                 this.hold.setHold(this.activePiece.name); 
-                this.activePiece = new Piece(holdName);
+                this.queue.setCurrent(holdName);
+                // console.log(holdName);
             }
             else{
                 this.hold.setHold(this.activePiece.name);
@@ -278,6 +289,20 @@ class Playfield {
         this.ctx = this.canvas.getContext("2d");
     }
 
+    setField(state){
+        this.board = state.playfield.copy().board;
+    }
+
+    getAllTiles(){
+        let tiles = [];
+        for (let i = 0; i < this.rows+this.spawnArea; i++) {
+            for (let j = 0; j < this.cols; j++) {
+                tiles.push(this.board[i][j]);
+            }
+        }
+        return tiles;
+    }
+
     render(){
         this.canvas.width = this.boardWidth;
         this.canvas.height = this.boardHeight;
@@ -295,7 +320,7 @@ class Playfield {
         // grid lines
         this.ctx.strokeStyle = "gray";
         this.ctx.globalAlpha = 0.25;
-        this.ctx.setLineDash([10, 20, 10, 0]);
+        this.ctx.setLineDash([this.tileSize*0.25, this.tileSize*0.5, this.tileSize*0.25, 0]);
         for (let i=this.spawnArea; i < this.rows+3; i++){
             this.ctx.lineWidth = (i === this.spawnArea || i === this.rows+this.spawnArea) ? 1 : 2;
             this.ctx.beginPath();
@@ -315,7 +340,11 @@ class Playfield {
         // color board tiles
         for (let row = 0; row < this.board.length; row++) {
             for (let col = 0; col < this.board[row].length; col++) {
-                this.colorTile(this.board[row][col]);
+                let tile = this.board[row][col]
+                if(tile){
+                    if(tile.selected) this.colorTile(tile, "purple");
+                    else this.colorTile(tile);
+                }
             }
         }
     }
@@ -329,11 +358,11 @@ class Playfield {
         }
     }
 
-    colorTile(tile) {
+    colorTile(tile, color=tile.color) {
         if(tile.color && tile.active){
             this.ctx.fillStyle = "black";
             this.ctx.fillRect(tile.x*this.tileSize, tile.y*this.tileSize, this.tileSize, this.tileSize);
-            this.ctx.fillStyle = tile.color;
+            this.ctx.fillStyle = color;
             this.ctx.fillRect(tile.x*this.tileSize, tile.y*this.tileSize, this.tileSize, this.tileSize);
         }
     }
@@ -401,18 +430,118 @@ class Playfield {
 
 class Sketcher {
     mouseDown = false;
-    drawMode = false;
+    shiftKey = false;
+
     drawColor = "gray";
+    drawMode = false;
     drawRectStart;
 
-    constructor(playfield){
+    selected = [];
+    selectMode = true;
+    selectionOffsets = [];
+    selectRectStart;
+    unselectFlag;
+
+    startDragTile;
+    dragBounds = {};
+    // dragBounds = {lowX: 0, 
+    //     highX: this.playfield.cols-1, 
+    //     lowY: 0,
+    //     highY: this.playfield.rows-1
+    // };
+
+    mode = null;
+
+    constructor(playfield, getActivePiece){
         this.playfield = playfield;
         this.canvas = this.playfield.canvas;
+        this.getActivePiece = getActivePiece;
 
         // add listeners
-        this.canvas.addEventListener('mousedown', (e) => this.startDraw(e));
-        this.canvas.addEventListener('mousemove', (e) => this.draw(e));
-        this.canvas.addEventListener('mouseup', (e) => this.stopDraw(e));
+        this.canvas.addEventListener('mousedown', (e) => {
+            this.mouseDown = true;
+            let tile = this.getTile(e.offsetX, e.offsetY);
+            if(!tile) return;
+            if(this.shiftKey) {
+                this.mode = "select";
+                this.selectMode = !tile.selected;
+                if(e.which === 3){
+                    this.selectRectStart = [tile.x, tile.y];
+                    this.selectRect(this.selectRectStart,[tile.x, tile.y], this.selectMode);
+                }
+                
+                else this.select(tile, this.selectMode);
+            }
+            else if(this.mode === "select"){
+                // start drag
+                if(tile.selected){
+                    this.mode = "drag";
+                    this.startDragTile = tile;
+                    this.selected = this.playfield.getAllTiles().filter((t) => t.selected).map((t) => t.copy());
+                    this.selectionOffsets = this.selected.map((t) => {return {x: t.x - this.startDragTile.x, y: t.y - this.startDragTile.y}}, this);
+
+
+                    // compute bounds of drag
+                    let lowerX = Math.min(...this.selected.map((t) => t.x));
+                    let lowerY = Math.min(...this.selected.map((t) => t.y));
+                    let higherX = Math.max(...this.selected.map((t) => t.x));
+                    let higherY = Math.max(...this.selected.map((t) => t.y));
+
+                    this.dragBounds = {lowX: this.startDragTile.x-lowerX, 
+                        highX: this.startDragTile.x+(this.playfield.cols-1)-higherX, 
+                        lowY: this.startDragTile.y-lowerY,
+                        highY: this.startDragTile.y+(this.playfield.rows+this.playfield.spawnArea-1)-higherY
+                    };
+
+                    this.drag(tile);
+                }
+                else {
+                    this.unselectFlag = true;
+                }
+            }
+            else{ //draw
+                this.mode = "draw";
+                this.drawMode = !tile.active;
+                tile.color = this.drawMode ? this.drawColor : null;
+                if(e.which === 3){
+                    this.drawRectStart = [tile.x, tile.y];
+                    this.drawRect(this.drawRectStart,[tile.x, tile.y]);
+                }
+                else this.draw(tile);
+            }
+        });
+        this.canvas.addEventListener('mousemove', (e) => {
+            let tile = this.getTile(e.offsetX, e.offsetY);
+            if(!tile) return;
+            if(this.mode === "draw"){
+                if(e.which === 3){
+                    this.drawRect(this.drawRectStart,[tile.x, tile.y]);
+                }
+                else this.draw(tile);
+            }
+            else if (this.mode === "select"){
+                if(e.which === 3){
+                    this.selectRect(this.selectRectStart,[tile.x, tile.y], this.selectMode);
+                }
+                else this.select(tile, this.selectMode);
+            }
+            else if (this.mode === "drag") {
+                this.drag(tile);
+            }
+        });
+        this.canvas.addEventListener('mouseup', (e) =>{
+            let tile = this.getTile(e.offsetX, e.offsetY);
+            if(!tile) return;
+            this.mouseDown = false;
+            if(this.mode === "drag"){
+                this.mode = "select";
+            }
+            if(this.mode === "select" && this.unselectFlag) {
+                this.unselectAll();
+                this.mode = null;
+                this.unselectFlag = false;
+            }
+        });
         this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
     }
 
@@ -426,52 +555,23 @@ class Sketcher {
         return this.playfield.board[tileY][tileX];
     }
 
-    startDraw(e){
-        let tile = this.getTile(e.offsetX, e.offsetY);
-
-        if(tile){
-            let notActive = true;
-            if(this.playfield.activePiece){
-                for(let i=0; i<this.playfield.activePiece.tiles.length; i++){
-                    if(tile.samePos(this.playfield.activePiece.tiles[i])) notActive = false;
-                }
-            }
-            if(notActive){
-                this.drawMode = !tile.active; 
-                tile.active = this.drawMode;
-                tile.color = this.drawMode ? this.drawColor : null;
-                this.mouseDown = true;
-                if(e.which === 3){
-                    this.drawRectStart = [tile.x, tile.y];
-                }
-                // this.renderBoard();
+    isActive(t){
+        let notActive = true;
+        let active = this.getActivePiece();
+        if(active){
+            for(let i=0; i<active.tiles.length; i++){
+                if(t.samePos(active.tiles[i])) return true;
             }
         }
+        return false;
     }
 
-    draw(e){
-        if(this.mouseDown) {
-            let tile = this.getTile(e.offsetX, e.offsetY);
-            if(tile){
-                if(e.which == 3){
-                    this.drawRect(this.drawRectStart,[tile.x, tile.y]);
-                }
-                else{
-                    //don't draw on active
-                    let notActive = true;
-                    if(this.playfield.activePiece){
-                        for(let i=0; i<this.playfield.activePiece.tiles.length; i++){
-                            if(tile.samePos(this.playfield.activePiece.tiles[i])) notActive = false;
-                        }
-                    }
-                    if(notActive){
-                        tile.active = this.drawMode;
-                        tile.color = this.drawMode ? this.drawColor : null;
-                    }
-                }
-            }
+    draw(tile){
+        if(this.mouseDown && !this.isActive(tile)) {
+            tile.active = this.drawMode;
+            tile.selected = false;
+            tile.color = this.drawMode ? this.drawColor : null;
         }
-        // this.renderBoard();
     }
 
     drawRect(startPos, mousePos){
@@ -484,15 +584,70 @@ class Sketcher {
             for(let col = startX; col<=endX; col++){
                 let tile = this.playfield.board[row][col];
                 tile.active = this.drawMode;
+                tile.selected = false;
                 tile.color = this.drawMode ? this.drawColor : null;
             }
         }
     }
 
-    stopDraw(e) {
-        this.mouseDown = false;
+    select(tile, state=true){
+        if(tile.active && this.shiftKey && this.mouseDown){
+            tile.selected = state;
+        }
     }
 
+    selectRect(startPos, mousePos, state){
+        let startX = Math.min(startPos[0], mousePos[0]);
+        let startY = Math.min(startPos[1], mousePos[1]);
+        let endX = Math.max(startPos[0], mousePos[0]);
+        let endY = Math.max(startPos[1], mousePos[1]);
+
+        for(let row = startY; row<=endY; row++){
+            for(let col = startX; col<=endX; col++){
+                let tile = this.playfield.board[row][col];
+                this.select(tile, state);
+            }
+        }
+    }
+
+    unselectAll(){
+        let tiles = this.playfield.getAllTiles();
+        for (let i=0; i<tiles.length; i++) {
+            let t = tiles[i];
+            t.selected = false;
+        }
+    }
+
+    // inDragBounds(tile){
+    //     return tile.x >= this.dragBounds.lowX 
+    //         && tile.x <= this.dragBounds.highX 
+    //         && tile.y >= this.dragBounds.lowY 
+    //         && tile.y <= this.dragBounds.highY 
+    // }
+
+    drag(curTile){
+        if(curTile !== this.startDragTile){
+            // console.log(curTile.x, curTile.y);
+
+            let clamp = (x,lower,higher) => Math.max(Math.min(x, higher), lower);
+            let shiftX = clamp(curTile.x,  this.dragBounds.lowX, this.dragBounds.highX);
+            let shiftY = clamp(curTile.y,  this.dragBounds.lowY, this.dragBounds.highY);
+
+            // erase and update selected
+            for(let i=0; i<this.selected.length; i++){
+                let t = this.selected[i];
+                this.playfield.board[t.y][t.x].active = false;
+                this.playfield.board[t.y][t.x].selected = false;
+            }
+
+            for(let i=0; i<this.selected.length; i++){
+                this.selected[i].x = shiftX + this.selectionOffsets[i].x;
+                this.selected[i].y = shiftY + this.selectionOffsets[i].y;
+                let copy = this.selected[i].copy();
+                this.playfield.board[copy.y][copy.x] = copy;
+            }
+        }
+    }
 }
 
 
@@ -502,6 +657,7 @@ class Tile {
         this.y = y;
         this.active = active;
         this.color = color;
+        this.selected = false;
     }
 
     samePos(t){
@@ -509,7 +665,10 @@ class Tile {
     }
 
     copy() {
-       return new Tile(this.x, this.y, this.active, this.color);
+        
+        let copy = new Tile(this.x, this.y, this.active, this.color);
+        copy.selected = this.selected;
+        return copy;
     }
 }
 
@@ -552,49 +711,49 @@ class Piece {
             1 : [[0,2],[1,2],[2,2],[3,2]],
             2 : [[2,0],[2,1],[2,2],[2,3]],
             3 : [[0,1],[1,1],[2,1],[3,1]],
-            color : "cyan"
+            color : "#0ff"
         },
         j :{
             0 : [[0,0],[1,0],[1,1],[1,2]],
             1 : [[0,1],[0,2],[1,1],[2,1]],
             2 : [[1,0],[1,1],[1,2],[2,2]],
             3 : [[2,0],[2,1],[1,1],[0,1]],
-            color : "blue"
+            color : "#00f"
         },
         l :{
             0 : [[1,0],[1,1],[1,2],[0,2]],
             1 : [[0,1],[1,1],[2,1],[2,2]],
             2 : [[1,0],[1,1],[1,2],[2,0]],
             3 : [[0,0],[2,1],[1,1],[0,1]],
-            color : "orange"
+            color : "#f80"
         },
         o :{
             0 : [[0,1],[0,2],[1,1],[1,2]],
             1 : [[0,1],[0,2],[1,1],[1,2]],
             2 : [[0,1],[0,2],[1,1],[1,2]],
             3 : [[0,1],[0,2],[1,1],[1,2]],
-            color : "yellow"
+            color : "#ff8"
         },
         s :{
             0 : [[1,0],[1,1],[0,1],[0,2]],
             1 : [[0,1],[1,1],[1,2],[2,2]],
             2 : [[2,0],[2,1],[1,1],[1,2]],
             3 : [[0,0],[1,0],[1,1],[2,1]],
-            color : "green"
+            color : "#8f0"
         },
         t :{
             0 : [[0,1],[1,0],[1,1],[1,2]],
             1 : [[0,1],[1,1],[1,2],[2,1]],
             2 : [[1,0],[1,1],[1,2],[2,1]],
             3 : [[0,1],[1,0],[1,1],[2,1]],
-            color : "purple"
+            color : "#88f"
         },
         z :{
             0 : [[0,0],[0,1],[1,1],[1,2]],
             1 : [[0,2],[1,1],[1,2],[2,1]],
             2 : [[1,0],[1,1],[2,1],[2,2]],
             3 : [[0,1],[1,1],[1,0],[2,0]],
-            color : "red"
+            color : "#f00"
         },
     }
 
@@ -628,6 +787,13 @@ class Queue {
         this.renderQueue();
     }
 
+    copy() {
+        let copy = new Queue(this.tileSize);
+        copy.queue = structuredClone(this.queue);
+        copy.queueIndex = this.queueIndex;
+        return copy;
+    }
+
     renderQueue() {
         this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
         for (let i = this.queueIndex+1; i < this.queueIndex+this.showMax; i++) {
@@ -647,8 +813,22 @@ class Queue {
         }
     }
 
-    updateQueue() {
-        if (this.queue.length-this.queueIndex <= 7) {
+    updateQueue(q=[]) {
+        // console.log(q);
+        // console.log(this.queue);
+        //validate
+        for(let i=0; i<q.length; i++){
+            if(!this.pieces.includes(q[i])){
+                return false;
+            }
+        }
+
+        if(q.length > 0){
+            this.queue = this.queue.slice(0,this.queueIndex);
+            this.queue = [...this.queue, ...q];
+        }
+
+        while (this.queue.length-this.queueIndex <= 6) {
             // Fisher Yates shuffle
             let shuffle = (arr) => {
                 let copy = structuredClone(arr)
@@ -660,6 +840,7 @@ class Queue {
             }
             this.queue.push(...shuffle(this.pieces));
         }
+        return true;
     }
 
     setQueueIndex(i){
@@ -675,6 +856,10 @@ class Queue {
         return this.queue[this.queueIndex];
     }
 
+    setCurrent(p){
+        this.queue[this.queueIndex] = p; 
+    }
+
     reset() {
         this.queue = [];
         this.queueIndex = 0;
@@ -687,8 +872,7 @@ class Queue {
 class Hold {
     pieceName;
 
-    constructor(activePiece, tileSize=30) {
-        this.activePiece = activePiece;
+    constructor(tileSize=30) {
 
         this.canvas = document.getElementById("hold");
         this.ctx = this.canvas.getContext("2d");
@@ -704,6 +888,13 @@ class Hold {
 
         this.renderHold();
     }
+
+    copy() {
+        let copy = new Hold(this.tileSize);
+        copy.pieceName = this.pieceName;
+        return copy;
+    }
+
 
     renderHold(){
         this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
@@ -728,7 +919,6 @@ class Hold {
     
     setHold(n){
         this.pieceName = n;
-        this.renderHold();
     }
 
 }
@@ -737,13 +927,21 @@ class BoardHistory {
     states = []
     stateIndex = null;
 
-    addState(playfield, queueIndex, holdPiece){
-        // overwrite states in front
+    // constructor(playfield, queue, hold){
+    //     this.playfield = playfield;
+    //     this.queue = queue;
+    //     this.hold = hold;
+    // }
+
+    addState(playfield, queue, hold){
+        // overwrite states in front if in past
         if(this.stateIndex < this.states.length-1){
             this.states = this.states.slice(0,this.stateIndex+1);
         }
 
-        let state = {playfield, queueIndex, holdPiece}
+        let state = {playfield: playfield, 
+                    queue: queue,
+                    hold: hold}
         this.states.push(state);
 
         if(this.stateIndex !== null) {
@@ -797,8 +995,28 @@ class InputManager {
 
 class Settings{
     // gravity = 1000;
+
+    // // Max's settings
+    // das = 100;
+    // arr = 0;
+    // softDrop = 0;
+    // keybinds = {
+    //     leftKey: 's',
+    //     rightKey: 'f',
+    //     softKey: 'd',
+    //     hardKey: 'j',
+    //     holdKey: 'e',
+    //     crKey: 'l',
+    //     ccrKey: 'k',
+    //     r180Key: ';',
+    //     restartKey: 'r',
+    //     undoKey: 'z',
+    //     redoKey: 'a',
+    //     // spinKey: 'a',
+    // };
+
     das = 130;
-    arr = 10;
+    arr = 50;
     softDrop = 20;
     keybinds = {
         leftKey: 'ArrowLeft',
@@ -815,17 +1033,22 @@ class Settings{
         // spinKey: 'a',
     };
 
-    constructor(input, pauseInput, resumeInput){
+    constructor(input, pauseInput, resumeInput, board){
         this.input = input;
         this.pause = pauseInput;
         this.resume = resumeInput;
-
+        this.board = board;
 
         document.getElementById("settings").innerHTML = "";
 
         let html = "";
         html += "<button onclick=\"game.startGame()\"> New game </button>";
 
+        // queue
+        html += "<div class=\"setting\"><p>update queue</p><input id=\"queueUpdate\"></input></div>";
+
+        // timing
+        html += "<div id=\"timing\">"
         for(const [k, v] of Object.entries(this)){
             if(k === "das" || k === "arr" || k === "softDrop"){
                 html += "<div class=\"setting\">";
@@ -834,18 +1057,29 @@ class Settings{
                 html += "</div>";
             }
         }
-        document.getElementById("settings").innerHTML += html;
+        html += "</div>"
 
         html += "<div id=\"keyBinds\">"
-        html = "<button id=\"changeAll\"> Change All</button>"
+        html += "<button id=\"changeAll\"> Change All Keybinds</button>"
         for(const [k, v] of Object.entries(this.keybinds)){
             html += "<div class=\"setting\">";
-            html += "<p id=\"" + k + "Text" + "\" >" + k + " : " + (v === " " ? "Space" : v) + "</p>";
-            html += "<button id =\"" + k + "\">change</button>"
+            html += "<p id=\"" + k + "Text" + "\" >" + k + " : </p>"
+            html += "<p id=\"" + k + "\">" + (v === " " ? "Space" : v) + "</p>";
+            html += "<button id =\"" + k + "Button\">change</button>"
             html += "</div>";
         }
         html += "</div>"
         document.getElementById("settings").innerHTML += html;
+
+        // add listeners
+        document.getElementById("queueUpdate").addEventListener("keyup", (e) => {
+            if(e.key === "Enter"){
+                let newQ = document.getElementById("queueUpdate").value;
+                this.board.queue.updateQueue(newQ.split(""));
+                document.getElementById("queueUpdate").value = "";
+                document.getElementById("queueUpdate").blur();
+            }
+        })
 
 
         for(const [k, v] of Object.entries(this)){
@@ -854,6 +1088,7 @@ class Settings{
                     if(e.key === "Enter"){
                         this.update(k, document.getElementById(k+"Field").value);
                         document.getElementById(k+"Field").value = "";
+                        document.getElementById(k+"Field").blur();
                     }
                 })
             }
@@ -862,12 +1097,17 @@ class Settings{
         document.getElementById("changeAll").addEventListener("click", (e) => this.changeAllKeys());
 
         for(const [k, v] of Object.entries(this.keybinds)){
-            document.getElementById(k).addEventListener("click", (e) => {
-                document.getElementById(k).blur(); // needed to make sure spacebar doesn't retrigger button
+            document.getElementById(k+"Button").addEventListener("click", (e) => {
+                console.log("click");
+                document.getElementById(k+"Button").blur(); // needed to make sure spacebar doesn't retrigger button
                 this.updateKey(k);
             })
         }
 
+    }
+
+    removeFocus() {
+        document.getElementById("queueUpdate").blur();
     }
 
     updateDisplay(){
@@ -878,14 +1118,16 @@ class Settings{
         }
 
         for(const [k, v] of Object.entries(this.keybinds)){
-            document.getElementById(k+"Text").innerHTML = k + " : " + (v === " " ? "Space" : v);
+            document.getElementById(k).innerHTML = (v === " " ? "Space" : v);
         }
     }
 
     async changeAllKeys(){
         this.pause();
+        document.getElementById("changeAll").blur(); // needed to make sure spacebar doesn't retrigger button
         for(const [k, v] of Object.entries(this.keybinds)){
-            document.getElementById(k+"Text").innerHTML = k + " : " + "Waiting...";
+            // document.getElementById(k+"Text").innerHTML = k + " : " + "Waiting...";
+            document.getElementById(k).innerHTML = "Waiting...";
             let newKey = await this.awaitKey();
             this.keybinds[k] = newKey;
             this.updateDisplay();
@@ -900,7 +1142,7 @@ class Settings{
 
     async updateKey(k){
         this.pause();
-        document.getElementById(k+"Text").innerHTML = k + " : " + "Waiting...";
+        document.getElementById(k).innerHTML = "Waiting...";
 
         let newKey = await this.awaitKey();
         this.keybinds[k] = newKey;
@@ -921,7 +1163,7 @@ class Settings{
 }
 
 class Game {
-    start = false;
+    start = true;
     startTime;
     takingInput = true;
 
@@ -935,9 +1177,8 @@ class Game {
     constructor() {
 
         this.input = new InputManager((key, state) => this.handleInput(key, state));
-        this.board = new GameBoard(20, 10, 40);
-        this.settings = new Settings(this.input, () => this.pauseInput(), () => this.resumeInput());
-        // this.history = new History(this.board, this.queue, this.hold);
+        this.board = new GameBoard(20, 10, 30);
+        this.settings = new Settings(this.input, () => this.pauseInput(), () => this.resumeInput(), this.board);
 
         this.lastTick = performance.now();
         this.lastRender = this.lastTick;
@@ -947,20 +1188,21 @@ class Game {
 
     update() {
         // game logic
-
         if(this.start){
-            // spawn piece
-            if(!this.board.activePiece){
-                // stop game if can't spawn
-                if(!this.board.spawnPiece()) {
-                    this.start = false;
-                }
+            this.board.update();
+            // this.board.activePiece = this.board.queue.getCurrent();
+            if(this.dasFired && this.settings.arr === 0){
+                this.board.shiftInstant(this.curDir);
             }
-            else{
-                if(this.dasFired && this.settings.arr === 0){
-                    this.board.shiftInstant(this.curDir);
-                }
-            }
+            // // spawn piece
+            // if(!this.board.activePiece){
+            //     // stop game if can't spawn
+            //     if(!this.board.spawnPiece()) {
+            //         this.start = false;
+            //     }
+            // }
+            // else{
+            // }
         }
     }
 
@@ -995,6 +1237,10 @@ class Game {
 
     handleInput(key, state) {
         if(this.takingInput){
+            if(key === "Shift"){
+                if(state) this.board.sketcher.shiftKey = true;
+                else this.board.sketcher.shiftKey = false;
+            }
             if(key === this.settings.keybinds.leftKey){
                 if(state) this.initiateDas(key,"left");
                 else if(this.curDir === "left") this.cancelDas();
@@ -1072,10 +1318,12 @@ class Game {
 
     pauseInput(){
         this.takingInput = false;
+        console.log("pause");
     }
 
     resumeInput(){
         this.takingInput = true;
+        console.log("resume");
     }
 
 }

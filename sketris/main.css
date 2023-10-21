@@ -2,10 +2,10 @@ body {
   background: rgb(26, 28, 36);
   color: rgb(215, 212, 212);
   font-family: Sans-serif;
-  font-size: 13;
+  font-size: 12px;
 }
 
-#gameboard{
+#gameBoard{
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -23,6 +23,25 @@ body {
   flex-direction: column;
   gap: 15px;
   border: solid rgb(23, 22, 22);
+  font-size: 1;
+}
+
+#timing {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  border: solid rgb(109, 110, 111);
+}
+
+#keyBinds {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  border: solid rgb(109, 110, 111);
 }
 
 .setting {
