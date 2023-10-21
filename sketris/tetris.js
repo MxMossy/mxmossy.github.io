@@ -1111,8 +1111,8 @@ class Settings{
     
     loadSettings() {
         // let cookieSettings = JSON.parse(document.cookie.split("; ").find((row) => row.startsWith("settings="))?.split("=")[1]);
-        let cookieSettings = JSON.parse(decodeURIComponent(document.cookie).split("; ").find((row) => row.startsWith("settings="))?.split("=")[1]);
-        if(cookieSettings != {}){
+        if(document.cookie != ''){
+            let cookieSettings = JSON.parse(decodeURIComponent(document.cookie).split("; ").find((row) => row.startsWith("settings="))?.split("=")[1]);
             this.das = cookieSettings.das;
             this.arr = cookieSettings.arr;
             this.softDrop = cookieSettings.softDrop;
