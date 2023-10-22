@@ -286,8 +286,11 @@ class Playfield {
             this.board.push(row);
         }
 
-        this.canvas = document.getElementById("playfield");
+        this.canvas = document.getElementById("field");
         this.ctx = this.canvas.getContext("2d");
+
+        this.backgroundCanvas = document.getElementById("background");
+        this.backgroundCtx = this.backgroundCanvas.getContext("2d");
     }
 
     setField(state){
@@ -307,47 +310,108 @@ class Playfield {
     render(){
         this.canvas.width = this.boardWidth;
         this.canvas.height = this.boardHeight;
-        this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
-        // background
-        this.ctx.strokeStyle = "black";
-        this.ctx.globalAlpha = 0.6;
-        this.ctx.fillRect(0,0,this.canvas.width,this.spawnArea*this.tileSize);
+        this.backgroundCanvas.width = this.boardWidth;
+        this.backgroundCanvas.height = this.boardHeight;
+
+        this.backgroundCtx.clearRect(0,0,this.canvas.width,this.canvas.height);
+
+        // background + grid
+        this.backgroundCtx.strokeStyle = "black";
+        this.backgroundCtx.globalAlpha = 0.6;
+        this.backgroundCtx.fillRect(0,0,this.canvas.width,this.spawnArea*this.tileSize);
 
         //spawn area
-        this.ctx.globalAlpha = 1;
-        this.ctx.fillRect(0,this.spawnArea*this.tileSize,this.canvas.width,this.canvas.height);
+        this.backgroundCtx.globalAlpha = 1;
+        this.backgroundCtx.fillRect(0,this.spawnArea*this.tileSize,this.canvas.width,this.canvas.height);
 
         // grid lines
-        this.ctx.strokeStyle = "gray";
-        this.ctx.globalAlpha = 0.25;
-        this.ctx.setLineDash([this.tileSize*0.25, this.tileSize*0.5, this.tileSize*0.25, 0]);
+        this.backgroundCtx.strokeStyle = "gray";
+        this.backgroundCtx.globalAlpha = 0.25;
+        this.backgroundCtx.setLineDash([this.tileSize*0.25, this.tileSize*0.5, this.tileSize*0.25, 0]);
         for (let i=this.spawnArea; i < this.rows+3; i++){
-            this.ctx.lineWidth = (i === this.spawnArea || i === this.rows+this.spawnArea) ? 1 : 2;
-            this.ctx.beginPath();
-            this.ctx.moveTo(0, i*(this.tileSize) )
-            this.ctx.lineTo(this.boardWidth, i*(this.tileSize));
-            this.ctx.stroke();
+            this.backgroundCtx.lineWidth = (i === this.spawnArea || i === this.rows+this.spawnArea) ? 1 : 2;
+            this.backgroundCtx.beginPath();
+            this.backgroundCtx.moveTo(0, i*(this.tileSize) )
+            this.backgroundCtx.lineTo(this.boardWidth, i*(this.tileSize));
+            this.backgroundCtx.stroke();
         }
         for (let i=0; i < this.cols+1; i++){
-            this.ctx.lineWidth = (i === 0 || i === this.cols) ? 1 : 2;
-            this.ctx.beginPath();
-            this.ctx.moveTo(i*(this.tileSize), this.spawnArea*this.tileSize)
-            this.ctx.lineTo(i*(this.tileSize), this.boardHeight);
-            this.ctx.stroke();
+            this.backgroundCtx.lineWidth = (i === 0 || i === this.cols) ? 1 : 2;
+            this.backgroundCtx.beginPath();
+            this.backgroundCtx.moveTo(i*(this.tileSize), this.spawnArea*this.tileSize)
+            this.backgroundCtx.lineTo(i*(this.tileSize), this.boardHeight);
+            this.backgroundCtx.stroke();
         }
-        this.ctx.globalAlpha = 1;
+        this.backgroundCtx.globalAlpha = 1;
 
         // color board tiles
         for (let row = 0; row < this.board.length; row++) {
             for (let col = 0; col < this.board[row].length; col++) {
                 let tile = this.board[row][col]
                 if(tile){
-                    if(tile.selected) this.colorTile(tile, "purple");
-                    else this.colorTile(tile);
+                    this.colorTile(tile);
                 }
             }
         }
+
+        //draw selection outlines
+        for (let row = 0; row < this.board.length; row++) {
+            for (let col = 0; col < this.board[row].length; col++) {
+                let tile = this.board[row][col]
+                if(tile){
+                    if(tile.selected){
+                        this.ctx.fillStyle = "white";
+                        this.ctx.fillRect((col*this.tileSize) - 2, (row*this.tileSize) - 2, this.tileSize+4, this.tileSize+4);
+                    }
+                }
+            }
+        }
+
+        for (let row = 0; row < this.board.length; row++) {
+            for (let col = 0; col < this.board[row].length; col++) {
+                let tile = this.board[row][col]
+                if(tile && tile.selected){
+                    if(!tile.active){
+                        this.ctx.clearRect((col*this.tileSize), (row*this.tileSize), this.tileSize, this.tileSize);
+                    }
+                    else{
+                        this.colorTile(tile);
+                    }
+                }
+            }
+        }
+
+        // // highlight border selection
+        // this.ctx.globalAlpha = 1;
+        // this.ctx.strokeStyle = "green";
+        // this.ctx.lineWidth = 2;
+        // for (let row = 0; row < this.rows + this.spawnArea ; row++) {
+        //     for (let col = 0; col < this.cols; col++) {
+        //         if(this.board[row][col] && this.board[row][col].selected){
+
+        //             this.ctx.fillStyle = "white";
+        //             this.ctx.fillRect((col*this.tileSize) - 3, (row*this.tileSize) - 3, this.tileSize+6, this.tileSize+6);
+
+
+        //             // // this.ctx.setLineDash([this.tileSize*0.25, this.tileSize*0.25,this.tileSize*0.25, this.tileSize*0.25]);
+        //             // this.ctx.setLineDash([this.tileSize]);
+        //             // this.ctx.beginPath();
+        //             // this.ctx.moveTo(col*(this.tileSize), row*this.tileSize)
+        //             // this.ctx.lineTo(col*(this.tileSize), (row+1)*this.tileSize);
+        //             // this.ctx.stroke();
+
+        //             // // this.ctx.setLineDash([0, this.tileSize*0.25, this.tileSize*0.25,this.tileSize*0.25, this.tileSize*0.25]);
+        //             // this.ctx.beginPath();
+        //             // this.ctx.moveTo(col*(this.tileSize), row*this.tileSize)
+        //             // this.ctx.lineTo((col+1)*(this.tileSize), (row)*this.tileSize);
+        //             // this.ctx.stroke();
+        //         }
+        //     }
+        // }
+
+
+
     }
 
     write(p){
@@ -360,9 +424,9 @@ class Playfield {
     }
 
     colorTile(tile, color=tile.color) {
+        // this.ctx.fillStyle = "black";
+        // this.ctx.fillRect(tile.x*this.tileSize, tile.y*this.tileSize, this.tileSize, this.tileSize);
         if(tile.color && tile.active){
-            this.ctx.fillStyle = "black";
-            this.ctx.fillRect(tile.x*this.tileSize, tile.y*this.tileSize, this.tileSize, this.tileSize);
             this.ctx.fillStyle = color;
             this.ctx.fillRect(tile.x*this.tileSize, tile.y*this.tileSize, this.tileSize, this.tileSize);
         }
@@ -592,7 +656,8 @@ class Sketcher {
     }
 
     select(tile, state=true){
-        if(tile.active && this.shiftKey && this.mouseDown){
+        // if(tile.active && this.shiftKey && this.mouseDown){
+        if(this.shiftKey && this.mouseDown){
             tile.selected = state;
         }
     }

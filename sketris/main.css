@@ -5,14 +5,28 @@ body {
   font-size: 12px;
 }
 
-#gameBoard{
+/* #gameBoard{
   display: flex;
   align-items: flex-start;
   justify-content: center;
+} */
+
+/* #playfieldContainer{
+
+
+} */
+
+#background{
+  position: relative;
 }
 
-#container {
+#playfield{
+  position: relative;
+}
+
+.container {
   display: flex;
+  align-items: flex-start;
   justify-content: center;
 }
 
