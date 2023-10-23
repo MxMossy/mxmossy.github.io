@@ -1175,7 +1175,6 @@ class Settings{
     }
     
     loadSettings() {
-        // if(document.cookie != '')
         let cookieSettingsRaw = decodeURIComponent(document.cookie).split("; ").find((row) => row.startsWith("settings="));
         if(cookieSettingsRaw){
             let cookieSettings = JSON.parse(cookieSettingsRaw.split("=")[1]);
@@ -1193,12 +1192,13 @@ class Settings{
             softDrop : this.softDrop,
             keybinds : this.keybinds
         }
+
+        let x = new Date();
+        x.setTime(x.getTime() + 24*60*60*365*1000); // 1 year;
         
-        document.cookie = "settings=" + encodeURIComponent(JSON.stringify(cookie)) //.replace(/;/, "%3B")
-        // document.cookie = "test=test"
-        // console.log(cookie);
-        // console.log(JSON.stringify(cookie));
-        // document.cookie = ""
+        document.cookie = "settings=" + encodeURIComponent(JSON.stringify(cookie))
+                            + "; expires=" + x.toUTCString();
+
     }
 
     removeFocus() {
