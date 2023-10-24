@@ -18,6 +18,7 @@ class GameBoard {
         this.history = new BoardHistory();
 
         this.activePiece =  null;
+        this.isPaused = false;
     }
     
     update(){
@@ -33,7 +34,7 @@ class GameBoard {
     }
 
     renderBoard(){
-        this.playfield.render();
+        this.playfield.render(this.isPaused);
         this.queue.renderQueue();
         this.hold.renderHold();
         this.renderActive();
@@ -43,7 +44,7 @@ class GameBoard {
         if(this.activePiece){
             // draw ghost first
             let ghost = this.activePiece.copy();
-            ghost.color = "rgba(161, 161, 161, 0.2)"; 
+            // ghost.color = "rgba(50, 50, 50, 1)"; 
             this.shiftInstant("down",false, ghost);
 
             for (let i = 0; i < ghost.tiles.length; i++) {
@@ -307,7 +308,7 @@ class Playfield {
         return tiles;
     }
 
-    render(){
+    render(paused=false){
         this.canvas.width = this.boardWidth;
         this.canvas.height = this.boardHeight;
 
@@ -316,12 +317,12 @@ class Playfield {
 
         this.backgroundCtx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
-        // background + grid
+        //spawn area
         this.backgroundCtx.strokeStyle = "black";
         this.backgroundCtx.globalAlpha = 0.6;
         this.backgroundCtx.fillRect(0,0,this.canvas.width,this.spawnArea*this.tileSize);
 
-        //spawn area
+        // background + grid
         this.backgroundCtx.globalAlpha = 1;
         this.backgroundCtx.fillRect(0,this.spawnArea*this.tileSize,this.canvas.width,this.canvas.height);
 
@@ -380,6 +381,19 @@ class Playfield {
                     }
                 }
             }
+        }
+
+        if(paused){
+            this.ctx.fillStyle = "black";
+            this.ctx.globalAlpha = 0.4;
+            this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+
+
+            //pause symbol
+            this.ctx.fillStyle = "gray";
+            this.ctx.globalAlpha = 0.6;
+            this.ctx.fillRect(this.canvas.width*0.5 - 30,this.canvas.height*0.5-30, 20, 60);
+            this.ctx.fillRect(this.canvas.width*0.5 + 10,this.canvas.height*0.5-30, 20, 60);
         }
 
         // // highlight border selection
@@ -1107,10 +1121,15 @@ class Settings{
 
         this.loadSettings();
 
-        document.getElementById("settings").innerHTML = "";
+        let s = document.getElementById("settings")
+        
+        s.addEventListener("focusin", (e) => this.pause());
+        s.addEventListener("focusout", (e) => this.resume());
+
+        s.innerHTML = "";
 
         let html = "";
-        html += "<button onclick=\"game.startGame()\"> New game </button>";
+        // html += "<button onclick=\"game.startGame()\"> New game </button>";
 
         // queue
         html += "<div class=\"setting\"><p>update queue</p><input id=\"queueUpdate\"></input></div>";
@@ -1166,7 +1185,6 @@ class Settings{
 
         for(const [k, v] of Object.entries(this.keybinds)){
             document.getElementById(k+"Button").addEventListener("click", (e) => {
-                console.log("click");
                 document.getElementById(k+"Button").blur(); // needed to make sure spacebar doesn't retrigger button
                 this.updateKey(k);
             })
@@ -1220,8 +1238,8 @@ class Settings{
     }
 
     async changeAllKeys(){
-        this.pause();
-        document.getElementById("changeAll").blur(); // needed to make sure spacebar doesn't retrigger button
+        // this.pause();
+        // document.getElementById("changeAll").blur(); // needed to make sure spacebar doesn't retrigger button
         for(const [k, v] of Object.entries(this.keybinds)){
             // document.getElementById(k+"Text").innerHTML = k + " : " + "Waiting...";
             document.getElementById(k).innerHTML = "Waiting...";
@@ -1229,7 +1247,8 @@ class Settings{
             this.keybinds[k] = newKey;
             this.updateDisplay();
         }
-        this.resume();
+        document.getElementById("changeAll").blur(); // needed to make sure spacebar doesn't retrigger button
+        // this.resume();
     }
 
     update(s, newVal){
@@ -1251,6 +1270,7 @@ class Settings{
     awaitKey() {
         let waitKey = new Promise((resolve) => {
             document.addEventListener("keydown", (e) => {
+                e.preventDefault();
                 resolve(e.key);
                 }, {once: true}
             )
@@ -1415,12 +1435,12 @@ class Game {
 
     pauseInput(){
         this.takingInput = false;
-        console.log("pause");
+        this.board.isPaused = true;
     }
 
     resumeInput(){
         this.takingInput = true;
-        console.log("resume");
+        this.board.isPaused = false;
     }
 
 }
