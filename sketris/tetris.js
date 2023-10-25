@@ -27,6 +27,86 @@ class GameBoard {
             // this.activePiece = new Piece(this.queue.getCurrent());
             this.spawnPiece();
         }
+
+        // this.lstGuide();
+    }
+
+    lstGuide() {
+        // mirror 0,1 3,4 to tallest
+
+        let getCol = (i) => {return this.playfield.board.map((r) => r[i])}
+        let topActiveIndex = (c) => {
+            for(let i=0; i<c.length; i++){
+                if(c[i].active){
+                    return c[i].y
+                }
+            }
+            return this.rows + this.spawnArea;
+        }
+        let topSelectIndex = (c) => {
+            for(let i=0; i<c.length; i++){
+                if(c[i].selected){
+                    return c[i].y
+                }
+            }
+            return this.rows + this.spawnArea;
+        }
+        
+        let cols = [];
+        for(let i=0; i<this.cols; i++){
+            cols.push(getCol(i));
+        }
+
+        // console.log(cols[0][0]);
+        // return
+
+        let mirror = (a,b) =>{
+            let topA = topActiveIndex(cols[a]);
+            let topB = topActiveIndex(cols[b]);
+
+            let lowCol = topA >= topB ? cols[a] : cols[b];
+            let highCol = topA >= topB ? cols[b] : cols[a];
+            let topInd = topActiveIndex(highCol);
+
+            if(topA == topB){
+                for(let i=(this.rows + this.spawnArea)-1; i >= 0; i--){
+                    lowCol[i].selected = false;
+                    highCol[i].selected = false;
+
+                };
+                return;
+            }
+
+            for(let i=(this.rows + this.spawnArea)-1; i >= 0; i--){
+                let t = lowCol[i];
+                if((i >= topInd && !t.active && highCol[i].active) || highCol[i].selected){
+                    t.selected = true;
+                }else t.selected = false;
+
+                if(i >= topInd){
+                    highCol[i].selected = false;
+                }
+
+                if(i < topInd && (lowCol[i].selected || highCol[i].selected)){
+                    lowCol[i].selected = true;
+                    highCol[i].selected = true;
+                }
+            }
+
+
+        }
+        
+        mirror(0,4);
+        mirror(1,3);
+
+        //lst logic
+
+        // return
+
+        // check tops, 2 cases
+
+        // select appropriate
+
     }
 
     getActivePiece() {
@@ -42,11 +122,13 @@ class GameBoard {
 
     renderActive(){
         if(this.activePiece){
+            // TODO colored ghost
             // draw ghost first
             let ghost = this.activePiece.copy();
-            // ghost.color = "rgba(50, 50, 50, 1)"; 
-            this.shiftInstant("down",false, ghost);
+            ghost.color = "rgba(50, 50, 50, 0.5)"; 
 
+            this.shiftInstant("down",false, ghost);
+            
             for (let i = 0; i < ghost.tiles.length; i++) {
                 this.playfield.colorTile(ghost.tiles[i]);
             }
@@ -362,7 +444,7 @@ class Playfield {
                 let tile = this.board[row][col]
                 if(tile){
                     if(tile.selected){
-                        this.ctx.fillStyle = "white";
+                        this.ctx.fillStyle = "rgba(255,255,255, 0.3)";
                         this.ctx.fillRect((col*this.tileSize) - 2, (row*this.tileSize) - 2, this.tileSize+4, this.tileSize+4);
                     }
                 }
@@ -519,7 +601,7 @@ class Sketcher {
     selectMode = true;
     selectionOffsets = [];
     selectRectStart;
-    unselectFlag;
+    // unselectFlag;
 
     startDragTile;
     dragBounds = {};
@@ -551,9 +633,9 @@ class Sketcher {
                 
                 else this.select(tile, this.selectMode);
             }
-            else if(this.mode === "select"){
+            else if(tile.selected){
                 // start drag
-                if(tile.selected){
+                // if(tile.selected){
                     this.mode = "drag";
                     this.startDragTile = tile;
                     this.selected = this.playfield.getAllTiles().filter((t) => t.selected).map((t) => t.copy());
@@ -573,10 +655,10 @@ class Sketcher {
                     };
 
                     this.drag(tile);
-                }
-                else {
-                    this.unselectFlag = true;
-                }
+                // }
+                // else {
+                //     this.unselectFlag = true;
+                // }
             }
             else{ //draw
                 this.mode = "draw";
@@ -615,11 +697,11 @@ class Sketcher {
             if(this.mode === "drag"){
                 this.mode = "select";
             }
-            if(this.mode === "select" && this.unselectFlag) {
-                this.unselectAll();
-                this.mode = null;
-                this.unselectFlag = false;
-            }
+            // if(this.mode === "select" && this.unselectFlag) {
+            //     this.unselectAll();
+            //     this.mode = null;
+            //     this.unselectFlag = false;
+            // }
         });
         this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
     }
@@ -648,7 +730,7 @@ class Sketcher {
     draw(tile){
         if(this.mouseDown && !this.isActive(tile)) {
             tile.active = this.drawMode;
-            tile.selected = false;
+            // tile.selected = false;
             tile.color = this.drawMode ? this.drawColor : null;
         }
     }
@@ -894,14 +976,13 @@ class Queue {
     }
 
     updateQueue(q=[]) {
-        // console.log(q);
-        // console.log(this.queue);
         //validate
-        for(let i=0; i<q.length; i++){
-            if(!this.pieces.includes(q[i])){
-                return false;
-            }
-        }
+        // pieces = ["i", "j", "l", "t", "s", "z", "o"];
+        // for(let i=0; i<q.length; i++){
+        //     if(!this.pieces.includes(q[i])){
+        //         return false;
+        //     }
+        // }
 
         if(q.length > 0){
             this.queue = this.queue.slice(0,this.queueIndex);
@@ -1161,8 +1242,18 @@ class Settings{
         // add listeners
         document.getElementById("queueUpdate").addEventListener("keyup", (e) => {
             if(e.key === "Enter"){
-                let newQ = document.getElementById("queueUpdate").value;
-                this.board.queue.updateQueue(newQ.split(""));
+                let newQ = document.getElementById("queueUpdate").value.split("");
+
+                // validate
+                let pieces = ["i", "j", "l", "t", "s", "z", "o"];
+                for(let i=0; i<newQ.length; i++){
+                    if(!pieces.includes(newQ[i])){
+                        return;
+                    }
+                }
+
+                this.board.queue.updateQueue(newQ);
+                this.board.hold.setHold(null);
                 document.getElementById("queueUpdate").value = "";
                 document.getElementById("queueUpdate").blur();
             }
@@ -1358,6 +1449,11 @@ class Game {
                 if(state) this.board.sketcher.shiftKey = true;
                 else this.board.sketcher.shiftKey = false;
             }
+            if(key === "Escape"){
+                this.board.sketcher.unselectAll();
+            }
+
+            // game controls
             if(key === this.settings.keybinds.leftKey){
                 if(state) this.initiateDas(key,"left");
                 else if(this.curDir === "left") this.cancelDas();
