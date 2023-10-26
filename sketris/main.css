@@ -5,34 +5,41 @@ body {
   font-size: 12px;
 }
 
-#gameBoard{
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-
-/* #background{
-  position: absolute;
-} */
-
-#field{
-  position: absolute;
-}
-
-/* #hold{
-  position: relative;
-}
-
-#queue{
-  position: relative;
-} */
-
 .container {
   display: flex;
   align-items: flex-start;
   justify-content: center;
 }
+
+#gameBoard{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 800px;
+}
+
+
+/* #palette{
+  /* display: flex; */
+  /* flex-basis: 50%; */
+  height: 100px;
+  width: 100px;
+} */
+
+.break{
+  flex-basis: 100%;
+  width: 0;
+}
+
+
+
+#field{
+  position: absolute;
+}
+
+
 
 #settings {
   background: rgb(43, 46, 59);

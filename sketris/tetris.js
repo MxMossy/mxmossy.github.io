@@ -444,7 +444,7 @@ class Playfield {
                 let tile = this.board[row][col]
                 if(tile){
                     if(tile.selected){
-                        this.ctx.fillStyle = "rgba(255,255,255, 0.3)";
+                        this.ctx.fillStyle = "rgba(200,200,200, 1)";
                         this.ctx.fillRect((col*this.tileSize) - 2, (row*this.tileSize) - 2, this.tileSize+4, this.tileSize+4);
                     }
                 }
@@ -590,6 +590,8 @@ class Playfield {
 }
 
 class Sketcher {
+    palette = [];
+
     mouseDown = false;
     shiftKey = false;
 
@@ -618,7 +620,45 @@ class Sketcher {
         this.canvas = this.playfield.canvas;
         this.getActivePiece = getActivePiece;
 
-        // add listeners
+        // intialize color palette
+
+        let paletteDiv = document.getElementById("palette");
+        let colors = Object.entries(Piece.pieces).map((e) => e[1].color);
+        colors.push("#888");
+
+        let i = 0
+        for (const c of colors) {
+            let color = document.createElement("div");
+            color.id = "color-" + i;
+            color.style.background = c;
+            color.style.height = "40px";
+            color.style.width = "40px";
+            color.style.margin = "10px";
+            color.style.border = "5px solid transparent";
+            if(i == 7){
+                color.style.borderColor = "white";
+            }
+
+            paletteDiv.appendChild(color);
+            this.palette.push(color)
+
+            color.addEventListener('mousedown', (e) => {
+                this.drawColor = e.target.style.background;
+                // reset color borders
+                for(const p of this.palette){
+                    p.style.borderColor = "transparent";
+                }
+                e.target.style.borderColor = "white";
+            })
+            i++;
+        }
+
+
+        // add handle mouse logic
+        // document.addEventListener('mousedown',(e) => {console.log(e.target);this.mouseDown = true});
+        document.addEventListener('mousedown',(e) => {this.mouseDown = true});
+        document.addEventListener('mouseup',(e) => {this.mouseDown = false});
+
         this.canvas.addEventListener('mousedown', (e) => {
             this.mouseDown = true;
             let tile = this.getTile(e.offsetX, e.offsetY);
@@ -686,7 +726,7 @@ class Sketcher {
                 }
                 else this.select(tile, this.selectMode);
             }
-            else if (this.mode === "drag") {
+            else if (this.mode === "drag" && this.mouseDown) {
                 this.drag(tile);
             }
         });
@@ -703,7 +743,8 @@ class Sketcher {
             //     this.unselectFlag = false;
             // }
         });
-        this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+
+        this.canvas.addEventListener('contextmenu', (e) => e.preventDefault()); // disable right clicks
     }
 
     getTile(xOffset,yOffset){
@@ -745,7 +786,7 @@ class Sketcher {
             for(let col = startX; col<=endX; col++){
                 let tile = this.playfield.board[row][col];
                 tile.active = this.drawMode;
-                tile.selected = false;
+                // tile.selected = false;
                 tile.color = this.drawMode ? this.drawColor : null;
             }
         }
@@ -839,8 +880,8 @@ class Piece {
         this.name = p;
         this.pos = {x: x, y: y};
         this.rot = rot;
-        this.offsets = this.pieces[this.name][this.rot];
-        this.color = this.pieces[this.name].color;
+        this.offsets = Piece.pieces[this.name][this.rot];
+        this.color = Piece.pieces[this.name].color;
         this.updateTiles();
 
     }
@@ -857,7 +898,7 @@ class Piece {
 
     rotate(n){
         this.rot = n;
-        this.offsets = this.pieces[this.name][this.rot];
+        this.offsets = Piece.pieces[this.name][this.rot];
         this.updateTiles();
     }
 
@@ -867,7 +908,7 @@ class Piece {
         });
     }
 
-    pieces = {
+    static pieces = {
         i : {
             0 : [[1,0],[1,1],[1,2],[1,3]],
             1 : [[0,2],[1,2],[2,2],[3,2]],
@@ -979,7 +1020,7 @@ class Queue {
         //validate
         // pieces = ["i", "j", "l", "t", "s", "z", "o"];
         // for(let i=0; i<q.length; i++){
-        //     if(!this.pieces.includes(q[i])){
+        //     if(!Piece.pieces.includes(q[i])){
         //         return false;
         //     }
         // }
