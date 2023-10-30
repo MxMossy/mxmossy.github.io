@@ -14,7 +14,7 @@ class GameBoard {
         this.hold = new Hold(this.tileSize);
         this.queue = new Queue(this.tileSize);
 
-        this.sketcher = new Sketcher(this.playfield, () => this.getActivePiece());
+        this.sketcher = new Sketcher(this.playfield, () => this.getActivePiece(), () => this.saveState());
         this.history = new BoardHistory();
 
         this.activePiece =  null;
@@ -145,6 +145,10 @@ class GameBoard {
     //     this.sketcher = new Sketcher(thiskplayfield);
     // }
 
+    saveState(){
+        this.history.addState(this.playfield.copy(), this.queue.copy(), this.hold.copy());
+    }
+
     setState(n){
         let state = this.history.getState(n);
         if(state){
@@ -166,7 +170,8 @@ class GameBoard {
         };
 
         if(newState){
-            this.history.addState(this.playfield.copy(), this.queue.copy(), this.hold.copy());
+            this.saveState();
+            // this.history.addState(this.playfield.copy(), this.queue.copy(), this.hold.copy());
         }
 
         if(das === 'r') this.shiftInstant('right');
@@ -595,7 +600,7 @@ class Sketcher {
     mouseDown = false;
     shiftKey = false;
 
-    drawColor = "gray";
+    drawColor = "#888888";
     drawMode = false;
     drawRectStart;
 
@@ -615,16 +620,17 @@ class Sketcher {
 
     mode = null;
 
-    constructor(playfield, getActivePiece){
+    constructor(playfield, getActivePiece, saveState){
         this.playfield = playfield;
         this.canvas = this.playfield.canvas;
         this.getActivePiece = getActivePiece;
+        this.saveState = saveState;
 
         // intialize color palette
 
         let paletteDiv = document.getElementById("palette");
         let colors = Object.entries(Piece.pieces).map((e) => e[1].color);
-        colors.push("#888");
+        colors.push("#888888");
 
         let i = 0
         for (const c of colors) {
@@ -644,18 +650,13 @@ class Sketcher {
 
             color.addEventListener('mousedown', (e) => {
                 this.drawColor = e.target.style.background;
-                // reset color borders
-                for(const p of this.palette){
-                    p.style.borderColor = "transparent";
-                }
-                e.target.style.borderColor = "white";
+                this.updatePalette();
             })
             i++;
         }
 
 
         // add handle mouse logic
-        // document.addEventListener('mousedown',(e) => {console.log(e.target);this.mouseDown = true});
         document.addEventListener('mousedown',(e) => {this.mouseDown = true});
         document.addEventListener('mouseup',(e) => {this.mouseDown = false});
 
@@ -663,13 +664,21 @@ class Sketcher {
             this.mouseDown = true;
             let tile = this.getTile(e.offsetX, e.offsetY);
             if(!tile) return;
-            if(this.shiftKey) {
+            if(e.button === 1){
+                // color picker
+                if(tile.active){
+                    this.drawColor = tile.color;
+                    this.updatePalette();
+                }
+            }
+            else if(this.shiftKey) {
                 this.mode = "select";
                 this.selectMode = !tile.selected;
-                if(e.which === 3){
+                if(e.button === 2){
                     this.selectRectStart = [tile.x, tile.y];
                     this.selectRect(this.selectRectStart,[tile.x, tile.y], this.selectMode);
                 }
+
                 
                 else this.select(tile, this.selectMode);
             }
@@ -702,6 +711,7 @@ class Sketcher {
             }
             else{ //draw
                 this.mode = "draw";
+                // this.drawMode = !tile.active || this.drawColor != tile.color;
                 this.drawMode = !tile.active;
                 tile.color = this.drawMode ? this.drawColor : null;
                 if(e.which === 3){
@@ -737,11 +747,8 @@ class Sketcher {
             if(this.mode === "drag"){
                 this.mode = "select";
             }
-            // if(this.mode === "select" && this.unselectFlag) {
-            //     this.unselectAll();
-            //     this.mode = null;
-            //     this.unselectFlag = false;
-            // }
+
+            this.saveState()
         });
 
         this.canvas.addEventListener('contextmenu', (e) => e.preventDefault()); // disable right clicks
@@ -766,6 +773,27 @@ class Sketcher {
             }
         }
         return false;
+    }
+
+    updatePalette() {
+        const rgbToHex = (s) => {
+            let [r,g,b] = s.split("(")[1].split(")")[0].split(",").map( (x) => parseInt(x));
+            return '#' + [r, g, b].map(x => {
+                const hex = x.toString(16)
+                return hex.length === 1 ? '0' + hex : hex
+            }).join('')
+        }
+
+        console.log(' ');
+        for (const c of this.palette) {
+            // TODO: there must be a better way to do this
+            if(c.style.background == this.drawColor || rgbToHex(c.style.background) == this.drawColor){
+                c.style.borderColor = "white";
+            }
+            else c.style.borderColor = "transparent";
+        }
+
+
     }
 
     draw(tile){
@@ -967,6 +995,7 @@ class Queue {
     pieces = ["i", "j", "l", "t", "s", "z", "o"];
     queue = [];
     queueIndex = 0;
+    bagStarts = new Set();
 
     slots = 6;
     slotSizeY = 4;
@@ -999,8 +1028,20 @@ class Queue {
 
     renderQueue() {
         this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
-        for (let i = this.queueIndex+1; i < this.queueIndex+this.showMax; i++) {
-            this.drawPiece(new Piece(this.queue[i]), this.tileSize, this.tileSize + (i-(this.queueIndex+1))*3*this.tileSize); // TODO better spacing ?
+
+        for (let i = this.queueIndex+1; i < this.queueIndex+8; i++) {
+
+            if(i < this.queueIndex+this.showMax){
+                this.drawPiece(new Piece(this.queue[i]), this.tileSize, this.tileSize + (i-(this.queueIndex+1))*3*this.tileSize); // TODO better spacing ?
+            }
+
+            // dividers
+            this.ctx.lineWidth = 2;
+            this.ctx.strokeStyle = (i) % 7 == 6 ? "rgba(200,200,200,0.5)" : "rgba(100,100,100,0.2)" ;
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.queueWidth-20,(i-(this.queueIndex+1)+1)*3*this.tileSize+(this.tileSize/2))
+            this.ctx.lineTo(this.queueWidth,(i-(this.queueIndex+1)+1)*3*this.tileSize+(this.tileSize/2))
+            this.ctx.stroke();
         }
     }
 
@@ -1030,7 +1071,7 @@ class Queue {
             this.queue = [...this.queue, ...q];
         }
 
-        while (this.queue.length-this.queueIndex <= 6) {
+        while (this.queue.length-this.queueIndex <= this.showMax) {
             // Fisher Yates shuffle
             let shuffle = (arr) => {
                 let copy = structuredClone(arr)
@@ -1041,6 +1082,8 @@ class Queue {
                 return copy
             }
             this.queue.push(...shuffle(this.pieces));
+            // this.bagStarts.add(this.queue.length);
+            // console.log(...this.bagStarts);
         }
         return true;
     }
