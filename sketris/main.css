@@ -8,7 +8,7 @@ body {
 .container {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 #gameBoard{
@@ -20,26 +20,9 @@ body {
   height: 800px;
 }
 
-
-/* #palette{
-  /* display: flex; */
-  /* flex-basis: 50%; */
-  height: 100px;
-  width: 100px;
-} */
-
-.break{
-  flex-basis: 100%;
-  width: 0;
-}
-
-
-
 #field{
   position: absolute;
 }
-
-
 
 #settings {
   background: rgb(43, 46, 59);
@@ -49,6 +32,11 @@ body {
   gap: 15px;
   border: solid rgb(23, 22, 22);
   font-size: 1;
+  overflow: hidden;
+  margin-right: 0px;
+  transition: 
+    background 1s,
+    margin-right 1s;
 }
 
 #timing {
