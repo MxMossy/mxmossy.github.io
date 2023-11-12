@@ -25,6 +25,10 @@ body {
   position: absolute;
 }
 
+#field:focus{
+  outline:none
+}
+
 #settings {
   background: rgb(43, 46, 59);
   padding: 50px;
