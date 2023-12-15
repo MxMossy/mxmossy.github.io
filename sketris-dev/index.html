@@ -33,16 +33,22 @@
 
   <div class="modalOverlay" id="pasterOverlay">
     <div class="modal" id="pasterModal">
-      <div id="imageEditor"">
-        <canvas id="imageCanvas"></canvas>
-        <canvas id="imageControls"></canvas>
+      <div id="pasterFields">
+        <div id="imageEditor">
+          <canvas id="imageCanvas"></canvas>
+          <canvas id="imageControls"></canvas>
+        </div>
+
+        <div id="preview">
+          <canvas id="previewBackground"></canvas>
+          <canvas id="previewField"></canvas>
+        </div>
       </div>
 
-      <div id="preview">
-        <canvas id="previewBackground"></canvas>
-        <canvas id="previewField"></canvas>
+      <div id="pasterButtons">
+        <button id="pasterCancel"> Cancel </button>
+        <button id="pasterAccept"> Accept </button>
       </div>
-      <p>Hit Enter to Accept</p>
 
     </div>
   </div>
@@ -323,7 +329,7 @@
                             <polyline points="1 6.29411765 4.5 10 11 1"></polyline>
                           </svg>
                         </span>
-                        <span>Regenerate queue on empty?</span>
+                        <span>Regenerate queue?</span>
                       </label>
                     </div>
                   </div>
