@@ -948,6 +948,13 @@ input[type="range"]:focus::-moz-range-thumb {
   border: solid rgb(109, 110, 111);
 }
 
+#keyBindButtons{
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+
+}
+
 .key{
   display: flex;
   flex-basis: 15%; 
