@@ -20,6 +20,7 @@ html, body {
   margin: 0px;
   margin-bottom: 30px;
   background-image: linear-gradient(black, rgba(0, 0, 0, 0));
+  user-select: none;
 }
 
 #title>a{
