@@ -321,6 +321,7 @@ html, body {
   box-shadow: 0 0 30px black;
   border-radius: 10px;
   outline:none;
+  background: rgb(50, 54, 69);
 }
 
 #gameBoard{
@@ -626,7 +627,7 @@ html, body {
 
 
 #panelIconLeft{
-  width: 0;
+  width: 55%; 
   display: flex;
   overflow: hidden;
   animation-duration: 0.5s;
@@ -640,7 +641,7 @@ html, body {
 }
 
 #panelIconRight{
-  width: 55%; 
+  width: 0;
   display: flex;
   overflow: hidden;
   animation-duration: 0.5s;
@@ -990,6 +991,7 @@ button{
   border: 2px black;
   font-family: 'Outfit', sans-serif;
   cursor: pointer;
+  animation-duration: 3s;
 }
 
 button:hover{
@@ -1125,4 +1127,12 @@ button:disabled{
   display: flex;
   justify-content: center;
   gap: 2em;
+}
+
+@keyframes copyAnim {
+  from {
+    background-color: green;
+  }to{
+    background: rgb(85, 85, 87);
+  }
 }
