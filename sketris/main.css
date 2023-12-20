@@ -517,7 +517,7 @@ html, body {
   border-radius: 10px 0 0 10px;
   height: 6%;
   aspect-ratio: 1/1;
-  margin-right: -4em;
+  margin-right: -5em;
 
   animation-duration: 0.5s;
   /* animation-name: slidein; */
@@ -539,7 +539,7 @@ html, body {
 
 @keyframes showPalette{
   from{
-    margin-right: -4em;
+    margin-right: -5em;
   } to {
     margin-right: 0;
   }
@@ -549,7 +549,7 @@ html, body {
   from{
     margin-right: 0;
   } to {
-    margin-right: -4em;
+    margin-right: -5em;
   }
 }
 
