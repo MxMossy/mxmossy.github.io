@@ -201,6 +201,26 @@ html, body {
   height: 10%;
   position: relative;
 }
+
+#about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10%;
+  width: 100%;
+}
+
+#aboutText{
+  width: 80%;
+  height: 100%;
+  background: rgb(29, 31, 40);
+  font-size: 1.2em; 
+  padding-right: 1em;
+  padding-left: 1em;
+  border-radius: 10px;
+  border: 2px solid white;
+}
+
 #changeLogTitle>h1{
   font-size: 4vmin;
   margin: 5px;
@@ -224,7 +244,7 @@ html, body {
 #changeLogInfo{
   overflow-y: scroll;
   font-size: 1.5em;
-  height: 85%;
+  height: 75%;
   padding: 10px;
   background: rgb(29, 31, 40);
   border-radius: 5px;
@@ -1106,9 +1126,8 @@ button:disabled{
   /* overflow: hidden; */
   min-height: 3em;
   height: 5em;
-  /* width: 7ch; */
-  /* width: 20ch; */
-  font-size: 1em;
+  width: 8ch;
+  font-size: 0.95em;
 
   resize: vertical;
 }
