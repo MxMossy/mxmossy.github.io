@@ -517,7 +517,7 @@ html, body {
   border-radius: 10px 0 0 10px;
   height: 6%;
   aspect-ratio: 1/1;
-  margin-right: -5em;
+  margin-right: 0em;
 
   animation-duration: 0.5s;
   /* animation-name: slidein; */
@@ -528,10 +528,6 @@ html, body {
 }
 
 #rainbow {
-  /* background: linear-gradient(in hsl longer hue 45deg, red 0 0); */
-  /* background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
-            linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
-            linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%); */
   background: linear-gradient(217deg, rgba(255,0,0,1), rgba(255,0,0,0.1) 60.71%),
               linear-gradient(127deg, rgba(0,255,0,1), rgba(0,255,0,0.1) 80.71%),
               linear-gradient(336deg, rgba(0,0,255,1), rgba(0,0,255,0.1) 90.71%);
@@ -1102,13 +1098,16 @@ button:disabled{
 }
 
 #customQueue {
+  font-family: 'Roboto Mono', monospace;
   background-color: #37383b;
   color: white;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
   /* overflow: hidden; */
   min-height: 3em;
   height: 5em;
-  width: 8ch;
+  /* width: 7ch; */
+  /* width: 20ch; */
   font-size: 1em;
 
   resize: vertical;

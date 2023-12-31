@@ -2,32 +2,28 @@
 <html>
 
 <head>
-  <title>Sketris</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QXMC4LY9NB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QXMC4LY9NB');
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300&family=Roboto+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./main.css">
 
-  <!-- <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="Sketris">
-  <meta name="twitter:image" content="https://mxmoss.me/sketris/dog.jpg" id="imagePreview">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://mxmoss.me/sketris">
-  <meta property="og:site_name" content="Sketris">
-  <meta property="og:title" content="Sketris">
-  <meta property="og:image" content="https://mxmoss.me/sketris/dog.jpg" id="imagePreview">
- -->
-
-  <!-- <meta property="og:image:height" content="200">
-  <meta property="og:image:width" content="200"> -->
-
+  <title>Sketris</title>
 </head>
 
 <body>
   <div id="title">
     <a href="https://mxmoss.me/sketris-dev">
-      <h1>Sketris</h1>
+      <h1 id="titleText">Sketris</h1>
     </a>
     <svg height="64px" width="64px" version="1.1" id="_x34_" xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
@@ -98,7 +94,17 @@
         </g>
       </svg>
       <div id="changeLogInfo">
-        <h3 id="curVer">Ver 0.1.0 - 12/18/23</h3>
+        <h3 id="curVer">Ver 0.1.1 - 12/31/23</h3>
+        <ul>
+          <li>small new year&#39;s eve update</li>
+          <li>Bug fixes<ul>
+              <li>instant soft drop preserved</li>
+              <li>queue editor uses monospace font for proper line wrapping</li>
+            </ul>
+          </li>
+          <li>palette open by default for discoverability</li>
+        </ul>
+        <h3>Ver 0.1.0 - 12/18/23</h3>
         <ul>
           <li>The Big Christmas Update!</li>
           <li>Cosmetic updates<ul>
@@ -428,7 +434,7 @@
                       <div class="exportOption">
                         <h4>Current Queue: </h4>
                         <!-- <textarea id="customQueue" cols="7" rows="5" wrap="soft"></textarea> -->
-                        <textarea id="customQueue" cols="7" spellcheck="false"></textarea>
+                        <textarea id="customQueue" cols="7" wrap="soft" spellcheck="false"></textarea>
                       </div>
                     </div>
 
@@ -469,7 +475,7 @@
   </div>
 
   <div id="version">
-    <p id="versionNum">Ver 0.1.0</p>
+    <p id="versionNum">Ver 0.1.1</p>
     <svg id="changeLogSvg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
       <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -481,7 +487,6 @@
     </svg>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="main.js"> </script>
 </body>
 
