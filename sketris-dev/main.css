@@ -1,15 +1,18 @@
-html, body {
+html,
+body {
   background: rgb(26, 28, 36);
   color: rgb(215, 212, 212);
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
   font-size: 12px;
   margin: 0px;
   height: 100%;
   width: 100%;
 }
 
-#title{
+#header {
   display: flex;
+  justify-content: start;
+  align-items: center;
   gap: 10px;
   box-sizing: border-box;
   height: 10vmin;
@@ -20,26 +23,138 @@ html, body {
   margin: 0px;
   margin-bottom: 30px;
   background-image: linear-gradient(black, rgba(0, 0, 0, 0));
+}
+
+#header > a {
+  color: inherit;
+  text-decoration: none;
+  justify-self: start;
   user-select: none;
 }
 
-#title>a{
-    color: inherit;
-    text-decoration: none;
-}
-
-#title> * h1{
+#header > * h1 {
   margin: 0px;
   font-size: max(40px, 6vmin);
 }
 
-#title > svg{
+#header > svg {
   padding-top: 5px;
   height: max(40px, 6vmin);
 }
 
+#createRoom {
+  font-size: 1.5em;
+  padding: 10px;
+}
 
-#version{
+#roomDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  width: 100%;
+}
+
+#copyRoom {
+  display: none;
+  font-size: 1.5em;
+}
+
+#roomText {
+  display: none;
+  width: fit-content;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 1.5em;
+}
+
+#roomManager {
+  display: flex;
+  justify-content: center;
+  algin-items: center;
+  height: 100%;
+  width: fit-content;
+  background: rgb(46, 48, 46);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* temp loading icon */
+.lds-facebook {
+  display: none;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-facebook div {
+  display: inline-block;
+  position: absolute;
+  left: 8px;
+  width: 16px;
+  background: #fff;
+  animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+.lds-facebook div:nth-child(1) {
+  left: 8px;
+  animation-delay: -0.24s;
+}
+.lds-facebook div:nth-child(2) {
+  left: 32px;
+  animation-delay: -0.12s;
+}
+.lds-facebook div:nth-child(3) {
+  left: 56px;
+  animation-delay: 0;
+}
+@keyframes lds-facebook {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+  50%,
+  100% {
+    top: 24px;
+    height: 32px;
+  }
+}
+
+/* .loader {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.loader-spinner {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} */
+
+#version {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -52,19 +167,18 @@ html, body {
 }
 
 #versionNum {
-  margin:0px;
+  margin: 0px;
 }
 
-#version>svg{
+#version > svg {
   fill: #787e97;
   height: 1em;
 }
 
-#version>svg:hover{
+#version > svg:hover {
   fill: orange;
   cursor: pointer;
 }
-
 
 .modalOverlay {
   display: none;
@@ -77,18 +191,21 @@ html, body {
   margin: 0px;
   width: 100%;
   height: 100%;
-  overflow: auto; 
-  background-color: rgba(0,0,0,0.4); 
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 100;
   animation-name: fadein;
   animation-duration: 0.3s;
 }
 
 @keyframes fadein {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
-
 
 .modal {
   position: relative;
@@ -96,9 +213,9 @@ html, body {
   margin: auto;
   padding: 30px;
   border: 1px solid #888;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.8),0 15px 20px 0 rgba(0,0,0,0.7);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 15px 20px 0 rgba(0, 0, 0, 0.7);
   border-radius: 5px;
-  background:rgb(43, 46, 59);
+  background: rgb(43, 46, 59);
   z-index: 110;
   animation-duration: 0.3s;
   animation-name: slidein;
@@ -110,7 +227,7 @@ html, body {
     opacity: 0;
   }
   to {
-    top:0px;
+    top: 0px;
     opacity: 1;
   }
 }
@@ -124,7 +241,7 @@ html, body {
   height: 80%;
 }
 
-#pasterFields{
+#pasterFields {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -139,20 +256,20 @@ html, body {
 #imageEditor {
   display: flex;
   align-items: center;
-  position:relative;
+  position: relative;
   width: 40%;
   height: 100%;
 }
 
 #imageCanvas {
-  position:absolute;
-  background:rgb(50, 54, 69);
+  position: absolute;
+  background: rgb(50, 54, 69);
   /* width: 100%;
   height: 100%; */
 }
 
 #imageControls {
-  position:absolute;
+  position: absolute;
   /* width: 100%;
   height: 100%; */
 }
@@ -178,7 +295,7 @@ html, body {
   aspect-ratio: 10/22;
 }
 
-#pasterButtons{
+#pasterButtons {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -187,11 +304,9 @@ html, body {
   width: 100%;
 }
 
-#pasterButtons > button{
+#pasterButtons > button {
   font-size: 2em;
 }
-
-
 
 #changeLogModal {
   width: 40%;
@@ -211,11 +326,11 @@ html, body {
   width: 100%;
 }
 
-#aboutText{
+#aboutText {
   width: 80%;
   height: 100%;
   background: rgb(29, 31, 40);
-  font-size: 1.2em; 
+  font-size: 1.2em;
   padding-right: 1em;
   padding-left: 1em;
   border-radius: 10px;
@@ -223,14 +338,14 @@ html, body {
   overflow: scroll;
 }
 
-#changeLogTitle>h1{
+#changeLogTitle > h1 {
   font-size: 4vmin;
   margin: 5px;
   position: absolute;
   bottom: 0px;
 }
 
-#changeLogCloseSvg{
+#changeLogCloseSvg {
   fill: white;
   height: 2em;
   position: absolute;
@@ -238,12 +353,12 @@ html, body {
   top: 10px;
 }
 
-#changeLogCloseSvg:hover{
+#changeLogCloseSvg:hover {
   fill: red;
   cursor: pointer;
 }
 
-#changeLogInfo{
+#changeLogInfo {
   overflow-y: scroll;
   font-size: 1.5em;
   height: 75%;
@@ -252,7 +367,7 @@ html, body {
   border-radius: 5px;
 }
 
-#changeLogInfo > h2{
+#changeLogInfo > h2 {
   color: gold;
 }
 
@@ -272,7 +387,7 @@ html, body {
   border: transparent;
 }
 ::-webkit-scrollbar-corner {
-  background: rgba(0,0,0,0);
+  background: rgba(0, 0, 0, 0);
 }
 
 #container {
@@ -280,11 +395,11 @@ html, body {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  height:80%;
-  width:100%;
+  height: 80%;
+  width: 100%;
 }
 
-#mainDiv{
+#mainDiv {
   position: relative;
   display: flex;
   justify-content: center;
@@ -302,7 +417,6 @@ html, body {
   box-shadow: 0 0 30px black;
   box-sizing: border-box;
   overflow: hidden;
-
 
   animation-duration: 0.5s;
 }
@@ -325,7 +439,6 @@ html, body {
   }
 }
 
-
 #boardArea {
   position: relative;
   display: flex;
@@ -342,26 +455,26 @@ html, body {
   z-index: 10;
   box-shadow: 0 0 30px black;
   border-radius: 10px;
-  outline:none;
+  outline: none;
   background: rgb(50, 54, 69);
 }
 
-#gameBoard{
+#gameBoard {
   position: relative;
   display: grid;
   grid-template-columns: 6fr 10fr 6fr;
   grid-template-rows: 4fr 12fr 6fr;
-  grid-template-areas: 
-        "hold board queue"
-        "palette board queue"
-        "palette board queueOpts" ;
+  grid-template-areas:
+    "hold board queue"
+    "palette board queue"
+    "palette board queueOpts";
   /* overflow: hidden; */
   height: 85%;
   width: 85%;
   z-index: 0;
 }
 
-#hold{
+#hold {
   grid-area: hold;
   justify-self: right;
   align-self: top;
@@ -370,11 +483,11 @@ html, body {
   border-right-style: none;
   box-shadow: 0 0 5px black;
   box-sizing: border-box;
-  height:100%;
-  width:100%;
+  height: 100%;
+  width: 100%;
 }
 
-#playfield{
+#playfield {
   /* display:flex; */
   grid-area: board;
   justify-content: center;
@@ -392,26 +505,26 @@ html, body {
   box-shadow: 0 0 5px black;
 }
 
-#background{
-  height:100%;
-  width:100%;
+#background {
+  height: 100%;
+  width: 100%;
 }
 
-#field{
+#field {
   position: absolute;
   left: 0px;
   top: 0px;
-  height:100%;
-  width:100%;
+  height: 100%;
+  width: 100%;
   z-index: 20;
 }
 
-#field:focus{
-  outline:none
+#field:focus {
+  outline: none;
 }
 
 #queue {
-  position:relative;
+  position: relative;
   grid-area: queue;
   justify-self: left;
   align-self: top;
@@ -420,11 +533,11 @@ html, body {
   border-left-style: none;
   box-shadow: 0 0 5px black;
   box-sizing: border-box;
-  width:100%;
+  width: 100%;
   z-index: 15;
 }
 
-#queueOpts{
+#queueOpts {
   display: flex;
   /* flex-wrap: wrap; */
   justify-content: center;
@@ -437,7 +550,7 @@ html, body {
   width: 100%;
 }
 
-.queueOpt{
+.queueOpt {
   position: relative;
   display: flex;
   gap: 5px;
@@ -457,7 +570,8 @@ html, body {
   border-radius: 4px;
   background-color: #606062;
   background-image: linear-gradient(#474749, #606062);
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -1px 1px rgba(0,0,0,0.15);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.15);
   transition: all 0.15s ease;
 }
 .checkbox-wrapper-65 .cbx svg {
@@ -497,19 +611,14 @@ html, body {
   transition: all 0.15s ease;
 }
 
-
-
-
-
-.queueOpt > label{
+.queueOpt > label {
   font-size: clamp(7px, 0.75vw, 14px);
 }
-.queueOpt > *{
+.queueOpt > * {
   font-size: clamp(8px, 2vw, 14px);
 }
 
-
-#paletteContainer{
+#paletteContainer {
   /* display:none; */
   grid-area: palette;
   justify-self: right;
@@ -550,28 +659,32 @@ html, body {
 }
 
 #rainbow {
-  background: linear-gradient(217deg, rgba(255,0,0,1), rgba(255,0,0,0.1) 60.71%),
-              linear-gradient(127deg, rgba(0,255,0,1), rgba(0,255,0,0.1) 80.71%),
-              linear-gradient(336deg, rgba(0,0,255,1), rgba(0,0,255,0.1) 90.71%);
+  background: linear-gradient(
+      217deg,
+      rgba(255, 0, 0, 1),
+      rgba(255, 0, 0, 0.1) 60.71%
+    ),
+    linear-gradient(127deg, rgba(0, 255, 0, 1), rgba(0, 255, 0, 0.1) 80.71%),
+    linear-gradient(336deg, rgba(0, 0, 255, 1), rgba(0, 0, 255, 0.1) 90.71%);
 }
 
-@keyframes showPalette{
-  from{
+@keyframes showPalette {
+  from {
     margin-right: -5em;
-  } to {
+  }
+  to {
     margin-right: 0;
   }
 }
 
-@keyframes hidePalette{
-  from{
+@keyframes hidePalette {
+  from {
     margin-right: 0;
-  } to {
+  }
+  to {
     margin-right: -5em;
   }
 }
-
-
 
 .activeColor {
   border: 2px solid white;
@@ -590,16 +703,15 @@ html, body {
   margin-right: 1em;
 }
 
-#paletteSvg> * path{
+#paletteSvg > * path {
   fill: #555555;
 }
 
-#paletteSvg:hover > * path{
+#paletteSvg:hover > * path {
   fill: #c6c6c6;
 }
 
-
-#panelTab{
+#panelTab {
   display: flex;
   display: flex;
   justify-content: center;
@@ -624,15 +736,15 @@ html, body {
   /* animation-duration: 0.5s; */
 }
 
-#panelTab:hover{
+#panelTab:hover {
   cursor: pointer;
 }
 
-#panelTab:hover > * path{
+#panelTab:hover > * path {
   stroke: rgb(165, 168, 188);
 }
 
-#panelIcon{
+#panelIcon {
   display: flex;
   justify-content: center;
   position: absolute;
@@ -643,41 +755,40 @@ html, body {
   /* transform: rotate(180deg); */
 }
 
-
-#panelIconLeft{
-  width: 55%; 
+#panelIconLeft {
+  width: 55%;
   display: flex;
   overflow: hidden;
   animation-duration: 0.5s;
 }
 
-#panelIconMid{
+#panelIconMid {
   display: flex;
   justify-content: center;
   width: 15%;
   overflow: hidden;
 }
 
-#panelIconRight{
+#panelIconRight {
   width: 0;
   display: flex;
   overflow: hidden;
   animation-duration: 0.5s;
 }
 
-#leftSvg{
+#leftSvg {
   float: left;
   height: 90%;
   align-self: center;
 }
 
-#rightSvg{
+#rightSvg {
   float: right;
   height: 90%;
   align-self: center;
 }
 
-#midSvg{
+#midSvg {
   float: center;
   height: 90%;
   align-self: center;
@@ -700,7 +811,6 @@ html, body {
     width: 0%;
   }
 }
-
 
 #sidePanel {
   position: relative;
@@ -742,15 +852,15 @@ html, body {
   }
 }
 
-@media screen and (max-width: 70em){
-  #panelIcon{
+@media screen and (max-width: 70em) {
+  #panelIcon {
     transform: rotate(180deg);
   }
 
   #sidePanel {
-    position:absolute;
-    top:0px;
-    right:0px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
     box-shadow: 0 0 30px black;
     border-radius: 10px;
     z-index: 50;
@@ -759,7 +869,6 @@ html, body {
   #sidePanelContent {
     z-index: 50;
   }
-
 }
 
 #sidePanelContent {
@@ -777,13 +886,10 @@ html, body {
   /* border: 2px solid rgb(23, 22, 22); */
   /* border: 2px solid orange; */
 
-
   z-index: 5;
 }
 
-
-
-#tabs{
+#tabs {
   display: flex;
   justify-content: left;
   align-items: flex-end;
@@ -794,8 +900,7 @@ html, body {
   height: 10%;
 }
 
-
-.tab{
+.tab {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -804,7 +909,7 @@ html, body {
   width: 30%;
   margin: 0;
   border-radius: 2em 2em 0 0;
-  cursor:pointer;
+  cursor: pointer;
   animation-duration: 0.3s;
   z-index: 40;
 }
@@ -816,32 +921,31 @@ html, body {
   z-index: 50;
 }
 
-.tab > h2{
+.tab > h2 {
   padding: 0px;
   margin: 0px;
   font-size: 1.5em;
 }
 
 @keyframes fadeOut {
-  from{
+  from {
     opacity: 100%;
   }
-  to{
+  to {
     opacity: 0%;
   }
 }
 
 @keyframes fadeIn {
-  from{
+  from {
     opacity: 0%;
   }
-  to{
+  to {
     opacity: 100%;
   }
 }
 
-
-#panelMain{
+#panelMain {
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -856,9 +960,7 @@ html, body {
   background: rgb(43, 46, 59);
 }
 
-
 #settings {
-
   padding-top: 20px;
   padding-bottom: 20px;
   display: flex;
@@ -886,15 +988,15 @@ html, body {
   border: solid rgb(109, 110, 111);
 }
 
-#handling > .setting > h4{
+#handling > .setting > h4 {
   flex: 3 0 10%;
 }
 
-#handling > .setting > input{
+#handling > .setting > input {
   flex: 3 0 10%;
 }
 
-#handling > .setting > p{
+#handling > .setting > p {
   flex: 1 0 10%;
 }
 
@@ -902,11 +1004,11 @@ html, body {
 /********** Range Input Styles **********/
 /*Range Reset*/
 input[type="range"] {
-   -webkit-appearance: none;
-    appearance: none;
-    background: transparent;
-    cursor: pointer;
-    width: 15rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 15rem;
 }
 
 /* Removes default focus */
@@ -917,56 +1019,53 @@ input[type="range"]:focus {
 /***** Chrome, Safari, Opera and Edge Chromium styles *****/
 /* slider track */
 input[type="range"]::-webkit-slider-runnable-track {
-   background-color: #6c7880;
-   border-radius: 0.5rem;
-   height: 0.5rem;  
+  background-color: #6c7880;
+  border-radius: 0.5rem;
+  height: 0.5rem;
 }
 
 /* slider thumb */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
-   appearance: none;
-   margin-top: -12px; /* Centers thumb on the track */
+  appearance: none;
+  margin-top: -12px; /* Centers thumb on the track */
 
-   /*custom styles*/
-   background-color: #a4a4a4;
-   height: 2rem;
-   width: 1rem;
+  /*custom styles*/
+  background-color: #a4a4a4;
+  height: 2rem;
+  width: 1rem;
 }
 
-input[type="range"]:focus::-webkit-slider-thumb {   
+input[type="range"]:focus::-webkit-slider-thumb {
   border: 1px solid #053a5f;
   outline: 3px solid #393e60;
-  outline-offset: 0.125rem; 
+  outline-offset: 0.125rem;
 }
 
 /******** Firefox styles ********/
 /* slider track */
 input[type="range"]::-moz-range-track {
-   background-color: #6c7880;
-   border-radius: 0.5rem;
-   height: 0.5rem;
+  background-color: #6c7880;
+  border-radius: 0.5rem;
+  height: 0.5rem;
 }
 
 /* slider thumb */
 input[type="range"]::-moz-range-thumb {
-   border: none; /*Removes extra border that FF applies*/
-   border-radius: 0; /*Removes default border-radius that FF applies*/
+  border: none; /*Removes extra border that FF applies*/
+  border-radius: 0; /*Removes default border-radius that FF applies*/
 
-   /*custom styles*/
-   background-color: #a4a4a4;
-   height: 2rem;
-   width: 1rem;
+  /*custom styles*/
+  background-color: #a4a4a4;
+  height: 2rem;
+  width: 1rem;
 }
 
 input[type="range"]:focus::-moz-range-thumb {
   border: 1px solid #053a5f;
   outline: 3px solid #393e60;
-  outline-offset: 0.125rem; 
+  outline-offset: 0.125rem;
 }
-
-
-
 
 #keyBinds {
   display: flex;
@@ -978,16 +1077,15 @@ input[type="range"]:focus::-moz-range-thumb {
   border: solid rgb(109, 110, 111);
 }
 
-#keyBindButtons{
+#keyBindButtons {
   display: flex;
   justify-content: center;
   gap: 1em;
-
 }
 
-.key{
+.key {
   display: flex;
-  flex-basis: 15%; 
+  flex-basis: 15%;
   align-items: center;
   justify-content: center;
 
@@ -997,27 +1095,25 @@ input[type="range"]:focus::-moz-range-thumb {
   padding-left: 1em;
   padding-right: 1em;
 
-
   height: 3em;
   width: 6em;
-
 }
 
-button{
+button {
   background: rgb(85, 85, 87);
   color: white;
   border: 2px black;
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
   cursor: pointer;
   animation-duration: 3s;
 }
 
-button:hover{
+button:hover {
   background: rgb(110, 110, 111);
   color: white;
 }
 
-button:disabled{
+button:disabled {
   background: rgb(71, 71, 71);
   color: rgb(169, 169, 169);
   cursor: default;
@@ -1031,17 +1127,16 @@ button:disabled{
   width: 100%;
 }
 
-#keyBinds > .setting > h4{
+#keyBinds > .setting > h4 {
   flex-basis: 40%;
   text-align: left;
 }
 
-#keyBinds > .setting > button{
+#keyBinds > .setting > button {
   flex-basis: 10%;
 }
 
-
-#data{
+#data {
   padding-top: 20px;
   padding-bottom: 20px;
   display: flex;
@@ -1057,7 +1152,7 @@ button:disabled{
 
 } */
 
-#import{
+#import {
   position: relative;
   display: flex;
   /* justify-content: center; */
@@ -1071,7 +1166,7 @@ button:disabled{
   width: 100%;
 }
 
-#export{
+#export {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1085,7 +1180,7 @@ button:disabled{
   width: 100%;
 }
 
-#exportOptions{
+#exportOptions {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1094,7 +1189,7 @@ button:disabled{
   gap: 5px;
 }
 
-.exportOption{
+.exportOption {
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -1111,7 +1206,7 @@ button:disabled{
   flex-basis: 10%;
 }
 
-#export > * input{
+#export > * input {
   background-color: #37383b;
   color: white;
   align-self: center;
@@ -1120,7 +1215,7 @@ button:disabled{
 }
 
 #customQueue {
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   background-color: #37383b;
   color: white;
   overflow-x: hidden;
@@ -1134,16 +1229,17 @@ button:disabled{
   resize: vertical;
 }
 
-#exportArea, #importText {
+#exportArea,
+#importText {
   background-color: #37383b;
   color: white;
   resize: vertical;
   height: 8vh;
   width: 100%;
-
 }
 
-#exportButtons, #importButtonWrapper{
+#exportButtons,
+#importButtonWrapper {
   display: flex;
   justify-content: center;
   gap: 2em;
@@ -1152,7 +1248,8 @@ button:disabled{
 @keyframes copyAnim {
   from {
     background-color: green;
-  }to{
+  }
+  to {
     background: rgb(85, 85, 87);
   }
 }
