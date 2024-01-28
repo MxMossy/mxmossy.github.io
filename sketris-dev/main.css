@@ -472,6 +472,7 @@ body {
   height: 85%;
   width: 85%;
   z-index: 0;
+  touch-action: none;
 }
 
 #hold {
