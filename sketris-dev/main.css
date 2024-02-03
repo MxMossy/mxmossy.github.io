@@ -496,7 +496,7 @@ body {
   justify-self: center;
   align-self: top;
   overflow: hidden;
-  cursor: none;
+  /* cursor: none; */
 
   height: 100%;
   width: 100%;
