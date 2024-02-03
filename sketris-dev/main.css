@@ -495,6 +495,8 @@ body {
   z-index: 20;
   justify-self: center;
   align-self: top;
+  overflow: hidden;
+  cursor: none;
 
   height: 100%;
   width: 100%;
@@ -521,6 +523,16 @@ body {
 
 #field:focus {
   outline: none;
+}
+
+.cursor {
+  display: none;
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 0;
+  left: 0;
+  z-index: 30;
 }
 
 #queue {
