@@ -77,25 +77,32 @@ body {
 
   display: none;
   justify-content: start;
-  width: 80%;
-  height: 3em;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
   gap: 1em;
   box-sizing: border-box;
 }
 
-#users {
-  display: flex;
-  justify-content: start;
-  width: 80%;
-  height: 30px;
-  gap: 1em;
-}
-
-.user {
+#userIcon {
   height: 12px;
   width: 12px;
-  background: white;
+  background: #888;
   border-radius: 50%;
+  animation-duration: 1s;
+}
+
+@keyframes fadeAction {
+  from {
+    background: #fff;
+  }
+  to {
+    background: #888;
+  }
+}
+
+#usersNum {
+  font-size: 1.2em;
 }
 
 #createRoom {
@@ -151,6 +158,81 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/*Valentine Easter Egg */
+#ValentineOverlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #f9f9f9;
+  z-index: 24;
+  animation-duration: 3s;
+}
+
+#ValentineSvg {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 24;
+}
+
+#V-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50vw;
+  z-index: 24;
+}
+
+#V-path {
+  display: none;
+  fill: #f00;
+  stroke: #f00;
+  stroke-miterlimit: 10;
+  stroke-linecap: round;
+  stroke-width: 0.25mm;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation-duration: 5s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes write {
+  from {
+    fill: rgba(0, 0, 0, 0);
+  }
+  to {
+    stroke-dashoffset: 100;
+    stroke: #f00;
+    stroke-width: 0;
+    fill: #f00;
+  }
+}
+
+#timerWrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#timer {
+  display: none;
+  /* justify-content: center; */
+  padding: 5px;
+  background: rgb(26, 28, 36);
+  height: fit-content;
+  width: 4.5em;
+  border-radius: 5px;
+  overflow: hidden;
+  font-size: 1.5em;
+}
+
+/* ---------------- */
 
 #version {
   display: inline-flex;
@@ -466,7 +548,7 @@ body {
   grid-template-areas:
     "hold board queue"
     "palette board queue"
-    "palette board queueOpts";
+    "palette board timerWrapper";
   /* overflow: hidden; */
   height: 85%;
   width: 85%;
@@ -510,6 +592,7 @@ body {
 #background {
   height: 100%;
   width: 100%;
+  z-index: 23;
 }
 
 #field {
@@ -518,7 +601,7 @@ body {
   top: 0px;
   height: 100%;
   width: 100%;
-  z-index: 20;
+  z-index: 25;
 }
 
 #field:focus {
@@ -705,6 +788,35 @@ body {
 
 .activeColor:hover {
   cursor: default;
+}
+
+#help {
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+#help > * path {
+  fill: #555555;
+}
+
+#help:hover > * path {
+  fill: #ffbf00;
+}
+
+#infoPanel {
+  display: none;
+  position: fixed;
+  height: fit-content;
+  width: 150px;
+  padding: 10px;
+  background: rgb(29, 31, 40);
+  left: 0;
+  top: 0;
+  border-radius: 5px;
+  border: 1px solid rgb(215, 212, 212);
+  z-index: 100;
 }
 
 #paletteSvg {

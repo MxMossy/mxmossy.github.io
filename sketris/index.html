@@ -1,470 +1,752 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-QXMC4LY9NB"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-<head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QXMC4LY9NB"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+      gtag("config", "G-QXMC4LY9NB");
+    </script>
 
-    gtag('config', 'G-QXMC4LY9NB');
-  </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300&family=Roboto+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./main.css" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300&family=Roboto+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./main.css">
+    <title>Sketris</title>
+  </head>
 
-  <title>Sketris</title>
-</head>
-
-<body>
-  <div id="title">
-    <a href="https://mxmoss.me/sketris">
-      <h1 id="titleText">Sketris</h1>
-    </a>
-  </div>
-
-
-  <div class="modalOverlay" id="pasterOverlay">
-    <div class="modal" id="pasterModal">
-      <div id="pasterFields">
-        <div id="imageEditor">
-          <canvas id="imageCanvas"></canvas>
-          <canvas id="imageControls"></canvas>
+  <body>
+    <div id="header">
+      <a id="titleLink" href="/">
+        <h1 id="titleText">Sketris</h1>
+      </a>
+      <a
+        href="https://mxmoss.me/sketris/?data=goAAhQCBgIFQ9QEZTIwBAl0BAQOZAgEGjE0CAJ0DAQGZBAEGjQOcXQMAmQFZAwEEjQMBAVycXJ0BmQFZApgBBY0B0ACcXQGdAQEBWQGYWQEBBtBRAV0CnAEBmFkBmQIBB1EB0J0BAQKZAViZAgEG0QFQAQWZBAEI0AEHmQIBAw=="
+        style="font-size: 3em"
+        >💞</a
+      >
+      <div id="roomDiv">
+        <div id="roomInfo">
+          <div id="roomManager">
+            <button id="createRoom">Share Session</button>
+            <button id="copyRoom">Copy Link</button>
+            <p id="roomText">Disconnected</p>
+            <div id="washLoader">
+              <div id="spinner"></div>
+            </div>
+          </div>
         </div>
-
-        <div id="preview">
-          <canvas id="previewBackground"></canvas>
-          <canvas id="previewField"></canvas>
-        </div>
-      </div>
-
-      <div id="pasterButtons">
-        <button id="pasterCancel"> Cancel </button>
-        <button id="pasterAccept"> Accept </button>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="modalOverlay" id="changeLogOverlay">
-    <div class="modal" id="changeLogModal">
-      <div id="about">
-        <div id="aboutText">
-          <p>Sketris is actively being developed by mxmossy (discord). You can message me if you something is broken for you and hopefully I can do something about it 🙂</p>
-        </div>
-      </div>
-      <div id="changeLogTitle">
-        <h1>Sketris Change Log</h1>
-      </div>
-      <svg id="changeLogCloseSvg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-        <g id="SVGRepo_iconCarrier">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M19.207 6.207a1 1 0 0 0-1.414-1.414L12 10.586 6.207 4.793a1 1 0 0 0-1.414 1.414L10.586 12l-5.793 5.793a1 1 0 1 0 1.414 1.414L12 13.414l5.793 5.793a1 1 0 0 0 1.414-1.414L13.414 12l5.793-5.793z">
-          </path>
-        </g>
-      </svg>
-      <div id="changeLogInfo">
-        <h3 id="curVer">Ver 0.1.1 - 12/31/23</h3>
-        <ul>
-          <li>small new year&#39;s eve update</li>
-          <li>Bug fixes<ul>
-              <li>instant soft drop preserved</li>
-              <li>queue editor uses monospace font for proper line wrapping</li>
-              <li>autocoloring glitches fixed</li>
-            </ul>
-          </li>
-          <li>palette open by default for discoverability</li>
-        </ul>
-        <h3>Ver 0.1.0 - 12/18/23</h3>
-        <ul>
-          <li>The Big Christmas Update!</li>
-          <li>Cosmetic updates<ul>
-              <li>Viewable Changelog </li>
-              <li>Side panel has tabs</li>
-              <li>Bag indicator reworked</li>
-              <li>Settings look nicer</li>
-              <li>Palette looks nicer</li>
-              <li>Everything looks nicer</li>
-            </ul>
-          </li>
-          <li>Sketching Updates<ul>
-              <li>Introducing the &quot;Magic Marker&quot; which autocolors pieces (even when disconnected!) </li>
-              <li>Middle mouse now activates garbage drawing mode! (idea cred: IndigoLaser)<ul>
-                  <li>draw up to create garbage</li>
-                  <li>draw down to compress lines</li>
-                </ul>
-              </li>
-              <li>Piece selections don&#39;t overwrite the board during drag now until mouse release</li>
-              <li>Removed color dropper</li>
-            </ul>
-          </li>
-          <li>Data Import/Export<ul>
-              <li>Sketris board states can be shared via link using the &quot;data&quot; query parameter in url<ul>
-                  <li>data can be copied as link or text</li>
-                  <li>Current queue and hold can be edited</li>
-                  <li>Queue regen can be enabled/disabled</li>
-                </ul>
-              </li>
-              <li>Pasted screenshots can be interpreted as boards<ul>
-                  <li>images can be cropped to board size</li>
-                  <li>automatic color guessing (tested with jstris/tetrio default colors)</li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <h4 id="ver-0-0-10-11-12-23">Ver 0.0.10 - 11/12/23</h4>
-        <ul>
-          <li>ghost tiles can now be drawn by holding Alt</li>
-        </ul>
-        <h4 id="ver-0-0-9-11-7-23">Ver 0.0.9 - 11/7/23</h4>
-        <ul>
-          <li>fixed compatibility issues with firefox</li>
-          <li>tile selection works with Control now</li>
-        </ul>
-        <h4 id="ver-0-0-8-11-5-23">Ver 0.0.8 - 11/5/23</h4>
-        <ul>
-          <li>migrated project to use npm webpack</li>
-        </ul>
-        <h4 id="ver-0-0-7-10-30-23">Ver 0.0.7 - 10/30/23</h4>
-        <ul>
-          <li>added bag postion indicator to queue</li>
-          <li>Eyedropper: sketching color can be changed by middle-clicking on a block</li>
-        </ul>
-        <h4 id="ver-0-0-6-10-25-23">Ver 0.0.6 - 10/25/23</h4>
-        <ul>
-          <li>implemented color drawing</li>
-        </ul>
-        <h4 id="ver-0-0-5-10-20-23">Ver 0.0.5 - 10/20/23</h4>
-        <ul>
-          <li>settings are now saved/loaded via browser cookie</li>
-        </ul>
-        <h4 id="ver-0-0-4-10-20-23">Ver 0.0.4 - 10/20/23</h4>
-        <ul>
-          <li>Implemented highlighting blocks holding shift</li>
-          <li>highlighted blocks are draggable</li>
-        </ul>
-        <h4 id="ver-0-0-3-7-12-23">Ver 0.0.3 - 7/12/23</h4>
-        <ul>
-          <li>Can update queue with custom piece order</li>
-        </ul>
-        <h4 id="ver-0-0-2-7-10-23">Ver 0.0.2 - 7/10/23</h4>
-        <ul>
-          <li>Added board state history with undo/redo</li>
-        </ul>
-        <h4 id="ver-0-0-1-7-8-23">Ver 0.0.1 - 7/8/23</h4>
-        <ul>
-          <li>Added basic board block sketching functionality</li>
-        </ul>
-        <h2 id="ver-0-0-0-7-7-23">Ver 0.0.0 - 7/7/23</h2>
-        <ul>
-          <li>Playable implementation with DAS/ARR !</li>
-        </ul>
       </div>
     </div>
-  </div>
 
-  <div id="container">
+    <div class="modalOverlay" id="pasterOverlay">
+      <div class="modal" id="pasterModal">
+        <div id="pasterFields">
+          <div id="imageEditor">
+            <canvas id="imageCanvas"></canvas>
+            <canvas id="imageControls"></canvas>
+          </div>
 
-    <div id="mainDiv">
+          <div id="preview">
+            <canvas id="previewBackground"></canvas>
+            <canvas id="previewField"></canvas>
+          </div>
+        </div>
 
-      <div id="boardArea" tabindex="0">
-        <div id="gameBoard" oncontextmenu="return false;">
-          <canvas id="hold"></canvas>
+        <div id="pasterButtons">
+          <button id="pasterCancel">Cancel</button>
+          <button id="pasterAccept">Accept</button>
+        </div>
+      </div>
+    </div>
 
-          <div id="paletteContainer">
-            <div id="palette">
-              <svg id="paletteSvg" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"
-                stroke="#ffffff">
+    <div class="modalOverlay" id="changeLogOverlay">
+      <div class="modal" id="changeLogModal">
+        <div id="about">
+          <div id="aboutText">
+            <p>
+              Sketris is actively being developed by mxmossy (discord). You can
+              message me if you something is broken for you and hopefully I can
+              do something about it 🙂
+            </p>
+          </div>
+        </div>
+        <div id="changeLogTitle">
+          <h1>Sketris Change Log</h1>
+        </div>
+        <svg
+          id="changeLogCloseSvg"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M19.207 6.207a1 1 0 0 0-1.414-1.414L12 10.586 6.207 4.793a1 1 0 0 0-1.414 1.414L10.586 12l-5.793 5.793a1 1 0 1 0 1.414 1.414L12 13.414l5.793 5.793a1 1 0 0 0 1.414-1.414L13.414 12l5.793-5.793z"
+            ></path>
+          </g>
+        </svg>
+        <div id="changeLogInfo">
+          <h3 id="curVer">Ver 0.2.0 - 2/14/23</h3>
+          <ul>
+            <li>Happy Valentines Day!</li>
+            <li>
+              Experimental collaborative mode
+              <ul>
+                <li>Host a session and send a link to friends!</li>
+                <li>Supports multiple people</li>
+              </ul>
+            </li>
+            <li>
+              General Improvements
+              <ul>
+                <li>Improved rendering for snappier gameplay</li>
+                <li>Added help popup for sketching controls</li>
+              </ul>
+            </li>
+            <li>
+              <a
+                href="https://mxmoss.me/sketris/?data=goAAhQCBgIFQ9QEZTIwBAl0BAQOZAgEGjE0CAJ0DAQGZBAEGjQOcXQMAmQFZAwEEjQMBAVycXJ0BmQFZApgBBY0B0ACcXQGdAQEBWQGYWQEBBtBRAV0CnAEBmFkBmQIBB1EB0J0BAQKZAViZAgEG0QFQAQWZBAEI0AEHmQIBAw=="
+                >Valentines Easter Egg Puzzle</a
+              >
+            </li>
+          </ul>
+          <h3>Ver 0.1.1 - 12/31/23</h3>
+          <ul>
+            <li>small new year&#39;s eve update</li>
+            <li>
+              Bug fixes
+              <ul>
+                <li>instant soft drop preserved</li>
+                <li>
+                  queue editor uses monospace font for proper line wrapping
+                </li>
+                <li>autocoloring glitches fixed</li>
+              </ul>
+            </li>
+            <li>palette open by default for discoverability</li>
+          </ul>
+          <h3>Ver 0.1.0 - 12/18/23</h3>
+          <ul>
+            <li>The Big Christmas Update!</li>
+            <li>
+              Cosmetic updates
+              <ul>
+                <li>Viewable Changelog</li>
+                <li>Side panel has tabs</li>
+                <li>Bag indicator reworked</li>
+                <li>Settings look nicer</li>
+                <li>Palette looks nicer</li>
+                <li>Everything looks nicer</li>
+              </ul>
+            </li>
+            <li>
+              Sketching Updates
+              <ul>
+                <li>
+                  Introducing the &quot;Magic Marker&quot; which autocolors
+                  pieces (even when disconnected!)
+                </li>
+                <li>
+                  Middle mouse now activates garbage drawing mode! (idea cred:
+                  IndigoLaser)
+                  <ul>
+                    <li>draw up to create garbage</li>
+                    <li>draw down to compress lines</li>
+                  </ul>
+                </li>
+                <li>
+                  Piece selections don&#39;t overwrite the board during drag now
+                  until mouse release
+                </li>
+                <li>Removed color dropper</li>
+              </ul>
+            </li>
+            <li>
+              Data Import/Export
+              <ul>
+                <li>
+                  Sketris board states can be shared via link using the
+                  &quot;data&quot; query parameter in url
+                  <ul>
+                    <li>data can be copied as link or text</li>
+                    <li>Current queue and hold can be edited</li>
+                    <li>Queue regen can be enabled/disabled</li>
+                  </ul>
+                </li>
+                <li>
+                  Pasted screenshots can be interpreted as boards
+                  <ul>
+                    <li>images can be cropped to board size</li>
+                    <li>
+                      automatic color guessing (tested with jstris/tetrio
+                      default colors)
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <h4 id="ver-0-0-10-11-12-23">Ver 0.0.10 - 11/12/23</h4>
+          <ul>
+            <li>ghost tiles can now be drawn by holding Alt</li>
+          </ul>
+          <h4 id="ver-0-0-9-11-7-23">Ver 0.0.9 - 11/7/23</h4>
+          <ul>
+            <li>fixed compatibility issues with firefox</li>
+            <li>tile selection works with Control now</li>
+          </ul>
+          <h4 id="ver-0-0-8-11-5-23">Ver 0.0.8 - 11/5/23</h4>
+          <ul>
+            <li>migrated project to use npm webpack</li>
+          </ul>
+          <h4 id="ver-0-0-7-10-30-23">Ver 0.0.7 - 10/30/23</h4>
+          <ul>
+            <li>added bag postion indicator to queue</li>
+            <li>
+              Eyedropper: sketching color can be changed by middle-clicking on a
+              block
+            </li>
+          </ul>
+          <h4 id="ver-0-0-6-10-25-23">Ver 0.0.6 - 10/25/23</h4>
+          <ul>
+            <li>implemented color drawing</li>
+          </ul>
+          <h4 id="ver-0-0-5-10-20-23">Ver 0.0.5 - 10/20/23</h4>
+          <ul>
+            <li>settings are now saved/loaded via browser cookie</li>
+          </ul>
+          <h4 id="ver-0-0-4-10-20-23">Ver 0.0.4 - 10/20/23</h4>
+          <ul>
+            <li>Implemented highlighting blocks holding shift</li>
+            <li>highlighted blocks are draggable</li>
+          </ul>
+          <h4 id="ver-0-0-3-7-12-23">Ver 0.0.3 - 7/12/23</h4>
+          <ul>
+            <li>Can update queue with custom piece order</li>
+          </ul>
+          <h4 id="ver-0-0-2-7-10-23">Ver 0.0.2 - 7/10/23</h4>
+          <ul>
+            <li>Added board state history with undo/redo</li>
+          </ul>
+          <h4 id="ver-0-0-1-7-8-23">Ver 0.0.1 - 7/8/23</h4>
+          <ul>
+            <li>Added basic board block sketching functionality</li>
+          </ul>
+          <h2 id="ver-0-0-0-7-7-23">Ver 0.0.0 - 7/7/23</h2>
+          <ul>
+            <li>Playable implementation with DAS/ARR !</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="container">
+      <div id="mainDiv">
+        <div id="boardArea" tabindex="0">
+          <div id="connectedUsers">
+            <div id="userIcon"></div>
+            <div id="usersNum">1</div>
+          </div>
+          <div id="gameBoard" oncontextmenu="return false;">
+            <canvas id="hold"></canvas>
+
+            <div id="paletteContainer">
+              <div id="palette">
+                <div id="infoPanel">
+                  <h2 id="controls">Controls</h2>
+                  <p><b>Left Click</b> - Normal drawing (toggle on/off)</p>
+                  <p><b>Right Click</b> - Area drawing</p>
+                  <p>
+                    <b>Middle Click</b> - Garbage drawing (drag up to create,
+                    down to remove)
+                  </p>
+                  <p><b>Alt Click</b> - Ghost drawing</p>
+                  <p>
+                    <b>Shift/Ctrl Click</b> - Tile Selection (click and drag,
+                    Esc to deselect)
+                  </p>
+                  <p>Paste images directly into window (Ctrl-V)</p>
+                </div>
+                <svg
+                  id="help"
+                  width="32px"
+                  height="32px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M12 19.5C16.1421 19.5 19.5 16.1421 19.5 12C19.5 7.85786 16.1421 4.5 12 4.5C7.85786 4.5 4.5 7.85786 4.5 12C4.5 16.1421 7.85786 19.5 12 19.5ZM12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21ZM12.75 15V16.5H11.25V15H12.75ZM10.5 10.4318C10.5 9.66263 11.1497 9 12 9C12.8503 9 13.5 9.66263 13.5 10.4318C13.5 10.739 13.3151 11.1031 12.9076 11.5159C12.5126 11.9161 12.0104 12.2593 11.5928 12.5292L11.25 12.7509V14.25H12.75V13.5623C13.1312 13.303 13.5828 12.9671 13.9752 12.5696C14.4818 12.0564 15 11.3296 15 10.4318C15 8.79103 13.6349 7.5 12 7.5C10.3651 7.5 9 8.79103 9 10.4318H10.5Z"
+                      fill="#000000"
+                    ></path>
+                  </g>
+                </svg>
+
+                <svg
+                  id="paletteSvg"
+                  version="1.1"
+                  id="_x32_"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 512 512"
+                  xml:space="preserve"
+                  fill="#000000"
+                  stroke="#ffffff"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <g>
+                      <path
+                        class="st0"
+                        d="M468.277,116.662c-27.602-40.846-66.66-73.285-112.616-92.728c-30.638-12.955-64.35-20.122-99.654-20.122 c-35.303,0-68.914,7.166-99.421,20.135c-30.507,12.97-57.911,31.72-80.944,54.876C29.582,125.11,0.966,189.104,0.014,259.601v0.013 C0.007,260.484,0,261.354,0,262.21c0,18.834,2.796,34.96,7.865,48.553c5.056,13.585,12.442,24.608,21.286,32.857 c5.892,5.508,12.407,9.77,19.176,12.812c9.037,4.056,18.491,5.946,27.658,5.946c8.187,0,16.147-1.493,23.485-4.384 c7.331-2.898,14.065-7.2,19.587-12.921c14.641-15.181,35.708-24.334,59.042-24.341c17.401,0.007,33.44,5.262,46.826,14.298 c13.373,9.03,24.019,21.854,30.363,36.865c4.234,10.016,6.577,20.998,6.577,32.603c0.007,4.679-0.753,9.551-1.966,14.894 c-1.192,5.33-2.843,11.071-4.281,17.415c-1.35,5.988-2.014,11.722-2.014,17.196c-0.028,10.125,2.37,19.388,6.694,27.061 c4.302,7.694,10.406,13.654,17.072,17.867c4.446,2.822,9.153,4.905,13.914,6.385c6.351,1.96,12.798,2.864,19.053,2.871 c5.857-0.007,11.564-0.788,16.976-2.46c52.951-16.387,99.058-48.594,132.012-91.364c32.946-42.75,52.69-96.215,52.677-154.558 C512.013,206.841,495.872,157.507,468.277,116.662z M435.803,396.25c-29.157,37.872-70.167,66.564-117.261,81.129 c-2.165,0.671-5.076,1.137-8.207,1.124c-3.775,0.013-7.852-0.644-11.483-1.946c-3.652-1.294-6.816-3.192-9.235-5.549 c-1.616-1.576-2.932-3.357-3.98-5.508c-1.384-2.878-2.343-6.482-2.357-11.496c0-3.042,0.37-6.584,1.295-10.674 c1.164-5.214,2.822-10.975,4.281-17.408c1.446-6.427,2.686-13.565,2.686-21.424c0.006-23.443-7.153-45.353-19.382-63.439 c-12.229-18.1-29.52-32.467-49.902-41.086c-13.579-5.748-28.541-8.926-44.161-8.926c-31.124,0-60.014,12.277-80.403,33.418 c-2.274,2.357-5.378,4.44-9.118,5.92c-3.727,1.466-8.057,2.316-12.592,2.316c-5.714,0-11.715-1.329-17.402-4.268 c-5.686-2.953-11.133-7.475-15.867-14.312c-3.151-4.563-5.981-10.167-8.2-17.073c-2.967-9.194-4.837-20.703-4.837-34.837 c0-0.733,0.007-1.472,0.014-2.213v0.007c0.637-47.012,15.072-90.563,39.44-126.73c24.382-36.159,58.699-64.858,99.065-82.012 c26.917-11.442,56.521-17.771,87.809-17.771c46.922,0.007,90.385,14.236,126.524,38.639c36.132,24.403,64.844,58.994,82.013,99.585 c11.448,27.068,17.778,56.802,17.778,88.09C482.308,311.428,464.961,358.364,435.803,396.25z"
+                      ></path>
+                      <path
+                        class="st0"
+                        d="M392.273,296.061c-6.221-2.631-13.086-4.09-20.225-4.09c-10.708-0.007-20.772,3.282-29.048,8.886 c-8.282,5.59-14.846,13.496-18.799,22.834c-2.637,6.22-4.09,13.085-4.09,20.217c-0.007,10.715,3.282,20.779,8.879,29.048 c5.597,8.29,13.503,14.852,22.841,18.806c6.22,2.638,13.085,4.09,20.217,4.09c10.716,0,20.78-3.281,29.055-8.879 c8.276-5.604,14.846-13.503,18.799-22.841c2.638-6.221,4.09-13.085,4.09-20.224c0.007-10.708-3.281-20.772-8.878-29.048 C409.516,306.584,401.61,300.007,392.273,296.061z M393.594,358.418c-2.802,4.152-6.796,7.467-11.44,9.427 c-3.097,1.302-6.482,2.028-10.106,2.035c-5.418-0.007-10.345-1.624-14.503-4.433c-4.152-2.795-7.468-6.789-9.427-11.434 c-1.308-3.096-2.034-6.482-2.034-10.106c0.006-5.419,1.623-10.345,4.425-14.51c2.802-4.152,6.796-7.454,11.441-9.42 c3.097-1.308,6.481-2.034,10.098-2.034c5.426,0.006,10.352,1.63,14.518,4.426c4.145,2.809,7.461,6.796,9.42,11.441 c1.309,3.097,2.035,6.481,2.035,10.098C398.014,349.334,396.396,354.26,393.594,358.418z"
+                      ></path>
+                      <path
+                        class="st0"
+                        d="M126.462,175.094c-20.998,0-38.022,17.024-38.022,38.03c0,20.991,17.024,38.023,38.022,38.023 c21.005,0,38.03-17.032,38.03-38.023C164.492,192.118,147.467,175.094,126.462,175.094z"
+                      ></path>
+                      <path
+                        class="st0"
+                        d="M193.245,100.274c-18.265,0-33.076,14.812-33.076,33.077c0,18.271,14.812,33.083,33.076,33.083 c18.271,0,33.084-14.812,33.084-33.083C226.329,115.086,211.516,100.274,193.245,100.274z"
+                      ></path>
+                      <path
+                        class="st0"
+                        d="M288.782,90.382c-16.387,0-29.679,13.29-29.679,29.678c0,16.388,13.292,29.679,29.679,29.679 s29.678-13.291,29.678-29.679C318.46,103.672,305.169,90.382,288.782,90.382z"
+                      ></path>
+                      <path
+                        class="st0"
+                        d="M361.745,190.392c14.599,0,26.431-11.838,26.431-26.431c0-14.599-11.832-26.431-26.431-26.431 c-14.6,0-26.431,11.832-26.431,26.431C335.314,178.553,347.145,190.392,361.745,190.392z"
+                      ></path>
+                      <path
+                        class="st0"
+                        d="M376.933,233.834c0,11.42,9.262,20.669,20.676,20.669c11.42,0,20.676-9.249,20.676-20.669 c0-11.42-9.256-20.67-20.676-20.67C386.195,213.164,376.933,222.414,376.933,233.834z"
+                      ></path>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+            </div>
+            <div id="playfield">
+              <svg
+                id="cursor-main"
+                class="cursor"
+                viewBox="1.1 0 28 28"
+                fill="rgba(0,0,0,0)"
+                xmlns="http://www.w3.org/2000/svg"
+                stroke="#999"
+              >
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
                 <g id="SVGRepo_iconCarrier">
-                  <g>
-                    <path class="st0"
-                      d="M468.277,116.662c-27.602-40.846-66.66-73.285-112.616-92.728c-30.638-12.955-64.35-20.122-99.654-20.122 c-35.303,0-68.914,7.166-99.421,20.135c-30.507,12.97-57.911,31.72-80.944,54.876C29.582,125.11,0.966,189.104,0.014,259.601v0.013 C0.007,260.484,0,261.354,0,262.21c0,18.834,2.796,34.96,7.865,48.553c5.056,13.585,12.442,24.608,21.286,32.857 c5.892,5.508,12.407,9.77,19.176,12.812c9.037,4.056,18.491,5.946,27.658,5.946c8.187,0,16.147-1.493,23.485-4.384 c7.331-2.898,14.065-7.2,19.587-12.921c14.641-15.181,35.708-24.334,59.042-24.341c17.401,0.007,33.44,5.262,46.826,14.298 c13.373,9.03,24.019,21.854,30.363,36.865c4.234,10.016,6.577,20.998,6.577,32.603c0.007,4.679-0.753,9.551-1.966,14.894 c-1.192,5.33-2.843,11.071-4.281,17.415c-1.35,5.988-2.014,11.722-2.014,17.196c-0.028,10.125,2.37,19.388,6.694,27.061 c4.302,7.694,10.406,13.654,17.072,17.867c4.446,2.822,9.153,4.905,13.914,6.385c6.351,1.96,12.798,2.864,19.053,2.871 c5.857-0.007,11.564-0.788,16.976-2.46c52.951-16.387,99.058-48.594,132.012-91.364c32.946-42.75,52.69-96.215,52.677-154.558 C512.013,206.841,495.872,157.507,468.277,116.662z M435.803,396.25c-29.157,37.872-70.167,66.564-117.261,81.129 c-2.165,0.671-5.076,1.137-8.207,1.124c-3.775,0.013-7.852-0.644-11.483-1.946c-3.652-1.294-6.816-3.192-9.235-5.549 c-1.616-1.576-2.932-3.357-3.98-5.508c-1.384-2.878-2.343-6.482-2.357-11.496c0-3.042,0.37-6.584,1.295-10.674 c1.164-5.214,2.822-10.975,4.281-17.408c1.446-6.427,2.686-13.565,2.686-21.424c0.006-23.443-7.153-45.353-19.382-63.439 c-12.229-18.1-29.52-32.467-49.902-41.086c-13.579-5.748-28.541-8.926-44.161-8.926c-31.124,0-60.014,12.277-80.403,33.418 c-2.274,2.357-5.378,4.44-9.118,5.92c-3.727,1.466-8.057,2.316-12.592,2.316c-5.714,0-11.715-1.329-17.402-4.268 c-5.686-2.953-11.133-7.475-15.867-14.312c-3.151-4.563-5.981-10.167-8.2-17.073c-2.967-9.194-4.837-20.703-4.837-34.837 c0-0.733,0.007-1.472,0.014-2.213v0.007c0.637-47.012,15.072-90.563,39.44-126.73c24.382-36.159,58.699-64.858,99.065-82.012 c26.917-11.442,56.521-17.771,87.809-17.771c46.922,0.007,90.385,14.236,126.524,38.639c36.132,24.403,64.844,58.994,82.013,99.585 c11.448,27.068,17.778,56.802,17.778,88.09C482.308,311.428,464.961,358.364,435.803,396.25z">
-                    </path>
-                    <path class="st0"
-                      d="M392.273,296.061c-6.221-2.631-13.086-4.09-20.225-4.09c-10.708-0.007-20.772,3.282-29.048,8.886 c-8.282,5.59-14.846,13.496-18.799,22.834c-2.637,6.22-4.09,13.085-4.09,20.217c-0.007,10.715,3.282,20.779,8.879,29.048 c5.597,8.29,13.503,14.852,22.841,18.806c6.22,2.638,13.085,4.09,20.217,4.09c10.716,0,20.78-3.281,29.055-8.879 c8.276-5.604,14.846-13.503,18.799-22.841c2.638-6.221,4.09-13.085,4.09-20.224c0.007-10.708-3.281-20.772-8.878-29.048 C409.516,306.584,401.61,300.007,392.273,296.061z M393.594,358.418c-2.802,4.152-6.796,7.467-11.44,9.427 c-3.097,1.302-6.482,2.028-10.106,2.035c-5.418-0.007-10.345-1.624-14.503-4.433c-4.152-2.795-7.468-6.789-9.427-11.434 c-1.308-3.096-2.034-6.482-2.034-10.106c0.006-5.419,1.623-10.345,4.425-14.51c2.802-4.152,6.796-7.454,11.441-9.42 c3.097-1.308,6.481-2.034,10.098-2.034c5.426,0.006,10.352,1.63,14.518,4.426c4.145,2.809,7.461,6.796,9.42,11.441 c1.309,3.097,2.035,6.481,2.035,10.098C398.014,349.334,396.396,354.26,393.594,358.418z">
-                    </path>
-                    <path class="st0"
-                      d="M126.462,175.094c-20.998,0-38.022,17.024-38.022,38.03c0,20.991,17.024,38.023,38.022,38.023 c21.005,0,38.03-17.032,38.03-38.023C164.492,192.118,147.467,175.094,126.462,175.094z">
-                    </path>
-                    <path class="st0"
-                      d="M193.245,100.274c-18.265,0-33.076,14.812-33.076,33.077c0,18.271,14.812,33.083,33.076,33.083 c18.271,0,33.084-14.812,33.084-33.083C226.329,115.086,211.516,100.274,193.245,100.274z">
-                    </path>
-                    <path class="st0"
-                      d="M288.782,90.382c-16.387,0-29.679,13.29-29.679,29.678c0,16.388,13.292,29.679,29.679,29.679 s29.678-13.291,29.678-29.679C318.46,103.672,305.169,90.382,288.782,90.382z">
-                    </path>
-                    <path class="st0"
-                      d="M361.745,190.392c14.599,0,26.431-11.838,26.431-26.431c0-14.599-11.832-26.431-26.431-26.431 c-14.6,0-26.431,11.832-26.431,26.431C335.314,178.553,347.145,190.392,361.745,190.392z">
-                    </path>
-                    <path class="st0"
-                      d="M376.933,233.834c0,11.42,9.262,20.669,20.676,20.669c11.42,0,20.676-9.249,20.676-20.669 c0-11.42-9.256-20.67-20.676-20.67C386.195,213.164,376.933,222.414,376.933,233.834z">
-                    </path>
+                  <path
+                    clip-rule="evenodd"
+                    d="M26.4097 9.61208C27.196 8.8358 27.1969 7.57578 26.4117 6.79842L21.1441 1.58305C20.3597 0.806412 19.0875 0.805538 18.302 1.5811L3.55214 16.1442C3.15754 16.5338 2.87982 17.024 2.74985 17.5603L1.05726 24.5451C0.697341 26.0304 2.09375 27.3461 3.57566 26.918L10.3372 24.9646C10.8224 24.8244 11.2642 24.5658 11.622 24.2125L26.4097 9.61208ZM20.4642 12.6725L10.2019 22.8047C10.0827 22.9225 9.9354 23.0087 9.77366 23.0554L4.17079 24.6741C3.65448 24.8232 3.16963 24.359 3.2962 23.8367L4.70476 18.024C4.74809 17.8453 4.84066 17.6819 4.97219 17.552L15.195 7.45865L20.4642 12.6725ZM21.8871 11.2676L16.618 6.05372L19.0185 3.68356C19.4084 3.29865 20.0354 3.29908 20.4247 3.68454L24.271 7.49266C24.6666 7.88436 24.6661 8.52374 24.27 8.91488L21.8871 11.2676Z"
+                    fill="#000000"
+                    fill-rule="evenodd"
+                  ></path>
+                </g>
+              </svg>
+              <canvas id="background"></canvas>
+              <canvas id="field" tabindex="1"></canvas>
+              <div id="ValentineOverlay"></div>
+              <div id="V-wrapper">
+                <svg
+                  id="ValentineSvg"
+                  width="300"
+                  height="100"
+                  viewBox="-40 40 700 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g
+                    id="svgGroup"
+                    stroke-linecap="round"
+                    fill-rule="evenodd"
+                    font-size="3pt"
+                  >
+                    <path
+                      id="V-path"
+                      d="M 27.1 9.101 L 19.3 34.501 Q 20.7 34.401 22.15 34.351 Q 23.6 34.301 25.1 34.301 Q 29.8 34.301 34.05 34.551 A 184.6 184.6 0 0 1 39.681 34.965 A 156.79 156.79 0 0 1 42.1 35.201 Q 44.1 28.801 46.05 22.601 A 401.135 401.135 0 0 1 47.699 17.473 Q 48.466 15.143 49.18 13.089 A 220.743 220.743 0 0 1 49.65 11.751 Q 51.3 7.101 52.2 5.201 A 23.422 23.422 0 0 1 52.51 4.604 Q 52.841 3.988 53.3 3.201 A 8.531 8.531 0 0 1 54.701 1.415 A 9.998 9.998 0 0 1 55.15 1.001 A 4.188 4.188 0 0 1 56.321 0.267 A 3.629 3.629 0 0 1 57.7 0.001 Q 56.3 3.701 54.5 9.451 Q 52.7 15.201 50.85 22.001 Q 49 28.801 47.2 35.601 Q 49.2 35.701 51.05 35.851 Q 52.9 36.001 54.7 36.001 Q 53.233 37.535 51.81 38.246 A 5.939 5.939 0 0 1 50.4 38.751 A 19.932 19.932 0 0 1 47.054 39.185 A 18.043 18.043 0 0 1 46.3 39.201 A 703.05 703.05 0 0 0 45.006 44.61 A 630.066 630.066 0 0 0 44.6 46.351 A 195.257 195.257 0 0 0 43.678 50.527 A 164.237 164.237 0 0 0 43.2 52.901 A 248.046 248.046 0 0 0 41.998 58.924 Q 41.558 61.288 41.221 63.407 A 121.488 121.488 0 0 0 40.65 67.401 Q 39.9 73.401 39.9 77.101 Q 39.9 78.02 39.929 78.733 A 23.653 23.653 0 0 0 39.95 79.151 Q 40 80.001 40.1 80.701 A 14.88 14.88 0 0 1 38.197 80.39 Q 36.072 79.887 34.965 78.789 A 4.123 4.123 0 0 1 34.7 78.501 Q 33.229 76.735 33.201 73.045 A 18.964 18.964 0 0 1 33.2 72.901 A 29.136 29.136 0 0 1 33.271 70.954 Q 33.339 69.948 33.471 68.798 A 68.205 68.205 0 0 1 33.8 66.351 Q 34.4 62.401 35.6 57.801 Q 36.4 54.801 37.8 49.851 Q 39.2 44.901 40.9 39.301 A 656.084 656.084 0 0 0 37.975 39.307 Q 33.775 39.326 30.7 39.401 Q 26.6 39.501 23.6 39.601 Q 20.6 39.701 17.6 40.001 Q 15.8 45.801 14 51.501 L 10.7 61.951 A 1033.117 1033.117 0 0 0 9.645 65.309 Q 9.235 66.624 8.874 67.797 A 500.971 500.971 0 0 0 8.2 70.001 A 6459.03 6459.03 0 0 0 7.796 71.335 Q 7.134 73.52 6.9 74.301 Q 6.147 76.862 4.741 78.345 A 6.447 6.447 0 0 1 3.75 79.201 A 12.112 12.112 0 0 1 2.584 79.926 Q 1.238 80.653 0.143 80.698 A 3.495 3.495 0 0 1 0 80.701 Q 0.6 77.201 1.4 73.551 Q 2.147 70.143 3.286 65.951 A 223.056 223.056 0 0 1 3.45 65.351 A 363.79 363.79 0 0 1 4.465 61.734 Q 4.92 60.143 5.429 58.409 A 632.914 632.914 0 0 1 6.5 54.801 A 418.754 418.754 0 0 1 7.977 49.991 Q 9.312 45.726 11 40.601 Q 9.4 40.701 7.75 40.901 Q 6.1 41.101 4.4 41.301 A 4.602 4.602 0 0 1 6.129 37.804 A 6.34 6.34 0 0 1 6.75 37.351 A 12.311 12.311 0 0 1 8.817 36.296 Q 10.503 35.616 12.7 35.201 L 14.15 30.851 Q 14.9 28.601 15.7 26.151 Q 16.5 23.701 17.4 21.151 Q 18.3 18.601 19.25 15.801 Q 20.2 13.001 21.2 10.101 Q 21.598 9.007 22.094 7.37 A 97.369 97.369 0 0 0 22.1 7.351 A 11.894 11.894 0 0 0 22.511 5.493 A 9.659 9.659 0 0 0 22.6 4.201 Q 22.6 3.573 22.446 3.253 A 0.734 0.734 0 0 0 22.35 3.101 Q 22.1 2.801 21.2 2.801 A 6.229 6.229 0 0 0 18.259 3.563 Q 17.394 4.02 16.55 4.751 A 17.795 17.795 0 0 0 13.933 7.598 A 22.644 22.644 0 0 0 12.55 9.701 Q 10.8 12.701 9.8 15.901 Q 8.8 19.101 8.8 21.601 Q 8.8 22.501 8.95 23.401 A 17.45 17.45 0 0 0 9.102 24.201 Q 9.182 24.575 9.274 24.907 A 10.536 10.536 0 0 0 9.3 25.001 Q 6 25.001 4.65 23.351 A 5.937 5.937 0 0 1 3.351 20.21 A 7.818 7.818 0 0 1 3.3 19.301 A 12.387 12.387 0 0 1 4.245 14.626 A 16.101 16.101 0 0 1 5.3 12.501 A 26.256 26.256 0 0 1 9.68 6.972 A 29.967 29.967 0 0 1 10.45 6.251 A 30.287 30.287 0 0 1 14.923 2.876 A 26.26 26.26 0 0 1 17.05 1.701 A 19.701 19.701 0 0 1 19.521 0.673 Q 20.845 0.232 22.059 0.08 A 10.004 10.004 0 0 1 23.3 0.001 A 7.55 7.55 0 0 1 24.576 0.101 Q 25.247 0.216 25.763 0.465 A 2.82 2.82 0 0 1 26.95 1.501 Q 27.9 3.001 27.9 4.801 Q 27.9 5.901 27.65 7.001 Q 27.4 8.101 27.1 9.101 Z M 260.41 80.617 A 7.734 7.734 0 0 0 261.5 80.701 A 10.933 10.933 0 0 0 264.016 80.396 Q 265.622 80.017 267.325 79.166 A 23.614 23.614 0 0 0 270.4 77.301 A 39.268 39.268 0 0 0 271.245 76.685 Q 275.631 73.4 280.1 68.201 A 97.997 97.997 0 0 0 283.273 64.309 A 115.833 115.833 0 0 0 289.5 55.401 Q 294 48.301 297.5 40.751 A 118.524 118.524 0 0 0 299.921 35.166 A 97.176 97.176 0 0 0 303.05 26.201 A 64.92 64.92 0 0 0 303.586 24.262 Q 304.329 21.398 304.708 18.8 A 35.44 35.44 0 0 0 305.1 13.701 Q 305.1 10.049 304.279 7.629 A 8.432 8.432 0 0 0 303.1 5.301 A 10.468 10.468 0 0 0 302.064 4.09 Q 300.56 2.601 299 2.601 A 3.476 3.476 0 0 0 298.121 2.719 Q 297.624 2.849 297.094 3.121 A 7.799 7.799 0 0 0 296.15 3.701 Q 294.6 4.801 293.2 7.201 A 6.613 6.613 0 0 1 295.466 8.325 A 7.438 7.438 0 0 1 297.2 10.251 A 6.31 6.31 0 0 1 297.513 10.803 Q 298.327 12.415 298.583 15.015 A 26.523 26.523 0 0 1 298.7 17.601 A 38.971 38.971 0 0 1 298.221 23.539 A 53.087 53.087 0 0 1 296.9 29.601 Q 295.1 36.101 292.1 42.851 Q 289.1 49.601 285.35 55.801 A 119.052 119.052 0 0 1 282.509 60.275 A 97.255 97.255 0 0 1 277.65 66.951 Q 275.397 69.774 273.226 71.914 A 35.39 35.39 0 0 1 270 74.751 Q 266.3 77.601 263.5 77.601 Q 261.8 77.601 261.25 76.501 A 4.342 4.342 0 0 1 261.028 75.969 Q 260.856 75.468 260.774 74.868 A 8.649 8.649 0 0 1 260.7 73.701 A 21.531 21.531 0 0 1 260.811 71.586 Q 260.949 70.188 261.26 68.592 A 48.931 48.931 0 0 1 262 65.401 Q 263.3 60.501 265.25 54.701 Q 267.2 48.901 269.1 42.601 Q 271 36.301 272.3 29.951 A 68.227 68.227 0 0 0 272.986 26.036 A 57.513 57.513 0 0 0 273.6 17.801 Q 273.6 13.308 272.662 9.815 A 18.071 18.071 0 0 0 270.55 4.851 A 9.791 9.791 0 0 0 265.19 0.574 A 12.507 12.507 0 0 0 261.3 0.001 Q 257.6 0.001 254.3 1.601 Q 251 3.201 248.45 5.851 A 23.959 23.959 0 0 0 247.83 6.52 A 20.977 20.977 0 0 0 244.45 11.601 A 16.923 16.923 0 0 0 243.921 12.86 A 14.061 14.061 0 0 0 243 17.801 A 10.132 10.132 0 0 0 243.015 18.36 A 8.097 8.097 0 0 0 244.6 22.851 A 4.665 4.665 0 0 0 246.224 24.214 Q 247.741 25.001 250.1 25.001 A 13.427 13.427 0 0 1 249.779 23.99 A 17.068 17.068 0 0 1 249.45 22.551 A 14.265 14.265 0 0 1 249.279 21.322 A 17.955 17.955 0 0 1 249.2 19.601 A 25.382 25.382 0 0 1 249.313 17.253 A 32.589 32.589 0 0 1 249.75 14.201 Q 250.3 11.301 251.55 8.701 A 14.778 14.778 0 0 1 252.308 7.313 A 11.994 11.994 0 0 1 254.75 4.451 A 6.752 6.752 0 0 1 257.006 3.182 A 7.883 7.883 0 0 1 259.5 2.801 A 8.899 8.899 0 0 1 259.749 2.804 Q 262.552 2.883 263.75 4.751 Q 264.551 6 264.941 7.762 A 15.472 15.472 0 0 1 265.25 9.901 A 77.958 77.958 0 0 1 265.407 12.477 A 96.577 96.577 0 0 1 265.5 16.801 A 59.984 59.984 0 0 1 265.378 20.6 A 69.334 69.334 0 0 1 264.25 29.301 Q 263 35.801 261.1 42.251 Q 259.2 48.701 257.3 54.551 A 281.815 281.815 0 0 0 257.051 55.323 Q 255.317 60.713 254.15 65.101 Q 253.31 68.259 253.035 70.604 A 18.084 18.084 0 0 0 252.9 72.701 A 12.256 12.256 0 0 0 252.955 73.886 Q 253.192 76.321 254.45 77.701 A 9.637 9.637 0 0 0 254.67 77.935 A 8.085 8.085 0 0 0 258.05 80.051 Q 259.363 80.467 260.41 80.617 Z M 216.4 55.801 L 217.7 56.801 A 23.959 23.959 0 0 1 214.589 63.283 A 22.013 22.013 0 0 1 213.15 65.151 Q 210.1 68.701 206.3 71.251 A 57.235 57.235 0 0 1 201.356 74.232 A 48.068 48.068 0 0 1 198.8 75.501 Q 196.2 81.901 193.15 87.501 A 53.167 53.167 0 0 1 190.622 91.696 Q 189.239 93.757 187.799 95.409 A 28.844 28.844 0 0 1 186.75 96.551 A 14.665 14.665 0 0 1 184.642 98.37 Q 183.328 99.287 181.992 99.689 A 7.237 7.237 0 0 1 179.9 100.001 A 7.836 7.836 0 0 1 177.21 99.55 A 7.144 7.144 0 0 1 175.5 98.651 A 4.374 4.374 0 0 1 173.642 95.445 A 6.415 6.415 0 0 1 173.6 94.701 A 10.908 10.908 0 0 1 174.187 91.082 A 9.901 9.901 0 0 1 175.2 89.001 A 17.201 17.201 0 0 1 177.765 85.901 A 21.548 21.548 0 0 1 179.5 84.401 Q 182.2 82.301 185.7 80.401 A 241.49 241.49 0 0 1 192.055 77.076 A 265.895 265.895 0 0 1 193 76.601 Q 194.4 72.901 195.85 68.351 A 122.668 122.668 0 0 0 197.434 62.932 A 157.768 157.768 0 0 0 198.6 58.301 A 56.902 56.902 0 0 1 194.858 63.692 A 45.128 45.128 0 0 1 191.75 67.251 Q 188.744 70.339 185.432 70.884 A 8.809 8.809 0 0 1 184 71.001 A 8.801 8.801 0 0 1 180.597 70.303 A 10.235 10.235 0 0 1 180.25 70.151 Q 178.4 69.301 177.2 67.501 A 6.79 6.79 0 0 1 176.264 65.306 Q 176.049 64.418 176.009 63.385 A 12.468 12.468 0 0 1 176 62.901 A 20.227 20.227 0 0 1 176.169 60.378 Q 176.401 58.54 176.95 56.401 Q 177.9 52.701 179.3 49.201 A 44.768 44.768 0 0 1 180.364 46.745 Q 180.954 45.494 181.56 44.445 A 22.783 22.783 0 0 1 182.2 43.401 Q 183.613 41.235 184.671 41.109 A 1.093 1.093 0 0 1 184.8 41.101 A 1.833 1.833 0 0 1 185.032 41.118 Q 185.454 41.173 186.25 41.401 Q 187.3 41.701 188.25 42.251 Q 189 42.685 189.158 43.15 A 0.775 0.775 0 0 1 189.2 43.401 Q 188.3 44.701 187.2 47.101 Q 186.1 49.501 185.05 52.451 Q 184 55.401 183.3 58.201 A 28.452 28.452 0 0 0 182.875 60.179 Q 182.707 61.134 182.642 61.973 A 13.222 13.222 0 0 0 182.6 63.001 A 6.596 6.596 0 0 0 182.703 64.204 Q 182.887 65.196 183.4 65.901 Q 184.052 66.797 185.499 66.963 A 6.151 6.151 0 0 0 186.2 67.001 Q 187.564 67.001 189.16 66.047 A 12.282 12.282 0 0 0 190.45 65.151 Q 192.8 63.301 195.15 60.401 Q 197.5 57.501 199.5 54.201 Q 199.8 53.101 200.05 51.951 Q 200.3 50.801 200.5 49.601 A 7.107 7.107 0 0 1 200.843 48.491 Q 201.061 47.938 201.384 47.33 A 16.7 16.7 0 0 1 201.95 46.351 Q 203.1 44.501 205.6 44.501 Q 206.1 44.501 206.6 44.551 Q 207.068 44.598 207.624 44.776 A 7.074 7.074 0 0 1 207.7 44.801 A 9.33 9.33 0 0 1 207.648 45.702 Q 207.517 47.018 207.06 49.278 A 96.934 96.934 0 0 1 206.75 50.751 Q 205.8 55.101 204.05 60.901 A 150.838 150.838 0 0 1 200.777 70.524 A 169.794 169.794 0 0 1 199.9 72.801 A 25.526 25.526 0 0 0 205.124 70.032 A 34.586 34.586 0 0 0 209.1 66.851 A 26.554 26.554 0 0 0 213.625 61.312 A 36.141 36.141 0 0 0 216.4 55.801 Z M 91.1 100.001 Q 90.3 100.001 89.55 99.151 A 6.89 6.89 0 0 1 88.686 97.938 A 6.03 6.03 0 0 1 88.4 97.351 A 21.496 21.496 0 0 1 88.264 97.021 Q 88.013 96.397 88.001 96.219 A 0.251 0.251 0 0 1 88 96.201 A 185.983 185.983 0 0 1 89.345 91.7 Q 90.054 89.436 90.75 87.451 Q 92.1 83.601 93.45 79.551 A 90.393 90.393 0 0 0 94.622 75.739 Q 95.182 73.772 95.733 71.556 A 159.706 159.706 0 0 0 96.1 70.051 A 155.63 155.63 0 0 0 97.089 65.591 Q 97.925 61.563 98.8 56.501 Q 100.2 48.401 101.6 36.401 Q 101.7 35.501 102 35.101 A 0.711 0.711 0 0 1 102.264 34.895 Q 102.655 34.705 103.465 34.701 A 7.08 7.08 0 0 1 103.5 34.701 A 7.317 7.317 0 0 1 104.844 34.816 Q 105.578 34.953 106.141 35.255 A 3.215 3.215 0 0 1 107.2 36.151 A 5.422 5.422 0 0 1 108.089 37.861 A 4.944 4.944 0 0 1 108.3 39.301 Q 108.3 40.701 107.7 44.301 Q 107.287 46.776 106.639 49.865 A 217.659 217.659 0 0 1 106 52.801 Q 107.7 49.501 110.25 46.101 A 25.685 25.685 0 0 1 115.792 40.619 A 24.317 24.317 0 0 1 116.1 40.401 Q 119.4 38.101 123.3 38.101 Q 127.7 38.101 130.55 41.251 A 10.787 10.787 0 0 1 133.122 46.504 A 15.395 15.395 0 0 1 133.4 49.501 A 19.695 19.695 0 0 1 132.815 54.161 A 26.255 26.255 0 0 1 131.65 57.751 Q 129.9 62.101 126.75 65.951 Q 123.6 69.801 119.3 72.201 A 19.092 19.092 0 0 1 110.124 74.598 A 22.354 22.354 0 0 1 109.8 74.601 Q 108.005 74.601 106.686 74.315 A 7.814 7.814 0 0 1 105.6 74.001 Q 104.276 73.504 104.048 73.008 A 0.492 0.492 0 0 1 104 72.801 A 0.351 0.351 0 0 1 104.196 72.483 Q 104.351 72.394 104.626 72.362 A 2.494 2.494 0 0 1 104.75 72.351 Q 105.5 72.301 106.5 72.301 Q 110.5 72.301 114.15 70.351 Q 117.8 68.401 120.7 65.201 Q 123.6 62.001 125.25 58.101 A 21.034 21.034 0 0 0 126.648 53.385 A 17.995 17.995 0 0 0 126.9 50.401 A 12.647 12.647 0 0 0 126.651 47.826 A 9.166 9.166 0 0 0 125.55 44.951 A 4.426 4.426 0 0 0 122.351 42.794 A 6.806 6.806 0 0 0 121.2 42.701 A 8.713 8.713 0 0 0 117.649 43.481 A 11.527 11.527 0 0 0 116.05 44.351 A 22.126 22.126 0 0 0 112.686 47.045 A 26.448 26.448 0 0 0 111.25 48.551 Q 109 51.101 107.25 53.851 A 42.216 42.216 0 0 0 105.968 55.994 Q 105.395 57.026 104.963 57.965 A 21.509 21.509 0 0 0 104.6 58.801 Q 102.8 66.301 101 73.251 Q 99.2 80.201 97.55 85.851 A 211.353 211.353 0 0 1 96.744 88.548 Q 95.562 92.401 94.55 95.101 Q 93.2 98.701 92.3 99.501 A 1.635 1.635 0 0 1 91.122 100.001 A 1.948 1.948 0 0 1 91.1 100.001 Z M 130.2 100.001 Q 129.4 100.001 128.65 99.151 A 6.89 6.89 0 0 1 127.786 97.938 A 6.03 6.03 0 0 1 127.5 97.351 A 21.496 21.496 0 0 1 127.364 97.021 Q 127.113 96.397 127.101 96.219 A 0.251 0.251 0 0 1 127.1 96.201 A 185.983 185.983 0 0 1 128.445 91.7 Q 129.154 89.436 129.85 87.451 Q 131.2 83.601 132.55 79.551 A 90.393 90.393 0 0 0 133.722 75.739 Q 134.282 73.772 134.833 71.556 A 159.706 159.706 0 0 0 135.2 70.051 A 155.63 155.63 0 0 0 136.189 65.591 Q 137.025 61.563 137.9 56.501 Q 139.3 48.401 140.7 36.401 Q 140.8 35.501 141.1 35.101 A 0.711 0.711 0 0 1 141.364 34.895 Q 141.755 34.705 142.565 34.701 A 7.08 7.08 0 0 1 142.6 34.701 A 7.317 7.317 0 0 1 143.944 34.816 Q 144.678 34.953 145.241 35.255 A 3.215 3.215 0 0 1 146.3 36.151 A 5.422 5.422 0 0 1 147.189 37.861 A 4.944 4.944 0 0 1 147.4 39.301 Q 147.4 40.701 146.8 44.301 Q 146.387 46.776 145.739 49.865 A 217.659 217.659 0 0 1 145.1 52.801 Q 146.8 49.501 149.35 46.101 A 25.685 25.685 0 0 1 154.892 40.619 A 24.317 24.317 0 0 1 155.2 40.401 Q 158.5 38.101 162.4 38.101 Q 166.8 38.101 169.65 41.251 A 10.787 10.787 0 0 1 172.222 46.504 A 15.395 15.395 0 0 1 172.5 49.501 A 19.695 19.695 0 0 1 171.915 54.161 A 26.255 26.255 0 0 1 170.75 57.751 Q 169 62.101 165.85 65.951 Q 162.7 69.801 158.4 72.201 A 19.092 19.092 0 0 1 149.224 74.598 A 22.354 22.354 0 0 1 148.9 74.601 Q 147.105 74.601 145.786 74.315 A 7.814 7.814 0 0 1 144.7 74.001 Q 143.376 73.504 143.148 73.008 A 0.492 0.492 0 0 1 143.1 72.801 A 0.351 0.351 0 0 1 143.296 72.483 Q 143.451 72.394 143.726 72.362 A 2.494 2.494 0 0 1 143.85 72.351 Q 144.6 72.301 145.6 72.301 Q 149.6 72.301 153.25 70.351 Q 156.9 68.401 159.8 65.201 Q 162.7 62.001 164.35 58.101 A 21.034 21.034 0 0 0 165.748 53.385 A 17.995 17.995 0 0 0 166 50.401 A 12.647 12.647 0 0 0 165.751 47.826 A 9.166 9.166 0 0 0 164.65 44.951 A 4.426 4.426 0 0 0 161.451 42.794 A 6.806 6.806 0 0 0 160.3 42.701 A 8.713 8.713 0 0 0 156.749 43.481 A 11.527 11.527 0 0 0 155.15 44.351 A 22.126 22.126 0 0 0 151.786 47.045 A 26.448 26.448 0 0 0 150.35 48.551 Q 148.1 51.101 146.35 53.851 A 42.216 42.216 0 0 0 145.068 55.994 Q 144.495 57.026 144.063 57.965 A 21.509 21.509 0 0 0 143.7 58.801 Q 141.9 66.301 140.1 73.251 Q 138.3 80.201 136.65 85.851 A 211.353 211.353 0 0 1 135.844 88.548 Q 134.662 92.401 133.65 95.101 Q 132.3 98.701 131.4 99.501 A 1.635 1.635 0 0 1 130.222 100.001 A 1.948 1.948 0 0 1 130.2 100.001 Z M 99.4 55.801 L 100.4 56.801 A 37.287 37.287 0 0 1 96.945 63.611 A 32.548 32.548 0 0 1 95 66.301 Q 91.7 70.401 87.95 72.701 A 17.14 17.14 0 0 1 84.813 74.232 A 12.358 12.358 0 0 1 80.6 75.001 A 9.836 9.836 0 0 1 78.526 74.797 Q 77.248 74.521 76.3 73.872 A 5.25 5.25 0 0 1 75.15 72.801 A 8.161 8.161 0 0 1 73.797 70.388 A 7.247 7.247 0 0 1 73.4 68.001 A 8.603 8.603 0 0 1 73.423 67.384 Q 73.448 67.038 73.5 66.651 Q 73.6 65.901 73.7 65.101 Q 70.881 68.903 68.384 71.459 A 30.925 30.925 0 0 1 65.85 73.801 A 14.686 14.686 0 0 1 63.166 75.568 Q 60.912 76.701 58.6 76.701 Q 55.5 76.701 53.35 74.651 A 6.384 6.384 0 0 1 51.721 72.014 Q 51.379 71 51.262 69.76 A 14.414 14.414 0 0 1 51.2 68.401 A 18.649 18.649 0 0 1 51.652 64.421 Q 52.044 62.625 52.777 60.712 A 30.579 30.579 0 0 1 52.8 60.651 A 37.798 37.798 0 0 1 55.855 54.514 A 44.377 44.377 0 0 1 57.2 52.451 Q 60 48.401 63.55 45.051 A 33.55 33.55 0 0 1 68.62 41.083 A 29.188 29.188 0 0 1 71.05 39.701 A 19.076 19.076 0 0 1 75.233 38.14 A 15.733 15.733 0 0 1 78.9 37.701 A 12.227 12.227 0 0 1 81.946 38.062 A 9.203 9.203 0 0 1 85.4 39.751 A 6.51 6.51 0 0 1 87.969 44.473 A 8.351 8.351 0 0 1 88 45.201 A 7.213 7.213 0 0 1 87.91 46.384 Q 87.652 47.933 86.65 48.601 Q 85.496 49.37 83.72 49.482 A 9.891 9.891 0 0 1 83.1 49.501 A 18.324 18.324 0 0 0 83.309 48.553 A 23.066 23.066 0 0 0 83.45 47.751 Q 83.6 46.801 83.6 46.001 A 8.048 8.048 0 0 0 83.366 44.019 A 6.315 6.315 0 0 0 82.5 42.051 A 3.459 3.459 0 0 0 80.63 40.673 Q 79.797 40.401 78.7 40.401 A 8.865 8.865 0 0 0 75.429 41.053 Q 74.299 41.498 73.153 42.249 A 15.426 15.426 0 0 0 73 42.351 A 23.691 23.691 0 0 0 69.844 44.914 A 31.64 31.64 0 0 0 67.4 47.551 Q 64.7 50.801 62.6 54.601 A 45.316 45.316 0 0 0 60.184 59.662 A 38.5 38.5 0 0 0 59.3 62.101 A 28.274 28.274 0 0 0 58.523 64.975 Q 58.219 66.415 58.133 67.71 A 15.035 15.035 0 0 0 58.1 68.701 Q 58.1 72.494 60.654 72.598 A 3.589 3.589 0 0 0 60.8 72.601 Q 63.1 72.601 65.8 70.451 A 33.59 33.59 0 0 0 68.364 68.172 Q 69.64 66.922 70.949 65.418 A 56.926 56.926 0 0 0 71.35 64.951 Q 74.2 61.601 76.8 58.001 Q 79.4 54.401 81.4 51.401 A 9.739 9.739 0 0 1 81.529 51.212 Q 81.766 50.873 81.864 50.814 A 0.072 0.072 0 0 1 81.9 50.801 A 6.992 6.992 0 0 1 82.309 50.883 Q 82.764 50.987 83.364 51.174 A 22.651 22.651 0 0 1 83.45 51.201 A 6.466 6.466 0 0 1 84.433 51.598 A 5.186 5.186 0 0 1 85.1 52.001 A 1.808 1.808 0 0 1 85.527 52.418 A 1.48 1.48 0 0 1 85.8 53.301 A 2.51 2.51 0 0 1 85.721 53.893 Q 85.576 54.485 85.166 55.27 A 12.368 12.368 0 0 1 84.9 55.751 A 145.901 145.901 0 0 0 84.012 57.303 Q 83.484 58.238 82.9 59.301 Q 81.8 61.301 80.9 63.351 Q 80.032 65.329 80.001 67.074 A 7.254 7.254 0 0 0 80 67.201 A 5.859 5.859 0 0 0 80.528 69.605 A 7.159 7.159 0 0 0 80.8 70.151 A 2.722 2.722 0 0 0 81.77 71.192 Q 82.286 71.505 82.967 71.578 A 4.039 4.039 0 0 0 83.4 71.601 A 5.135 5.135 0 0 0 85.153 71.253 Q 87.406 70.428 90.5 67.651 A 31.332 31.332 0 0 0 93.745 64.217 Q 95.28 62.349 96.828 60.007 A 74.771 74.771 0 0 0 99.4 55.801 Z M 346.3 55.801 L 347.3 56.801 A 37.287 37.287 0 0 1 343.845 63.611 A 32.548 32.548 0 0 1 341.9 66.301 Q 338.6 70.401 334.85 72.701 A 17.14 17.14 0 0 1 331.713 74.232 A 12.358 12.358 0 0 1 327.5 75.001 A 9.836 9.836 0 0 1 325.426 74.797 Q 324.148 74.521 323.2 73.872 A 5.25 5.25 0 0 1 322.05 72.801 A 8.161 8.161 0 0 1 320.697 70.388 A 7.247 7.247 0 0 1 320.3 68.001 A 8.603 8.603 0 0 1 320.323 67.384 Q 320.348 67.038 320.4 66.651 Q 320.5 65.901 320.6 65.101 Q 317.781 68.903 315.284 71.459 A 30.925 30.925 0 0 1 312.75 73.801 A 14.686 14.686 0 0 1 310.066 75.568 Q 307.812 76.701 305.5 76.701 Q 302.4 76.701 300.25 74.651 A 6.384 6.384 0 0 1 298.621 72.014 Q 298.279 71 298.162 69.76 A 14.414 14.414 0 0 1 298.1 68.401 A 18.649 18.649 0 0 1 298.552 64.421 Q 298.944 62.625 299.677 60.712 A 30.579 30.579 0 0 1 299.7 60.651 A 37.798 37.798 0 0 1 302.755 54.514 A 44.377 44.377 0 0 1 304.1 52.451 Q 306.9 48.401 310.45 45.051 A 33.55 33.55 0 0 1 315.52 41.083 A 29.188 29.188 0 0 1 317.95 39.701 A 19.076 19.076 0 0 1 322.133 38.14 A 15.733 15.733 0 0 1 325.8 37.701 A 12.227 12.227 0 0 1 328.846 38.062 A 9.203 9.203 0 0 1 332.3 39.751 A 6.51 6.51 0 0 1 334.869 44.473 A 8.351 8.351 0 0 1 334.9 45.201 A 7.213 7.213 0 0 1 334.81 46.384 Q 334.552 47.933 333.55 48.601 Q 332.396 49.37 330.62 49.482 A 9.891 9.891 0 0 1 330 49.501 A 18.324 18.324 0 0 0 330.209 48.553 A 23.066 23.066 0 0 0 330.35 47.751 Q 330.5 46.801 330.5 46.001 A 8.048 8.048 0 0 0 330.266 44.019 A 6.315 6.315 0 0 0 329.4 42.051 A 3.459 3.459 0 0 0 327.53 40.673 Q 326.697 40.401 325.6 40.401 A 8.865 8.865 0 0 0 322.329 41.053 Q 321.199 41.498 320.053 42.249 A 15.426 15.426 0 0 0 319.9 42.351 A 23.691 23.691 0 0 0 316.744 44.914 A 31.64 31.64 0 0 0 314.3 47.551 Q 311.6 50.801 309.5 54.601 A 45.316 45.316 0 0 0 307.084 59.662 A 38.5 38.5 0 0 0 306.2 62.101 A 28.274 28.274 0 0 0 305.423 64.975 Q 305.119 66.415 305.033 67.71 A 15.035 15.035 0 0 0 305 68.701 Q 305 72.494 307.554 72.598 A 3.589 3.589 0 0 0 307.7 72.601 Q 310 72.601 312.7 70.451 A 33.59 33.59 0 0 0 315.264 68.172 Q 316.54 66.922 317.849 65.418 A 56.926 56.926 0 0 0 318.25 64.951 Q 321.1 61.601 323.7 58.001 Q 326.3 54.401 328.3 51.401 A 9.739 9.739 0 0 1 328.429 51.212 Q 328.666 50.873 328.764 50.814 A 0.072 0.072 0 0 1 328.8 50.801 A 6.992 6.992 0 0 1 329.209 50.883 Q 329.664 50.987 330.264 51.174 A 22.651 22.651 0 0 1 330.35 51.201 A 6.466 6.466 0 0 1 331.333 51.598 A 5.186 5.186 0 0 1 332 52.001 A 1.808 1.808 0 0 1 332.427 52.418 A 1.48 1.48 0 0 1 332.7 53.301 A 2.51 2.51 0 0 1 332.621 53.893 Q 332.476 54.485 332.066 55.27 A 12.368 12.368 0 0 1 331.8 55.751 A 145.901 145.901 0 0 0 330.912 57.303 Q 330.384 58.238 329.8 59.301 Q 328.7 61.301 327.8 63.351 Q 326.932 65.329 326.901 67.074 A 7.254 7.254 0 0 0 326.9 67.201 A 5.859 5.859 0 0 0 327.428 69.605 A 7.159 7.159 0 0 0 327.7 70.151 A 2.722 2.722 0 0 0 328.67 71.192 Q 329.186 71.505 329.867 71.578 A 4.039 4.039 0 0 0 330.3 71.601 A 5.135 5.135 0 0 0 332.053 71.253 Q 334.306 70.428 337.4 67.651 A 31.332 31.332 0 0 0 340.645 64.217 Q 342.18 62.349 343.728 60.007 A 74.771 74.771 0 0 0 346.3 55.801 Z M 449.6 41.801 L 449.6 40.001 Q 450.4 40.101 451.5 40.201 Q 452.527 40.294 453.815 40.388 A 180.465 180.465 0 0 0 454 40.401 Q 456.1 35.001 458.5 29.951 Q 460.9 24.901 463.25 20.951 Q 465.026 17.965 466.688 15.894 A 25.255 25.255 0 0 1 467.75 14.651 A 14.304 14.304 0 0 1 468.722 13.678 Q 470.252 12.301 471.4 12.301 A 2.174 2.174 0 0 1 472.789 12.8 A 2.751 2.751 0 0 1 472.85 12.851 A 1.752 1.752 0 0 1 473.408 13.752 Q 473.5 14.088 473.5 14.501 A 4.378 4.378 0 0 1 473.369 15.485 Q 473.013 17.001 471.693 19.504 A 43.938 43.938 0 0 1 471.4 20.051 Q 469.956 22.698 468.04 26.03 A 501.112 501.112 0 0 1 466.2 29.201 A 134.642 134.642 0 0 0 462.032 36.914 A 158.425 158.425 0 0 0 460.2 40.701 L 462.05 40.701 L 463.9 40.701 Q 467.2 40.701 470.85 40.601 Q 474.5 40.501 478.2 40.101 L 478.2 41.901 A 302.508 302.508 0 0 1 473.296 42.397 Q 470.99 42.611 468.933 42.76 A 177.381 177.381 0 0 1 468.35 42.801 Q 464 43.101 460.6 43.101 L 459.85 43.101 L 459.1 43.101 Q 456.8 48.401 455.2 54.001 A 41.313 41.313 0 0 0 453.741 61.728 A 36.128 36.128 0 0 0 453.6 64.901 A 22.505 22.505 0 0 0 453.692 67.012 Q 453.89 69.11 454.518 70.398 A 4.765 4.765 0 0 0 454.9 71.051 Q 456.2 72.901 459.2 72.901 A 12.647 12.647 0 0 0 464.987 71.445 Q 466.795 70.526 468.578 69.025 A 24.857 24.857 0 0 0 469.4 68.301 A 33.464 33.464 0 0 0 473.962 63.07 Q 476.241 59.874 478.2 55.801 L 479.5 56.801 Q 477.1 62.401 473.45 66.901 A 32.78 32.78 0 0 1 468.915 71.522 A 27.222 27.222 0 0 1 465.4 74.001 A 18.697 18.697 0 0 1 459.962 76.196 A 16.71 16.71 0 0 1 456.3 76.601 A 11.866 11.866 0 0 1 453.693 76.332 Q 451.245 75.781 449.7 74.101 A 7.904 7.904 0 0 1 448.049 71.23 Q 447.4 69.304 447.4 66.701 Q 447.4 63.519 448.263 59.265 A 69.769 69.769 0 0 1 449.05 55.851 Q 450.7 49.401 453.2 42.601 Q 452.2 42.401 451.3 42.251 Q 450.4 42.101 449.6 41.801 Z M 449.7 55.801 L 450.8 57.101 A 56.018 56.018 0 0 1 448.279 62.265 A 44.946 44.946 0 0 1 446.1 65.801 A 27.462 27.462 0 0 1 443.464 69.107 A 20.479 20.479 0 0 1 440.4 71.801 Q 437.3 74.001 433.5 74.001 Q 431.106 74.001 429.531 73.159 A 5.175 5.175 0 0 1 428.25 72.201 A 6.116 6.116 0 0 1 426.543 68.451 A 8.266 8.266 0 0 1 426.5 67.601 Q 426.5 65.501 427.25 63.201 Q 428 60.901 428.7 58.451 A 18.17 18.17 0 0 0 429.325 55.226 A 15.671 15.671 0 0 0 429.4 53.701 Q 429.4 50.901 428.25 49.851 A 3.986 3.986 0 0 0 425.765 48.813 A 5.228 5.228 0 0 0 425.4 48.801 A 8.365 8.365 0 0 0 422.078 49.521 Q 420.923 50.017 419.755 50.855 A 16.284 16.284 0 0 0 419.1 51.351 A 31.759 31.759 0 0 0 415.756 54.455 A 42.501 42.501 0 0 0 412.9 57.851 Q 409.9 61.801 407.3 66.001 A 1155.207 1155.207 0 0 0 405.14 69.504 Q 404.154 71.109 403.274 72.555 A 676.735 676.735 0 0 0 402.7 73.501 Q 401.1 73.501 399.65 72.951 A 5.431 5.431 0 0 1 398.398 72.289 A 4.401 4.401 0 0 1 397.4 71.301 A 1.302 1.302 0 0 1 397.437 71.04 Q 397.597 70.313 398.45 68.201 A 159.879 159.879 0 0 0 399.287 66.082 Q 399.656 65.129 400.059 64.059 A 327.122 327.122 0 0 0 400.9 61.801 Q 402.3 58.001 403.4 54.001 A 33.742 33.742 0 0 0 404.152 50.635 Q 404.456 48.817 404.495 47.168 A 20.252 20.252 0 0 0 404.5 46.701 A 4.136 4.136 0 0 1 404.995 46.22 Q 405.543 45.764 406.387 45.308 A 13.096 13.096 0 0 1 406.4 45.301 A 5.691 5.691 0 0 1 408.622 44.622 A 5.515 5.515 0 0 1 409.1 44.601 A 4.051 4.051 0 0 1 410.152 44.725 Q 411.52 45.094 411.752 46.555 A 4.109 4.109 0 0 1 411.8 47.201 Q 411.8 48.774 410.93 52.427 A 78.551 78.551 0 0 1 410.9 52.551 A 82.123 82.123 0 0 1 409.58 57.375 A 97.759 97.759 0 0 1 408.6 60.401 A 92.214 92.214 0 0 1 413.823 53.264 A 102.333 102.333 0 0 1 414.65 52.251 A 40.271 40.271 0 0 1 419.013 47.716 A 33.722 33.722 0 0 1 421.8 45.501 A 16.272 16.272 0 0 1 424.88 43.756 A 11.532 11.532 0 0 1 429.4 42.801 A 8.504 8.504 0 0 1 431.628 43.074 A 5.632 5.632 0 0 1 435.05 45.601 Q 436.8 48.401 436.8 51.801 A 16.878 16.878 0 0 1 436.327 55.851 A 14.919 14.919 0 0 1 435.8 57.551 A 126.279 126.279 0 0 1 434.012 62.035 A 115.236 115.236 0 0 1 433.75 62.651 A 12.703 12.703 0 0 0 432.743 66.587 A 11.87 11.87 0 0 0 432.7 67.601 Q 432.7 69.409 433.33 70.29 A 2.069 2.069 0 0 0 433.55 70.551 A 2.871 2.871 0 0 0 435.497 71.396 A 3.82 3.82 0 0 0 435.7 71.401 A 5.866 5.866 0 0 0 438.278 70.776 Q 439.111 70.373 439.943 69.708 A 12.367 12.367 0 0 0 440.7 69.051 Q 443.122 66.774 445.403 63.325 A 45.221 45.221 0 0 0 445.55 63.101 Q 447.9 59.501 449.7 55.801 Z M 548.9 55.801 L 550 57.101 A 56.018 56.018 0 0 1 547.479 62.265 A 44.946 44.946 0 0 1 545.3 65.801 A 27.462 27.462 0 0 1 542.664 69.107 A 20.479 20.479 0 0 1 539.6 71.801 Q 536.5 74.001 532.7 74.001 Q 530.306 74.001 528.731 73.159 A 5.175 5.175 0 0 1 527.45 72.201 A 6.116 6.116 0 0 1 525.743 68.451 A 8.266 8.266 0 0 1 525.7 67.601 Q 525.7 65.501 526.45 63.201 Q 527.2 60.901 527.9 58.451 A 18.17 18.17 0 0 0 528.525 55.226 A 15.671 15.671 0 0 0 528.6 53.701 Q 528.6 50.901 527.45 49.851 A 3.986 3.986 0 0 0 524.965 48.813 A 5.228 5.228 0 0 0 524.6 48.801 A 8.365 8.365 0 0 0 521.278 49.521 Q 520.123 50.017 518.955 50.855 A 16.284 16.284 0 0 0 518.3 51.351 A 31.759 31.759 0 0 0 514.956 54.455 A 42.501 42.501 0 0 0 512.1 57.851 Q 509.1 61.801 506.5 66.001 A 1155.207 1155.207 0 0 0 504.34 69.504 Q 503.354 71.109 502.474 72.555 A 676.735 676.735 0 0 0 501.9 73.501 Q 500.3 73.501 498.85 72.951 A 5.431 5.431 0 0 1 497.598 72.289 A 4.401 4.401 0 0 1 496.6 71.301 A 1.302 1.302 0 0 1 496.637 71.04 Q 496.797 70.313 497.65 68.201 A 159.879 159.879 0 0 0 498.487 66.082 Q 498.856 65.129 499.259 64.059 A 327.122 327.122 0 0 0 500.1 61.801 Q 501.5 58.001 502.6 54.001 A 33.742 33.742 0 0 0 503.352 50.635 Q 503.656 48.817 503.695 47.168 A 20.252 20.252 0 0 0 503.7 46.701 A 4.136 4.136 0 0 1 504.195 46.22 Q 504.743 45.764 505.587 45.308 A 13.096 13.096 0 0 1 505.6 45.301 A 5.691 5.691 0 0 1 507.822 44.622 A 5.515 5.515 0 0 1 508.3 44.601 A 4.051 4.051 0 0 1 509.352 44.725 Q 510.72 45.094 510.952 46.555 A 4.109 4.109 0 0 1 511 47.201 Q 511 48.774 510.13 52.427 A 78.551 78.551 0 0 1 510.1 52.551 A 82.123 82.123 0 0 1 508.78 57.375 A 97.759 97.759 0 0 1 507.8 60.401 A 92.214 92.214 0 0 1 513.023 53.264 A 102.333 102.333 0 0 1 513.85 52.251 A 40.271 40.271 0 0 1 518.213 47.716 A 33.722 33.722 0 0 1 521 45.501 A 16.272 16.272 0 0 1 524.08 43.756 A 11.532 11.532 0 0 1 528.6 42.801 A 8.504 8.504 0 0 1 530.828 43.074 A 5.632 5.632 0 0 1 534.25 45.601 Q 536 48.401 536 51.801 A 16.878 16.878 0 0 1 535.527 55.851 A 14.919 14.919 0 0 1 535 57.551 A 126.279 126.279 0 0 1 533.212 62.035 A 115.236 115.236 0 0 1 532.95 62.651 A 12.703 12.703 0 0 0 531.943 66.587 A 11.87 11.87 0 0 0 531.9 67.601 Q 531.9 69.409 532.53 70.29 A 2.069 2.069 0 0 0 532.75 70.551 A 2.871 2.871 0 0 0 534.697 71.396 A 3.82 3.82 0 0 0 534.9 71.401 A 5.866 5.866 0 0 0 537.478 70.776 Q 538.311 70.373 539.143 69.708 A 12.367 12.367 0 0 0 539.9 69.051 Q 542.322 66.774 544.603 63.325 A 45.221 45.221 0 0 0 544.75 63.101 Q 547.1 59.501 548.9 55.801 Z M 369.9 55.801 L 371.4 56.601 A 68.426 68.426 0 0 1 368.168 62.7 Q 365.564 67.034 362.7 70.051 Q 358.695 74.269 354.182 74.893 A 11.54 11.54 0 0 1 352.6 75.001 A 9.816 9.816 0 0 1 350.263 74.741 A 5.995 5.995 0 0 1 346.45 72.051 Q 344.677 69.224 344.603 65.066 A 20.503 20.503 0 0 1 344.6 64.701 Q 344.6 61.073 345.628 56.416 A 65.721 65.721 0 0 1 346.4 53.301 Q 348.2 46.701 351.15 39.401 Q 354.1 32.101 357.6 25.151 Q 361.1 18.201 364.6 12.501 A 100.995 100.995 0 0 1 367.045 8.701 Q 369.16 5.579 371.05 3.401 A 24.453 24.453 0 0 1 372.27 2.086 Q 374.369 0.001 375.7 0.001 A 1.771 1.771 0 0 1 376.998 0.565 Q 377.235 0.805 377.44 1.147 A 4.111 4.111 0 0 1 377.5 1.251 Q 378.156 2.423 378.549 4.034 A 15.61 15.61 0 0 1 378.6 4.251 Q 378.958 5.816 378.996 7.102 A 10.197 10.197 0 0 1 379 7.401 A 14.488 14.488 0 0 1 378.855 9.35 Q 378.577 11.384 377.768 14.066 A 50.358 50.358 0 0 1 377.65 14.451 A 65.881 65.881 0 0 1 376.258 18.448 Q 375.228 21.141 373.85 24.151 A 97.709 97.709 0 0 1 369.669 32.232 A 110.916 110.916 0 0 1 368.05 34.951 Q 364.7 40.401 360.75 45.401 A 58.862 58.862 0 0 1 355.372 51.36 A 49.717 49.717 0 0 1 352.4 54.001 A 66.011 66.011 0 0 0 351.565 58.45 A 59.276 59.276 0 0 0 351.45 59.251 A 37.76 37.76 0 0 0 351.138 62.565 A 31.905 31.905 0 0 0 351.1 64.101 A 22.133 22.133 0 0 0 351.187 66.136 Q 351.376 68.179 351.978 69.473 A 5.389 5.389 0 0 0 352.2 69.901 A 3.975 3.975 0 0 0 353.2 71.075 Q 354.14 71.801 355.5 71.801 Q 357.932 71.801 360.324 69.853 A 13.216 13.216 0 0 0 360.85 69.401 A 26.199 26.199 0 0 0 363.581 66.498 A 35.163 35.163 0 0 0 365.85 63.351 Q 368.2 59.701 369.9 55.801 Z M 403.2 55.801 L 404.4 56.701 A 38.699 38.699 0 0 1 399.77 64.499 A 34.54 34.54 0 0 1 397.55 67.101 A 34.719 34.719 0 0 1 392.089 71.839 A 29.735 29.735 0 0 1 388.55 73.951 A 22.673 22.673 0 0 1 382.158 76.105 A 20.349 20.349 0 0 1 378.7 76.401 A 17.65 17.65 0 0 1 375.185 76.074 Q 373.14 75.658 371.576 74.712 A 9.065 9.065 0 0 1 369.55 73.051 Q 366.5 69.701 366.5 64.801 A 20.368 20.368 0 0 1 367.212 59.58 A 27.753 27.753 0 0 1 368.75 55.301 A 39.353 39.353 0 0 1 374.721 45.935 A 43.151 43.151 0 0 1 374.75 45.901 A 36.04 36.04 0 0 1 380.261 40.631 A 31.684 31.684 0 0 1 383 38.751 A 20.295 20.295 0 0 1 386.918 36.871 A 15.115 15.115 0 0 1 391.9 36.001 Q 394.2 36.001 396.15 37.201 A 3.578 3.578 0 0 1 397.55 38.875 Q 398.096 40.126 398.1 42.072 A 14.038 14.038 0 0 1 398.1 42.101 A 12.531 12.531 0 0 1 396.022 48.988 A 15.179 15.179 0 0 1 395.85 49.251 Q 393.6 52.601 389.95 55.201 Q 386.3 57.801 381.95 59.451 A 33.683 33.683 0 0 1 375.049 61.287 A 30.478 30.478 0 0 1 373.3 61.501 A 23.767 23.767 0 0 0 373.089 62.712 A 19.875 19.875 0 0 0 373 63.401 A 16.544 16.544 0 0 0 372.914 64.487 A 13.732 13.732 0 0 0 372.9 65.101 Q 372.9 66.601 373.25 68.101 Q 373.6 69.601 374.5 70.851 A 5.787 5.787 0 0 0 376.392 72.519 A 7.101 7.101 0 0 0 376.95 72.801 A 7.298 7.298 0 0 0 378.509 73.291 Q 379.252 73.442 380.11 73.484 A 14.017 14.017 0 0 0 380.8 73.501 Q 385.1 73.501 389.3 71.051 Q 393.5 68.601 397.1 64.601 Q 400.7 60.601 403.2 55.801 Z M 582.3 55.801 L 583.5 56.701 A 38.699 38.699 0 0 1 578.87 64.499 A 34.54 34.54 0 0 1 576.65 67.101 A 34.719 34.719 0 0 1 571.189 71.839 A 29.735 29.735 0 0 1 567.65 73.951 A 22.673 22.673 0 0 1 561.258 76.105 A 20.349 20.349 0 0 1 557.8 76.401 A 17.65 17.65 0 0 1 554.285 76.074 Q 552.24 75.658 550.676 74.712 A 9.065 9.065 0 0 1 548.65 73.051 Q 545.6 69.701 545.6 64.801 A 20.368 20.368 0 0 1 546.312 59.58 A 27.753 27.753 0 0 1 547.85 55.301 A 39.353 39.353 0 0 1 553.821 45.935 A 43.151 43.151 0 0 1 553.85 45.901 A 36.04 36.04 0 0 1 559.361 40.631 A 31.684 31.684 0 0 1 562.1 38.751 A 20.295 20.295 0 0 1 566.018 36.871 A 15.115 15.115 0 0 1 571 36.001 Q 573.3 36.001 575.25 37.201 A 3.578 3.578 0 0 1 576.65 38.875 Q 577.196 40.126 577.2 42.072 A 14.038 14.038 0 0 1 577.2 42.101 A 12.531 12.531 0 0 1 575.122 48.988 A 15.179 15.179 0 0 1 574.95 49.251 Q 572.7 52.601 569.05 55.201 Q 565.4 57.801 561.05 59.451 A 33.683 33.683 0 0 1 554.149 61.287 A 30.478 30.478 0 0 1 552.4 61.501 A 23.767 23.767 0 0 0 552.189 62.712 A 19.875 19.875 0 0 0 552.1 63.401 A 16.544 16.544 0 0 0 552.014 64.487 A 13.732 13.732 0 0 0 552 65.101 Q 552 66.601 552.35 68.101 Q 552.7 69.601 553.6 70.851 A 5.787 5.787 0 0 0 555.492 72.519 A 7.101 7.101 0 0 0 556.05 72.801 A 7.298 7.298 0 0 0 557.609 73.291 Q 558.352 73.442 559.21 73.484 A 14.017 14.017 0 0 0 559.9 73.501 Q 564.2 73.501 568.4 71.051 Q 572.6 68.601 576.2 64.601 Q 579.8 60.601 582.3 55.801 Z M 605.1 40.501 L 605.1 39.301 Q 605.1 36.232 605.96 34.642 A 3.878 3.878 0 0 1 606.35 34.051 Q 607.13 33.084 607.968 32.72 A 2.569 2.569 0 0 1 609 32.501 A 2.55 2.55 0 0 1 609.45 32.538 Q 609.922 32.623 610.2 32.901 A 1.474 1.474 0 0 1 610.459 33.242 A 1.16 1.16 0 0 1 610.6 33.801 A 2.542 2.542 0 0 1 610.581 34.088 Q 610.525 34.576 610.3 35.401 A 7.414 7.414 0 0 0 610.117 36.31 Q 610 37.138 610 38.201 A 19.398 19.398 0 0 0 610.367 41.862 A 26.656 26.656 0 0 0 611.3 45.351 Q 612.6 49.201 613.9 53.451 Q 615.2 57.701 615.2 62.301 Q 615.2 63.601 615.05 64.851 A 17.018 17.018 0 0 1 614.757 66.57 A 14.686 14.686 0 0 1 614.6 67.201 Q 618.1 66.601 621.2 64.051 A 16.612 16.612 0 0 0 623.402 61.824 Q 624.372 60.656 625.322 59.175 A 41.041 41.041 0 0 0 627.2 55.901 L 628.1 56.901 A 21.097 21.097 0 0 1 626.243 60.932 A 15.032 15.032 0 0 1 622.4 65.251 Q 618.6 68.101 614.1 68.801 Q 612.5 73.101 609.05 75.101 A 14.954 14.954 0 0 1 602.165 77.08 A 17.956 17.956 0 0 1 601.3 77.101 A 17.447 17.447 0 0 1 598.303 76.859 Q 595.656 76.397 593.85 75.051 A 11.703 11.703 0 0 1 590.956 71.993 A 10.882 10.882 0 0 1 589.95 70.001 A 17.031 17.031 0 0 1 588.855 65.313 A 15.7 15.7 0 0 1 588.8 64.001 Q 588.8 61.001 589.6 59.401 A 7.922 7.922 0 0 1 590.308 58.233 Q 590.775 57.6 591.329 57.164 A 4.671 4.671 0 0 1 591.55 57.001 Q 592.662 56.227 593.68 55.828 A 7.542 7.542 0 0 1 593.75 55.801 Q 594.8 55.401 595.2 55.001 Q 598.2 51.701 600.7 48.101 Q 603.2 44.501 605.1 40.501 Z M 502.3 55.801 L 503.2 56.801 Q 500.573 64.592 495.852 69.101 A 21.944 21.944 0 0 1 494.85 70.001 A 21.835 21.835 0 0 1 490.524 72.893 A 15.582 15.582 0 0 1 483.5 74.601 Q 480.354 74.601 478.51 73.007 A 5.932 5.932 0 0 1 477.7 72.151 A 9.016 9.016 0 0 1 475.881 67.605 A 11.798 11.798 0 0 1 475.8 66.201 Q 475.8 64.656 476.184 62.569 A 39.423 39.423 0 0 1 476.65 60.401 A 64.863 64.863 0 0 1 477.927 55.889 A 78.669 78.669 0 0 1 478.9 53.051 A 53.414 53.414 0 0 1 481.921 46.228 A 49.306 49.306 0 0 1 482.15 45.801 A 31.029 31.029 0 0 1 483.817 43.065 Q 484.712 41.761 485.66 40.718 A 17.836 17.836 0 0 1 486.1 40.251 Q 487.401 38.919 488.664 38.412 A 4.102 4.102 0 0 1 490.2 38.101 A 2.459 2.459 0 0 1 491.11 38.265 A 2.282 2.282 0 0 1 491.75 38.651 A 1.752 1.752 0 0 1 492.308 39.552 Q 492.4 39.888 492.4 40.301 Q 492.4 41.414 491.067 43.817 A 30.151 30.151 0 0 1 490.85 44.201 Q 489.518 46.521 487.78 49.432 A 527.778 527.778 0 0 1 487.2 50.401 Q 485.1 53.901 483.55 57.751 Q 482 61.601 482 65.101 A 16.948 16.948 0 0 0 482.066 66.657 Q 482.281 68.982 483.2 69.901 A 3.696 3.696 0 0 0 484.611 70.762 Q 485.196 70.969 485.918 71.049 A 8.857 8.857 0 0 0 486.9 71.101 A 7.976 7.976 0 0 0 489.947 70.456 Q 491.121 69.973 492.342 69.127 A 19.563 19.563 0 0 0 494.15 67.701 A 20.815 20.815 0 0 0 496.569 65.117 Q 499.327 61.678 502.3 55.801 Z M 353.3 50.601 A 62.647 62.647 0 0 0 357.808 45.555 A 75.912 75.912 0 0 0 360.1 42.551 Q 363.4 38.001 366.25 33.101 Q 369.1 28.201 371.3 23.601 Q 373.5 19.001 374.7 15.351 Q 375.698 12.316 375.866 10.421 A 8.177 8.177 0 0 0 375.9 9.701 A 6.299 6.299 0 0 0 375.888 9.297 Q 375.849 8.691 375.682 8.443 A 0.526 0.526 0 0 0 375.65 8.401 A 1.556 1.556 0 0 0 375.536 8.277 Q 375.408 8.153 375.294 8.117 A 0.304 0.304 0 0 0 375.2 8.101 A 0.927 0.927 0 0 0 374.764 8.24 Q 373.945 8.696 372.45 10.651 A 49.537 49.537 0 0 0 371.033 12.611 Q 369.606 14.679 367.9 17.501 Q 365.3 21.801 362.6 27.301 A 183.076 183.076 0 0 0 357.603 38.426 A 199.301 199.301 0 0 0 357.45 38.801 A 123.762 123.762 0 0 0 353.765 49.057 A 111.599 111.599 0 0 0 353.3 50.601 Z M 378.915 57.447 A 63.326 63.326 0 0 0 379.9 56.951 Q 383.3 55.201 386.45 52.801 A 25.888 25.888 0 0 0 390.073 49.478 A 22.105 22.105 0 0 0 391.65 47.501 A 11.479 11.479 0 0 0 393.203 44.478 A 9.744 9.744 0 0 0 393.7 41.401 A 4.876 4.876 0 0 0 393.661 40.762 Q 393.575 40.113 393.3 39.701 A 1.112 1.112 0 0 0 392.838 39.318 Q 392.454 39.135 391.839 39.106 A 5.098 5.098 0 0 0 391.6 39.101 A 7.193 7.193 0 0 0 389.205 39.535 Q 388.261 39.867 387.277 40.453 A 14.496 14.496 0 0 0 386.5 40.951 A 23.1 23.1 0 0 0 383.526 43.396 A 30.237 30.237 0 0 0 381.3 45.801 Q 378.8 48.801 376.8 52.401 A 34.613 34.613 0 0 0 374.523 57.351 A 30.043 30.043 0 0 0 373.8 59.601 Q 376.103 58.833 378.915 57.447 Z M 558.015 57.447 A 63.326 63.326 0 0 0 559 56.951 Q 562.4 55.201 565.55 52.801 A 25.888 25.888 0 0 0 569.173 49.478 A 22.105 22.105 0 0 0 570.75 47.501 A 11.479 11.479 0 0 0 572.303 44.478 A 9.744 9.744 0 0 0 572.8 41.401 A 4.876 4.876 0 0 0 572.761 40.762 Q 572.675 40.113 572.4 39.701 A 1.112 1.112 0 0 0 571.938 39.318 Q 571.554 39.135 570.939 39.106 A 5.098 5.098 0 0 0 570.7 39.101 A 7.193 7.193 0 0 0 568.305 39.535 Q 567.361 39.867 566.377 40.453 A 14.496 14.496 0 0 0 565.6 40.951 A 23.1 23.1 0 0 0 562.626 43.396 A 30.237 30.237 0 0 0 560.4 45.801 Q 557.9 48.801 555.9 52.401 A 34.613 34.613 0 0 0 553.623 57.351 A 30.043 30.043 0 0 0 552.9 59.601 Q 555.203 58.833 558.015 57.447 Z M 608.3 67.101 A 19.451 19.451 0 0 0 608.559 65.41 A 21.948 21.948 0 0 0 608.6 65.001 A 21.766 21.766 0 0 0 608.661 64.12 Q 608.685 63.631 608.695 63.082 A 40.906 40.906 0 0 0 608.7 62.401 Q 608.7 57.701 607.55 53.051 Q 606.4 48.401 605.6 44.301 Q 603.3 48.101 600.75 51.551 Q 598.698 54.327 596.808 56.359 A 36.317 36.317 0 0 1 595.9 57.301 A 16.847 16.847 0 0 0 598.263 60.96 A 22.249 22.249 0 0 0 600.55 63.301 Q 603.7 66.101 608.3 67.101 Z M 183.504 93.871 A 42.478 42.478 0 0 0 184.45 92.851 A 22.257 22.257 0 0 0 186.482 90.158 Q 189.125 86.116 192 79.001 A 161.342 161.342 0 0 0 187.109 81.731 A 133.705 133.705 0 0 0 184.4 83.351 A 27.717 27.717 0 0 0 181.516 85.371 Q 179.948 86.634 178.8 88.001 Q 176.7 90.501 176.7 93.801 Q 176.7 94.366 177 95.082 A 6.733 6.733 0 0 0 177.3 95.701 A 2.015 2.015 0 0 0 178.767 96.744 A 3.356 3.356 0 0 0 179.4 96.801 Q 180.692 96.801 183.504 93.871 Z M 604.321 72.948 A 19.399 19.399 0 0 0 604.7 72.801 A 4.024 4.024 0 0 0 606.253 71.652 Q 607.159 70.599 607.781 68.758 A 14.585 14.585 0 0 0 607.8 68.701 Q 603.6 67.901 600.35 65.401 A 27.871 27.871 0 0 1 598.145 63.526 Q 597.117 62.549 596.341 61.573 A 14.125 14.125 0 0 1 595.5 60.401 Q 593.345 60.499 593.301 63.763 A 10.2 10.2 0 0 0 593.3 63.901 Q 593.3 67.501 595.45 70.551 A 6.832 6.832 0 0 0 600.381 73.534 A 9.065 9.065 0 0 0 601.5 73.601 Q 602.584 73.601 604.321 72.948 Z M 595.1 14.401 Q 594.2 13.901 593.8 12.901 Q 593.4 11.901 593.4 10.701 Q 593.4 8.732 594.191 6.412 A 19.379 19.379 0 0 1 594.3 6.101 A 17.26 17.26 0 0 1 595.434 3.576 A 13.709 13.709 0 0 1 596.6 1.801 Q 597.406 0.765 598.244 0.325 A 2.677 2.677 0 0 1 599.5 0.001 A 2.177 2.177 0 0 1 600.985 0.584 A 3.091 3.091 0 0 1 601.25 0.851 Q 602 1.701 602 2.801 A 27.984 27.984 0 0 0 599.378 5.924 A 21.839 21.839 0 0 0 597.65 8.751 Q 596.1 11.801 595.1 14.401 Z M 493.691 28.508 A 5.454 5.454 0 0 0 495.5 28.801 A 6.275 6.275 0 0 0 498.038 28.27 A 7.696 7.696 0 0 0 499.95 27.051 Q 500.943 26.203 501.455 25.32 A 3.784 3.784 0 0 0 502 23.401 A 5.35 5.35 0 0 0 501.962 22.742 Q 501.814 21.556 501.1 21.001 A 2.889 2.889 0 0 0 500.713 20.747 Q 499.898 20.301 498.7 20.301 Q 496.3 20.301 493.85 21.851 Q 492.855 22.481 492.264 23.201 A 3.549 3.549 0 0 0 491.4 25.501 A 4.027 4.027 0 0 0 491.44 26.083 A 2.614 2.614 0 0 0 492.65 28.001 A 4.951 4.951 0 0 0 493.691 28.508 Z"
+                      vector-effect="non-scaling-stroke"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </div>
+            <canvas id="queue"></canvas>
+            <div id="timerWrapper">
+              <div id="timer">10:10.2020</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="panelTab">
+          <div id="panelIcon">
+            <div id="panelIconLeft">
+              <svg
+                id="leftSvg"
+                viewBox="6 0 14 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M6 12H18M6 12L11 7M6 12L11 17"
+                    stroke="gray"
+                    stroke-width="1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </g>
+              </svg>
+            </div>
+
+            <div id="panelIconMid">
+              <svg
+                id="midSvg"
+                viewBox="11.5 0 1 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <g id="Interface / Line_Xl">
+                    <path
+                      id="Vector"
+                      d="M12 21V3"
+                      stroke="gray"
+                      stroke-width="1"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
                   </g>
                 </g>
               </svg>
             </div>
-          </div>
-          <div id="playfield">
-            <canvas id="background"></canvas>
-            <canvas id="field" tabindex="1"></canvas>
-          </div>
-          <canvas id="queue"></canvas>
-        </div>
-      </div>
 
-      <div id="panelTab">
-        <div id="panelIcon">
-          <div id="panelIconLeft">
-            <svg id="leftSvg" viewBox="6 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
-                <path d="M6 12H18M6 12L11 7M6 12L11 17" stroke="gray" stroke-width="1" stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-              </g>
-            </svg>
-          </div>
-
-          <div id="panelIconMid">
-            <svg id="midSvg" viewBox="11.5 0 1 24" xmlns="http://www.w3.org/2000/svg">
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
-                <g id="Interface / Line_Xl">
-                  <path id="Vector" d="M12 21V3" stroke="gray" stroke-width="1" stroke-linecap="round"
-                    stroke-linejoin="round"></path>
+            <div id="panelIconRight">
+              <svg
+                id="rightSvg"
+                viewBox="6 0 14 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                transform="rotate(180)"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M6 12H18M6 12L11 7M6 12L11 17"
+                    stroke="gray"
+                    stroke-width="1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
                 </g>
-              </g>
-            </svg>
-          </div>
-
-          <div id="panelIconRight">
-            <svg id="rightSvg" viewBox="6 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-              transform="rotate(180)">
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
-                <path d="M6 12H18M6 12L11 7M6 12L11 17" stroke="gray" stroke-width="1" stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-              </g>
-            </svg>
+              </svg>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div id="sidePanel">
-
-        <div id="sidePanelContent" tabindex="1">
-
-          <div id="tabs">
-            <div id="dataTab" class="tab activeTab">
-              <h2>Data</h2>
-            </div>
-            <div id="settingsTab" class="tab">
-              <h2>Settings</h2>
-            </div>
-          </div>
-
-          <div id="panelMain">
-
-            <div id="settings">
-              <h3>Handling</h3>
-              <div id="handling">
-                <div class="setting">
-                  <h4>DAS (ms):</h4>
-                  <input type="range" id="dasSlider" name="das" min="10" max="200" value="130" step="1">
-                  <p id="dasSliderVal"></p>
-                </div>
-                <div class="setting">
-                  <h4>ARR (ms):</h4>
-                  <input type="range" id="arrSlider" name="arr" min="0" max="200" value="50" step="1">
-                  <p id="arrSliderVal"></p>
-                </div>
-                <div class="setting">
-                  <h4>Soft Drop (ms):</h4>
-                  <input type="range" id="softDropSlider" name="softdrop" min="0" max="200" value="50" step="1">
-                  <p id="softDropSliderVal"></p>
-                </div>
+        <div id="sidePanel">
+          <div id="sidePanelContent" tabindex="1">
+            <div id="tabs">
+              <div id="dataTab" class="tab activeTab">
+                <h2>Data</h2>
               </div>
-
-              <h3>Key Binds</h3>
-              <div id="keyBinds">
-                <div id="keyBindButtons">
-                  <button id="resetAll">Reset to Defaults</button>
-                  <button id="changeAll">Change All Key Binds</button>
-                </div>
-                <div class="setting">
-                  <h4>Left:</h4>
-                  <div class="key">
-                    <p id="leftKeyText"></p>
-                  </div>
-                  <button id="leftKeyButton">change</button>
-                </div>
-                <div class="setting">
-                  <h4>Right:</h4>
-                  <div class="key">
-                    <p id="rightKeyText"></p>
-                  </div>
-                  <button id="rightKeyButton">change</button>
-                </div>
-                <div class="setting">
-                  <h4>Soft Drop:</h4>
-                  <div class="key">
-                    <p id="softKeyText"></p>
-                  </div>
-                  <button id="softKeyButton">change</button>
-                </div>
-                <div class="setting">
-                  <h4>Hard Drop:</h4>
-                  <div class="key">
-                    <p id="hardKeyText"></p>
-                  </div>
-                  <button id="hardKeyButton">change</button>
-                </div>
-                <div class="setting">
-                  <h4>Hold:</h4>
-                  <div class="key">
-                    <p id="holdKeyText"></p>
-                  </div>
-                  <button id="holdKeyButton">change</button>
-                </div>
-                <div class="setting">
-                  <h4>Rotate Counterclockwise:</h4>
-                  <div class="key">
-                    <p id="ccrKeyText"></p>
-                  </div>
-                  <button id="ccrKeyButton">change</button>
-                </div>
-                <div class="setting">
-                  <h4>Rotate Clockwise:</h4>
-                  <div class="key">
-                    <p id="crKeyText"></p>
-                  </div>
-                  <button id="crKeyButton">change</button>
-                </div>
-                <div class="setting">
-                  <h4>Rotate 180:</h4>
-                  <div class="key">
-                    <p id="r180KeyText"></p>
-                  </div>
-                  <button id="r180KeyButton">change</button>
-                </div>
-                <div class="setting">
-                  <h4>Restart:</h4>
-                  <div class="key">
-                    <p id="restartKeyText"></p>
-                  </div>
-                  <button id="restartKeyButton">change</button>
-                </div>
-                <div class="setting">
-                  <h4>Undo:</h4>
-                  <div class="key">
-                    <p id="undoKeyText"></p>
-                  </div>
-                  <button id="undoKeyButton">change</button>
-                </div>
-                <div class="setting">
-                  <h4>Redo:</h4>
-                  <div class="key">
-                    <p id="redoKeyText"></p>
-                  </div>
-                  <button id="redoKeyButton">change</button>
-                </div>
+              <div id="settingsTab" class="tab">
+                <h2>Settings</h2>
               </div>
             </div>
 
-            <div id="data">
-              <h3>Import Board State</h3>
-              <div id="import">
-                <!-- <h4>Data:</h4> -->
-                <textarea id="importText" cols="30" rows="10" spellcheck="false"></textarea>
-                <div id="importButtonWrapper">
-                  <button id="importButton">Import</button>
-                  <button id="clearImport">Clear</button>
+            <div id="panelMain">
+              <div id="settings">
+                <h3>Handling</h3>
+                <div id="handling">
+                  <div class="setting">
+                    <h4>DAS (ms):</h4>
+                    <input
+                      type="range"
+                      id="dasSlider"
+                      name="das"
+                      min="10"
+                      max="200"
+                      value="130"
+                      step="1"
+                    />
+                    <p id="dasSliderVal"></p>
+                  </div>
+                  <div class="setting">
+                    <h4>ARR (ms):</h4>
+                    <input
+                      type="range"
+                      id="arrSlider"
+                      name="arr"
+                      min="0"
+                      max="200"
+                      value="50"
+                      step="1"
+                    />
+                    <p id="arrSliderVal"></p>
+                  </div>
+                  <div class="setting">
+                    <h4>Soft Drop (ms):</h4>
+                    <input
+                      type="range"
+                      id="softDropSlider"
+                      name="softdrop"
+                      min="0"
+                      max="200"
+                      value="50"
+                      step="1"
+                    />
+                    <p id="softDropSliderVal"></p>
+                  </div>
                 </div>
 
-              </div>
-              <h3>Export Board State</h3>
-              <div id="export">
-                <div id="exportOptions">
-
-                  <div class="exportOption">
+                <h3>Key Binds</h3>
+                <div id="keyBinds">
+                  <div id="keyBindButtons">
+                    <button id="resetAll">Reset to Defaults</button>
+                    <button id="changeAll">Change All Key Binds</button>
                   </div>
+                  <div class="setting">
+                    <h4>Left:</h4>
+                    <div class="key">
+                      <p id="leftKeyText"></p>
+                    </div>
+                    <button id="leftKeyButton">change</button>
+                  </div>
+                  <div class="setting">
+                    <h4>Right:</h4>
+                    <div class="key">
+                      <p id="rightKeyText"></p>
+                    </div>
+                    <button id="rightKeyButton">change</button>
+                  </div>
+                  <div class="setting">
+                    <h4>Soft Drop:</h4>
+                    <div class="key">
+                      <p id="softKeyText"></p>
+                    </div>
+                    <button id="softKeyButton">change</button>
+                  </div>
+                  <div class="setting">
+                    <h4>Hard Drop:</h4>
+                    <div class="key">
+                      <p id="hardKeyText"></p>
+                    </div>
+                    <button id="hardKeyButton">change</button>
+                  </div>
+                  <div class="setting">
+                    <h4>Hold:</h4>
+                    <div class="key">
+                      <p id="holdKeyText"></p>
+                    </div>
+                    <button id="holdKeyButton">change</button>
+                  </div>
+                  <div class="setting">
+                    <h4>Rotate Counterclockwise:</h4>
+                    <div class="key">
+                      <p id="ccrKeyText"></p>
+                    </div>
+                    <button id="ccrKeyButton">change</button>
+                  </div>
+                  <div class="setting">
+                    <h4>Rotate Clockwise:</h4>
+                    <div class="key">
+                      <p id="crKeyText"></p>
+                    </div>
+                    <button id="crKeyButton">change</button>
+                  </div>
+                  <div class="setting">
+                    <h4>Rotate 180:</h4>
+                    <div class="key">
+                      <p id="r180KeyText"></p>
+                    </div>
+                    <button id="r180KeyButton">change</button>
+                  </div>
+                  <div class="setting">
+                    <h4>Restart:</h4>
+                    <div class="key">
+                      <p id="restartKeyText"></p>
+                    </div>
+                    <button id="restartKeyButton">change</button>
+                  </div>
+                  <div class="setting">
+                    <h4>Undo:</h4>
+                    <div class="key">
+                      <p id="undoKeyText"></p>
+                    </div>
+                    <button id="undoKeyButton">change</button>
+                  </div>
+                  <div class="setting">
+                    <h4>Redo:</h4>
+                    <div class="key">
+                      <p id="redoKeyText"></p>
+                    </div>
+                    <button id="redoKeyButton">change</button>
+                  </div>
+                </div>
+              </div>
 
+              <div id="data">
+                <h3>Import Board State</h3>
+                <div id="import">
+                  <!-- <h4>Data:</h4> -->
+                  <textarea
+                    id="importText"
+                    cols="30"
+                    rows="10"
+                    spellcheck="false"
+                  ></textarea>
+                  <div id="importButtonWrapper">
+                    <button id="importButton">Import</button>
+                    <button id="clearImport">Clear</button>
+                  </div>
+                </div>
+                <h3>Export Board State</h3>
+                <div id="export">
+                  <div id="exportOptions">
+                    <div class="exportOption"></div>
 
-                  <div class="exportOption">
-                    <div id="customInputs">
-                      <div class="exportOption">
-                        <h4>Current Hold: </h4>
-                        <input type="text" id="holdInput" maxlength="1">
+                    <div class="exportOption">
+                      <div id="customInputs">
+                        <div class="exportOption">
+                          <h4>Current Hold:</h4>
+                          <input type="text" id="holdInput" maxlength="1" />
+                        </div>
+
+                        <div class="exportOption">
+                          <h4>Current Queue:</h4>
+                          <!-- <textarea id="customQueue" cols="7" rows="5" wrap="soft"></textarea> -->
+                          <textarea
+                            id="customQueue"
+                            cols="7"
+                            wrap="soft"
+                            spellcheck="false"
+                          ></textarea>
+                        </div>
                       </div>
 
-                      <div class="exportOption">
-                        <h4>Current Queue: </h4>
-                        <!-- <textarea id="customQueue" cols="7" rows="5" wrap="soft"></textarea> -->
-                        <textarea id="customQueue" cols="7" wrap="soft" spellcheck="false"></textarea>
+                      <!-- <button id="modifyQueueHold" disabled>Update</button> -->
+                    </div>
+
+                    <div class="exportOption">
+                      <div class="checkbox-wrapper-65">
+                        <label for="queueRegen">
+                          <input type="checkbox" id="queueRegen" />
+                          <span class="cbx">
+                            <svg width="12px" height="11px" viewBox="0 0 12 11">
+                              <polyline
+                                points="1 6.29411765 4.5 10 11 1"
+                              ></polyline>
+                            </svg>
+                          </span>
+                          <span>Regenerate queue?</span>
+                        </label>
                       </div>
                     </div>
-
-                    <!-- <button id="modifyQueueHold" disabled>Update</button> -->
-
                   </div>
 
-                  <div class="exportOption">
-                    <div class="checkbox-wrapper-65">
-                      <label for="queueRegen">
-                        <input type="checkbox" id="queueRegen">
-                        <span class="cbx">
-                          <svg width="12px" height="11px" viewBox="0 0 12 11">
-                            <polyline points="1 6.29411765 4.5 10 11 1"></polyline>
-                          </svg>
-                        </span>
-                        <span>Regenerate queue?</span>
-                      </label>
-                    </div>
+                  <textarea
+                    name="exportText"
+                    id="exportArea"
+                    readonly="true"
+                    cols="30"
+                    rows="10"
+                    spellcheck="false"
+                  ></textarea>
+                  <div id="exportButtons">
+                    <button id="copyAsLink">Copy As Link</button>
+                    <button id="copyRaw">Copy</button>
                   </div>
-
                 </div>
-
-                <textarea name="exportText" id="exportArea" readonly="true" cols="30" rows="10" spellcheck="false"></textarea>
-                <div id="exportButtons">
-                  <button id="copyAsLink">Copy As Link</button>
-                  <button id="copyRaw">Copy</button>
-                </div>
-
               </div>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
 
-  <div id="version">
-    <p id="versionNum">Ver 0.1.1</p>
-    <svg id="changeLogSvg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-      <g id="SVGRepo_iconCarrier">
-        <path fill-rule="evenodd" clip-rule="evenodd"
-          d="M10.9436 1.25H13.0564C14.8942 1.24998 16.3498 1.24997 17.489 1.40314C18.6614 1.56076 19.6104 1.89288 20.3588 2.64124C20.6516 2.93414 20.6516 3.40901 20.3588 3.7019C20.0659 3.9948 19.591 3.9948 19.2981 3.7019C18.8749 3.27869 18.2952 3.02502 17.2892 2.88976C16.2615 2.75159 14.9068 2.75 13 2.75H11C9.09318 2.75 7.73851 2.75159 6.71085 2.88976C5.70476 3.02502 5.12511 3.27869 4.7019 3.7019C4.27869 4.12511 4.02502 4.70476 3.88976 5.71085C3.75159 6.73851 3.75 8.09318 3.75 10V14C3.75 15.9068 3.75159 17.2615 3.88976 18.2892C4.02502 19.2952 4.27869 19.8749 4.7019 20.2981C5.12511 20.7213 5.70476 20.975 6.71085 21.1102C7.73851 21.2484 9.09318 21.25 11 21.25H13C14.9068 21.25 16.2615 21.2484 17.2892 21.1102C18.2952 20.975 18.8749 20.7213 19.2981 20.2981C19.994 19.6022 20.2048 18.5208 20.2414 15.9892C20.2474 15.575 20.588 15.2441 21.0022 15.2501C21.4163 15.2561 21.7472 15.5967 21.7412 16.0108C21.7061 18.4383 21.549 20.1685 20.3588 21.3588C19.6104 22.1071 18.6614 22.4392 17.489 22.5969C16.3498 22.75 14.8942 22.75 13.0564 22.75H10.9436C9.10583 22.75 7.65019 22.75 6.51098 22.5969C5.33856 22.4392 4.38961 22.1071 3.64124 21.3588C2.89288 20.6104 2.56076 19.6614 2.40314 18.489C2.24997 17.3498 2.24998 15.8942 2.25 14.0564V9.94358C2.24998 8.10582 2.24997 6.65019 2.40314 5.51098C2.56076 4.33856 2.89288 3.38961 3.64124 2.64124C4.38961 1.89288 5.33856 1.56076 6.51098 1.40314C7.65019 1.24997 9.10582 1.24998 10.9436 1.25ZM18.1131 7.04556C19.1739 5.98481 20.8937 5.98481 21.9544 7.04556C23.0152 8.1063 23.0152 9.82611 21.9544 10.8869L17.1991 15.6422C16.9404 15.901 16.7654 16.076 16.5693 16.2289C16.3387 16.4088 16.0892 16.563 15.8252 16.6889C15.6007 16.7958 15.3659 16.8741 15.0187 16.9897L12.9351 17.6843C12.4751 17.8376 11.9679 17.7179 11.625 17.375C11.2821 17.0321 11.1624 16.5249 11.3157 16.0649L11.9963 14.0232C12.001 14.0091 12.0056 13.9951 12.0102 13.9813C12.1259 13.6342 12.2042 13.3993 12.3111 13.1748C12.437 12.9108 12.5912 12.6613 12.7711 12.4307C12.924 12.2346 13.099 12.0596 13.3578 11.8009C13.3681 11.7906 13.3785 11.7802 13.3891 11.7696L18.1131 7.04556ZM20.8938 8.10622C20.4188 7.63126 19.6488 7.63126 19.1738 8.10622L18.992 8.288C19.0019 8.32149 19.0132 8.3571 19.0262 8.39452C19.1202 8.66565 19.2988 9.02427 19.6372 9.36276C19.9757 9.70125 20.3343 9.87975 20.6055 9.97382C20.6429 9.9868 20.6785 9.99812 20.712 10.008L20.8938 9.8262C21.3687 9.35124 21.3687 8.58118 20.8938 8.10622ZM19.5664 11.1536C19.2485 10.9866 18.9053 10.7521 18.5766 10.4234C18.2479 10.0947 18.0134 9.75146 17.8464 9.43357L14.4497 12.8303C14.1487 13.1314 14.043 13.2388 13.9538 13.3532C13.841 13.4979 13.7442 13.6545 13.6652 13.8202C13.6028 13.9511 13.5539 14.0936 13.4193 14.4976L13.019 15.6985L13.3015 15.981L14.5024 15.5807C14.9064 15.4461 15.0489 15.3972 15.1798 15.3348C15.3455 15.2558 15.5021 15.159 15.6468 15.0462C15.7612 14.957 15.8686 14.8513 16.1697 14.5503L19.5664 11.1536ZM7.25 9C7.25 8.58579 7.58579 8.25 8 8.25H14.5C14.9142 8.25 15.25 8.58579 15.25 9C15.25 9.41421 14.9142 9.75 14.5 9.75H8C7.58579 9.75 7.25 9.41421 7.25 9ZM7.25 13C7.25 12.5858 7.58579 12.25 8 12.25H10.5C10.9142 12.25 11.25 12.5858 11.25 13C11.25 13.4142 10.9142 13.75 10.5 13.75H8C7.58579 13.75 7.25 13.4142 7.25 13ZM7.25 17C7.25 16.5858 7.58579 16.25 8 16.25H9.5C9.91421 16.25 10.25 16.5858 10.25 17C10.25 17.4142 9.91421 17.75 9.5 17.75H8C7.58579 17.75 7.25 17.4142 7.25 17Z">
-        </path>
-      </g>
-    </svg>
-  </div>
+    <div id="version">
+      <p id="versionNum">Ver 0.2.0</p>
+      <svg
+        id="changeLogSvg"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g
+          id="SVGRepo_tracerCarrier"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></g>
+        <g id="SVGRepo_iconCarrier">
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M10.9436 1.25H13.0564C14.8942 1.24998 16.3498 1.24997 17.489 1.40314C18.6614 1.56076 19.6104 1.89288 20.3588 2.64124C20.6516 2.93414 20.6516 3.40901 20.3588 3.7019C20.0659 3.9948 19.591 3.9948 19.2981 3.7019C18.8749 3.27869 18.2952 3.02502 17.2892 2.88976C16.2615 2.75159 14.9068 2.75 13 2.75H11C9.09318 2.75 7.73851 2.75159 6.71085 2.88976C5.70476 3.02502 5.12511 3.27869 4.7019 3.7019C4.27869 4.12511 4.02502 4.70476 3.88976 5.71085C3.75159 6.73851 3.75 8.09318 3.75 10V14C3.75 15.9068 3.75159 17.2615 3.88976 18.2892C4.02502 19.2952 4.27869 19.8749 4.7019 20.2981C5.12511 20.7213 5.70476 20.975 6.71085 21.1102C7.73851 21.2484 9.09318 21.25 11 21.25H13C14.9068 21.25 16.2615 21.2484 17.2892 21.1102C18.2952 20.975 18.8749 20.7213 19.2981 20.2981C19.994 19.6022 20.2048 18.5208 20.2414 15.9892C20.2474 15.575 20.588 15.2441 21.0022 15.2501C21.4163 15.2561 21.7472 15.5967 21.7412 16.0108C21.7061 18.4383 21.549 20.1685 20.3588 21.3588C19.6104 22.1071 18.6614 22.4392 17.489 22.5969C16.3498 22.75 14.8942 22.75 13.0564 22.75H10.9436C9.10583 22.75 7.65019 22.75 6.51098 22.5969C5.33856 22.4392 4.38961 22.1071 3.64124 21.3588C2.89288 20.6104 2.56076 19.6614 2.40314 18.489C2.24997 17.3498 2.24998 15.8942 2.25 14.0564V9.94358C2.24998 8.10582 2.24997 6.65019 2.40314 5.51098C2.56076 4.33856 2.89288 3.38961 3.64124 2.64124C4.38961 1.89288 5.33856 1.56076 6.51098 1.40314C7.65019 1.24997 9.10582 1.24998 10.9436 1.25ZM18.1131 7.04556C19.1739 5.98481 20.8937 5.98481 21.9544 7.04556C23.0152 8.1063 23.0152 9.82611 21.9544 10.8869L17.1991 15.6422C16.9404 15.901 16.7654 16.076 16.5693 16.2289C16.3387 16.4088 16.0892 16.563 15.8252 16.6889C15.6007 16.7958 15.3659 16.8741 15.0187 16.9897L12.9351 17.6843C12.4751 17.8376 11.9679 17.7179 11.625 17.375C11.2821 17.0321 11.1624 16.5249 11.3157 16.0649L11.9963 14.0232C12.001 14.0091 12.0056 13.9951 12.0102 13.9813C12.1259 13.6342 12.2042 13.3993 12.3111 13.1748C12.437 12.9108 12.5912 12.6613 12.7711 12.4307C12.924 12.2346 13.099 12.0596 13.3578 11.8009C13.3681 11.7906 13.3785 11.7802 13.3891 11.7696L18.1131 7.04556ZM20.8938 8.10622C20.4188 7.63126 19.6488 7.63126 19.1738 8.10622L18.992 8.288C19.0019 8.32149 19.0132 8.3571 19.0262 8.39452C19.1202 8.66565 19.2988 9.02427 19.6372 9.36276C19.9757 9.70125 20.3343 9.87975 20.6055 9.97382C20.6429 9.9868 20.6785 9.99812 20.712 10.008L20.8938 9.8262C21.3687 9.35124 21.3687 8.58118 20.8938 8.10622ZM19.5664 11.1536C19.2485 10.9866 18.9053 10.7521 18.5766 10.4234C18.2479 10.0947 18.0134 9.75146 17.8464 9.43357L14.4497 12.8303C14.1487 13.1314 14.043 13.2388 13.9538 13.3532C13.841 13.4979 13.7442 13.6545 13.6652 13.8202C13.6028 13.9511 13.5539 14.0936 13.4193 14.4976L13.019 15.6985L13.3015 15.981L14.5024 15.5807C14.9064 15.4461 15.0489 15.3972 15.1798 15.3348C15.3455 15.2558 15.5021 15.159 15.6468 15.0462C15.7612 14.957 15.8686 14.8513 16.1697 14.5503L19.5664 11.1536ZM7.25 9C7.25 8.58579 7.58579 8.25 8 8.25H14.5C14.9142 8.25 15.25 8.58579 15.25 9C15.25 9.41421 14.9142 9.75 14.5 9.75H8C7.58579 9.75 7.25 9.41421 7.25 9ZM7.25 13C7.25 12.5858 7.58579 12.25 8 12.25H10.5C10.9142 12.25 11.25 12.5858 11.25 13C11.25 13.4142 10.9142 13.75 10.5 13.75H8C7.58579 13.75 7.25 13.4142 7.25 13ZM7.25 17C7.25 16.5858 7.58579 16.25 8 16.25H9.5C9.91421 16.25 10.25 16.5858 10.25 17C10.25 17.4142 9.91421 17.75 9.5 17.75H8C7.58579 17.75 7.25 17.4142 7.25 17Z"
+          ></path>
+        </g>
+      </svg>
+    </div>
 
-  <script src="main.js"> </script>
-</body>
-
+    <script src="main.js"></script>
+  </body>
 </html>
