@@ -32,11 +32,6 @@
             <a id="titleLink" href="/">
                 <h1 id="titleText">Sketris</h1>
             </a>
-            <a
-                href="https://mxmoss.me/sketris/?data=goAAhQCBgIFQ9QEZTIwBAl0BAQOZAgEGjE0CAJ0DAQGZBAEGjQOcXQMAmQFZAwEEjQMBAVycXJ0BmQFZApgBBY0B0ACcXQGdAQEBWQGYWQEBBtBRAV0CnAEBmFkBmQIBB1EB0J0BAQKZAViZAgEG0QFQAQWZBAEI0AEHmQIBAw=="
-                style="font-size: 3em"
-                >💞</a
-            >
             <div id="roomDiv">
                 <div id="roomInfo">
                     <div id="roomManager">
@@ -59,9 +54,25 @@
                         <canvas id="imageControls"></canvas>
                     </div>
 
-                    <div id="preview">
-                        <canvas id="previewBackground"></canvas>
-                        <canvas id="previewField"></canvas>
+                    <div id="previewContainer">
+                        <div id="preview"></div>
+                        <div id="previewInputs">
+                            <h4>Hold:</h4>
+                            <input
+                                id="previewHold"
+                                type="text"
+                                maxlength="1"
+                                autocomplete="off"
+                            />
+
+                            <h4>Queue:</h4>
+                            <textarea
+                                id="previewQueue"
+                                cols="7"
+                                wrap="soft"
+                                spellcheck="false"
+                            ></textarea>
+                        </div>
                     </div>
                 </div>
 
@@ -78,9 +89,8 @@
                     <div id="aboutText">
                         <p>
                             Sketris is actively being developed by mxmossy
-                            (discord). You can message me if you something is
-                            broken for you and hopefully I can do something
-                            about it 🙂
+                            (discord). Feel free to message me if you find a bug
+                            🙂.
                         </p>
                     </div>
                 </div>
@@ -107,7 +117,29 @@
                     </g>
                 </svg>
                 <div id="changeLogInfo">
-                    <h3 id="curVer">Ver 0.2.1 - 3/6/23</h3>
+                    <h3 id="curVer">Ver 0.2.2 - 3/22/24</h3>
+                    <ul>
+                        <li>
+                            Paster upgrades
+                            <ul>
+                                <li>
+                                    On image paste, will try to guess the
+                                    queue/hold if color detected
+                                </li>
+                                <li>Can edit queue/hold directly in paster</li>
+                            </ul>
+                        </li>
+                        <li>
+                            General
+                            <ul>
+                                <li>
+                                    Current tile under cursor is now highlighted
+                                </li>
+                                <li>Change log displays on version change</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h3>Ver 0.2.1 - 3/6/24</h3>
                     <ul>
                         <li>
                             Bug fix
@@ -119,7 +151,7 @@
                             </ul>
                         </li>
                     </ul>
-                    <h3>Ver 0.2.0 - 2/14/23</h3>
+                    <h3>Ver 0.2.0 - 2/14/24</h3>
                     <ul>
                         <li>Happy Valentines Day!</li>
                         <li>
@@ -299,8 +331,6 @@
                         <div id="usersNum">1</div>
                     </div>
                     <div id="gameBoard" oncontextmenu="return false;">
-                        <canvas id="hold"></canvas>
-
                         <div id="paletteContainer">
                             <div id="palette">
                                 <div id="infoPanel">
@@ -406,32 +436,9 @@
                                 </svg>
                             </div>
                         </div>
-                        <div id="playfield">
-                            <svg
-                                id="cursor-main"
-                                class="cursor"
-                                viewBox="1.1 0 28 28"
-                                fill="rgba(0,0,0,0)"
-                                xmlns="http://www.w3.org/2000/svg"
-                                stroke="#999"
-                            >
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                <g
-                                    id="SVGRepo_tracerCarrier"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                ></g>
-                                <g id="SVGRepo_iconCarrier">
-                                    <path
-                                        clip-rule="evenodd"
-                                        d="M26.4097 9.61208C27.196 8.8358 27.1969 7.57578 26.4117 6.79842L21.1441 1.58305C20.3597 0.806412 19.0875 0.805538 18.302 1.5811L3.55214 16.1442C3.15754 16.5338 2.87982 17.024 2.74985 17.5603L1.05726 24.5451C0.697341 26.0304 2.09375 27.3461 3.57566 26.918L10.3372 24.9646C10.8224 24.8244 11.2642 24.5658 11.622 24.2125L26.4097 9.61208ZM20.4642 12.6725L10.2019 22.8047C10.0827 22.9225 9.9354 23.0087 9.77366 23.0554L4.17079 24.6741C3.65448 24.8232 3.16963 24.359 3.2962 23.8367L4.70476 18.024C4.74809 17.8453 4.84066 17.6819 4.97219 17.552L15.195 7.45865L20.4642 12.6725ZM21.8871 11.2676L16.618 6.05372L19.0185 3.68356C19.4084 3.29865 20.0354 3.29908 20.4247 3.68454L24.271 7.49266C24.6666 7.88436 24.6661 8.52374 24.27 8.91488L21.8871 11.2676Z"
-                                        fill="#000000"
-                                        fill-rule="evenodd"
-                                    ></path>
-                                </g>
-                            </svg>
-                            <canvas id="background"></canvas>
-                            <canvas id="field" tabindex="1"></canvas>
+                        <div class="playfield">
+                            <canvas class="background"></canvas>
+                            <canvas class="field" tabindex="1"></canvas>
                             <div id="ValentineOverlay"></div>
                             <div id="V-wrapper">
                                 <svg
@@ -456,7 +463,6 @@
                                 </svg>
                             </div>
                         </div>
-                        <canvas id="queue"></canvas>
                         <div id="timerWrapper">
                             <div id="timer">10:10.2020</div>
                         </div>
