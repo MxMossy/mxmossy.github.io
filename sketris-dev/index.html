@@ -32,11 +32,6 @@
             <a id="titleLink" href="/">
                 <h1 id="titleText">Sketris</h1>
             </a>
-            <a
-                href="https://mxmoss.me/sketris/?data=goAAhQCBgIFQ9QEZTIwBAl0BAQOZAgEGjE0CAJ0DAQGZBAEGjQOcXQMAmQFZAwEEjQMBAVycXJ0BmQFZApgBBY0B0ACcXQGdAQEBWQGYWQEBBtBRAV0CnAEBmFkBmQIBB1EB0J0BAQKZAViZAgEG0QFQAQWZBAEI0AEHmQIBAw=="
-                style="font-size: 3em"
-                >💞</a
-            >
             <div id="roomDiv">
                 <div id="roomInfo">
                     <div id="roomManager">
@@ -59,7 +54,26 @@
                         <canvas id="imageControls"></canvas>
                     </div>
 
-                    <div id="preview"></div>
+                    <div id="previewContainer">
+                        <div id="preview"></div>
+                        <div id="previewInputs">
+                            <h4>Hold:</h4>
+                            <input
+                                id="previewHold"
+                                type="text"
+                                maxlength="1"
+                                autocomplete="off"
+                            />
+
+                            <h4>Queue:</h4>
+                            <textarea
+                                id="previewQueue"
+                                cols="7"
+                                wrap="soft"
+                                spellcheck="false"
+                            ></textarea>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="pasterButtons">
@@ -75,9 +89,8 @@
                     <div id="aboutText">
                         <p>
                             Sketris is actively being developed by mxmossy
-                            (discord). You can message me if you something is
-                            broken for you and hopefully I can do something
-                            about it 🙂
+                            (discord). Feel free to message me if you find a bug
+                            🙂.
                         </p>
                     </div>
                 </div>
@@ -104,7 +117,29 @@
                     </g>
                 </svg>
                 <div id="changeLogInfo">
-                    <h3 id="curVer">Ver 0.2.1 - 3/6/23</h3>
+                    <h3 id="curVer">Ver 0.2.2 - 3/22/23</h3>
+                    <ul>
+                        <li>
+                            Paster upgrades
+                            <ul>
+                                <li>
+                                    On image paste, will try to guess the
+                                    queue/hold if color detected
+                                </li>
+                                <li>Can edit queue/hold directly in paster</li>
+                            </ul>
+                        </li>
+                        <li>
+                            General
+                            <ul>
+                                <li>
+                                    Current tile under cursor is now highlighted
+                                </li>
+                                <li>Change log displays on version change</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h3>Ver 0.2.1 - 3/6/23</h3>
                     <ul>
                         <li>
                             Bug fix

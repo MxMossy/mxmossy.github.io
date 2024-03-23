@@ -355,6 +355,16 @@ body {
   height: 100%; */
 }
 
+#previewContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 40%;
+    height: 90%;
+}
+
 #preview {
     position: relative;
     /* height: 56vmin; */
@@ -362,6 +372,7 @@ body {
     /* display: flex;
     align-items: center;
     justify-content: center; */
+    margin: auto;
 
     display: grid;
     grid-template-columns: 6fr 10fr 6fr;
@@ -371,8 +382,35 @@ body {
         "palette board queue"
         "palette board timerWrapper";
     /* overflow: hidden; */
-    width: 40%;
+    max-height: 70%;
     z-index: 0;
+}
+
+#previewInputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    justify-content: center;
+    width: 100%;
+    font-size: 1.5em;
+}
+
+#previewHold {
+    font-size: 1em;
+    font-family: "Roboto Mono", monospace;
+}
+#previewQueue {
+    font-size: 1em;
+    font-family: "Roboto Mono", monospace;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    min-height: 3em;
+    height: 5em;
+    width: 8ch;
+    /* font-size: 0.95em; */
+
+    resize: none;
 }
 
 #previewBackground {
@@ -1350,12 +1388,17 @@ button:disabled {
     flex-basis: 10%;
 }
 
-#export > * input {
+input {
     background-color: #37383b;
     color: white;
     align-self: center;
     height: fit-content;
     width: 1em;
+}
+
+textarea {
+    background-color: #37383b;
+    color: white;
 }
 
 #customQueue {
