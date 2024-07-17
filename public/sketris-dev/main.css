@@ -1,0 +1,1442 @@
+html,
+body {
+    background: rgb(26, 28, 36);
+    color: rgb(215, 212, 212);
+    font-family: "Outfit", sans-serif;
+    font-size: 12px;
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#header {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    height: 10vmin;
+    min-height: 80px;
+    padding-top: 25px;
+    padding-left: 50px;
+    padding-bottom: 25px;
+    margin: 0px;
+    margin-bottom: 30px;
+    background-image: linear-gradient(black, rgba(0, 0, 0, 0));
+}
+
+#header > a {
+    color: inherit;
+    text-decoration: none;
+    justify-self: start;
+    user-select: none;
+}
+
+#header > * h1 {
+    margin: 0px;
+    font-size: max(40px, 6vmin);
+}
+
+#header > svg {
+    padding-top: 5px;
+    height: max(40px, 6vmin);
+}
+
+#roomDiv {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: fit-content;
+    width: 100%;
+}
+
+#roomInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+}
+
+#roomManager {
+    display: flex;
+    justify-content: center;
+    algin-items: center;
+    height: 100%;
+    width: fit-content;
+    background: rgb(46, 48, 46);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 1.2em;
+}
+
+#connectedUsers {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    display: none;
+    justify-content: start;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    gap: 1em;
+    box-sizing: border-box;
+}
+
+#userIcon {
+    height: 12px;
+    width: 12px;
+    background: #888;
+    border-radius: 50%;
+    animation-duration: 1s;
+}
+
+@keyframes fadeAction {
+    from {
+        background: #fff;
+    }
+    to {
+        background: #888;
+    }
+}
+
+#usersNum {
+    font-size: 1.2em;
+}
+
+#createRoom {
+    padding: 10px;
+    font-size: 1.3em;
+}
+
+#copyRoom {
+    display: none;
+    width: 20%;
+    font-size: 1.3em;
+}
+
+#roomText {
+    display: none;
+    height: fit-content;
+    width: 80%;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+/* washing machine lodaer */
+#washLoader {
+    display: none;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background: black;
+}
+
+#spinner {
+    /* thx IndigoLaser */
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    width: 20px;
+    height: 20px;
+    background-color: #555;
+    box-shadow: -20px 20px #e35b02, 0 20px #e35b02, 20px 20px #e35b02,
+        20px 0 #e35b02;
+    animation-name: spin;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: steps(4, start);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/*Valentine Easter Egg */
+#ValentineOverlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #f9f9f9;
+    z-index: 24;
+    animation-duration: 3s;
+}
+
+#ValentineSvg {
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 24;
+}
+
+#V-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50vw;
+    z-index: 24;
+}
+
+#V-path {
+    display: none;
+    fill: #f00;
+    stroke: #f00;
+    stroke-miterlimit: 10;
+    stroke-linecap: round;
+    stroke-width: 0.25mm;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation-duration: 5s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes write {
+    from {
+        fill: rgba(0, 0, 0, 0);
+    }
+    to {
+        stroke-dashoffset: 100;
+        stroke: #f00;
+        stroke-width: 0;
+        fill: #f00;
+    }
+}
+
+#timerWrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#timer {
+    display: none;
+    /* justify-content: center; */
+    padding: 5px;
+    background: rgb(26, 28, 36);
+    height: fit-content;
+    width: 4.5em;
+    border-radius: 5px;
+    overflow: hidden;
+    font-size: 1.5em;
+}
+
+/* ---------------- */
+
+#version {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    font-size: 18px;
+    color: #787e97;
+    height: 30px;
+}
+
+#versionNum {
+    margin: 0px;
+}
+
+#version > svg {
+    fill: #787e97;
+    height: 1em;
+}
+
+#version > svg:hover {
+    fill: orange;
+    cursor: pointer;
+}
+
+.modalOverlay {
+    display: none;
+    position: absolute;
+    box-sizing: border-box;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+    padding-top: 50px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    animation-name: fadein;
+    animation-duration: 0.3s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #888;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 15px 20px 0 rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    background: rgb(43, 46, 59);
+    z-index: 110;
+    animation-duration: 0.3s;
+    animation-name: slidein;
+}
+
+@keyframes slidein {
+    from {
+        top: -300px;
+        opacity: 0;
+    }
+    to {
+        top: 0px;
+        opacity: 1;
+    }
+}
+
+#pasterModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+}
+
+#pasterFields {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 90%;
+
+    border: 2px solid black;
+    border-radius: 10px;
+    background: rgb(29, 31, 40);
+    /* background: rgb(20, 20, 20); */
+}
+
+#imageEditor {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 40%;
+    height: 100%;
+}
+
+#imageCanvas {
+    position: absolute;
+    background: rgb(50, 54, 69);
+    /* width: 100%;
+  height: 100%; */
+}
+
+#imageControls {
+    position: absolute;
+    /* width: 100%;
+  height: 100%; */
+}
+
+#previewContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 40%;
+    height: 90%;
+}
+
+#preview {
+    position: relative;
+    /* height: 56vmin; */
+    aspect-ratio: 1/1;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: 6fr 10fr 6fr;
+    grid-template-rows: 4fr 12fr 6fr;
+    grid-template-areas:
+        "hold board queue"
+        "palette board queue"
+        "palette board timerWrapper";
+    /* overflow: hidden; */
+    max-height: 70%;
+    z-index: 0;
+}
+
+#previewInputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    justify-content: center;
+    width: 100%;
+    font-size: 1.5em;
+}
+
+#previewHold {
+    font-size: 1em;
+    font-family: "Roboto Mono", monospace;
+}
+#previewQueue {
+    font-size: 1em;
+    font-family: "Roboto Mono", monospace;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    min-height: 3em;
+    height: 5em;
+    width: 8ch;
+    /* font-size: 0.95em; */
+
+    resize: none;
+}
+
+#previewBackground {
+    position: absolute;
+    height: 100%;
+    aspect-ratio: 10/22;
+}
+
+#previewField {
+    position: absolute;
+    height: 100%;
+    aspect-ratio: 10/22;
+}
+
+#pasterButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    height: 10%;
+    width: 100%;
+}
+
+#pasterButtons > button {
+    font-size: 2em;
+}
+
+#changeLogModal {
+    width: 40%;
+    height: 80%;
+}
+
+#changeLogTitle {
+    height: 10%;
+    position: relative;
+}
+
+#about {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    width: 100%;
+}
+
+#aboutText {
+    width: 80%;
+    height: 100%;
+    background: rgb(29, 31, 40);
+    font-size: 1.2em;
+    padding-right: 1em;
+    padding-left: 1em;
+    border-radius: 10px;
+    border: 2px solid white;
+    overflow: scroll;
+}
+
+#changeLogTitle > h1 {
+    font-size: 4vmin;
+    margin: 5px;
+    position: absolute;
+    bottom: 0px;
+}
+
+#changeLogCloseSvg {
+    fill: white;
+    height: 2em;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+#changeLogCloseSvg:hover {
+    fill: red;
+    cursor: pointer;
+}
+
+#changeLogInfo {
+    overflow-y: scroll;
+    font-size: 1.5em;
+    height: 75%;
+    padding: 10px;
+    background: rgb(29, 31, 40);
+    border-radius: 5px;
+}
+
+#changeLogInfo > h2 {
+    color: gold;
+}
+
+#curVer {
+    color: greenyellow;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(155, 155, 155, 0.5);
+    border-radius: 20px;
+    border: transparent;
+}
+::-webkit-scrollbar-corner {
+    background: rgba(0, 0, 0, 0);
+}
+
+#container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 80%;
+    width: 100%;
+}
+
+#mainDiv {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: fit-content;
+    width: fit-content;
+    min-height: 30em;
+    min-width: 30em;
+    /* height: min(80vh, 80vw);
+  width: min(80vh, 80vw); */
+
+    background: rgb(50, 54, 69);
+    border-radius: 10px;
+    box-shadow: 0 0 30px black;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    animation-duration: 0.5s;
+}
+
+@keyframes expandMainDiv {
+    from {
+        width: 56vw;
+    }
+    to {
+        width: 80vw;
+    }
+}
+
+@keyframes collapseMainDiv {
+    from {
+        width: 80vw;
+    }
+    to {
+        width: 56vw;
+    }
+}
+
+#boardArea {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
+
+    height: min(80vh, 80vw);
+    aspect-ratio: 1/1;
+    min-height: 30em;
+    min-width: 30em;
+
+    z-index: 10;
+    box-shadow: 0 0 30px black;
+    border-radius: 10px;
+    outline: none;
+    background: rgb(50, 54, 69);
+}
+
+#gameBoard {
+    position: relative;
+    display: grid;
+    grid-template-columns: 6fr 10fr 6fr;
+    grid-template-rows: 4fr 12fr 6fr;
+    grid-template-areas:
+        "hold board queue"
+        "palette board queue"
+        "palette board timerWrapper";
+    /* overflow: hidden; */
+    height: 85%;
+    width: 85%;
+    z-index: 0;
+}
+
+.hold {
+    grid-area: hold;
+    justify-self: right;
+    align-self: top;
+    background: rgb(26, 28, 36);
+    border: 5px solid black;
+    border-right-style: none;
+    box-shadow: 0 0 5px black;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+}
+
+.playfield {
+    /* display:flex; */
+    grid-area: board;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 20;
+    justify-self: center;
+    align-self: top;
+    overflow: hidden;
+    /* cursor: none; */
+
+    height: 100%;
+    width: 100%;
+
+    background: rgb(26, 28, 36);
+    border: 5px solid black;
+    box-shadow: 0 0 5px black;
+    touch-action: none;
+}
+
+.background {
+    height: 100%;
+    width: 100%;
+    z-index: 23;
+}
+
+.field {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: 25;
+}
+
+.field:focus {
+    outline: none;
+}
+
+.cursor {
+    display: none;
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    top: 0;
+    left: 0;
+    z-index: 30;
+}
+
+.queue {
+    position: relative;
+    grid-area: queue;
+    justify-self: left;
+    align-self: top;
+    background: rgb(26, 28, 36);
+    border: 5px solid black;
+    border-left-style: none;
+    box-shadow: 0 0 5px black;
+    box-sizing: border-box;
+    width: 100%;
+    z-index: 15;
+}
+
+#queueOpts {
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: center;
+    /* align-content: center; */
+    grid-area: queueOpts;
+    box-sizing: border-box;
+    padding-top: 1em;
+    padding-left: 1em;
+    height: 100%;
+    width: 100%;
+}
+
+.queueOpt {
+    position: relative;
+    display: flex;
+    gap: 5px;
+}
+
+.checkbox-wrapper-65 *,
+.checkbox-wrapper-65 ::after,
+.checkbox-wrapper-65 ::before {
+    box-sizing: border-box;
+}
+.checkbox-wrapper-65 .cbx {
+    position: relative;
+    display: block;
+    float: left;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background-color: #606062;
+    background-image: linear-gradient(#474749, #606062);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+    transition: all 0.15s ease;
+}
+.checkbox-wrapper-65 .cbx svg {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-dasharray: 17;
+    stroke-dashoffset: 17;
+    transform: translate3d(0, 0, 0);
+}
+.checkbox-wrapper-65 .cbx + span {
+    float: left;
+    margin-left: 6px;
+}
+.checkbox-wrapper-65 {
+    user-select: none;
+}
+.checkbox-wrapper-65 label {
+    display: inline-block;
+    cursor: pointer;
+}
+.checkbox-wrapper-65 input[type="checkbox"] {
+    display: none;
+    visibility: hidden;
+}
+.checkbox-wrapper-65 input[type="checkbox"]:checked + .cbx {
+    background-color: #606062;
+    background-image: linear-gradient(#2053c2, #1d52c1);
+}
+.checkbox-wrapper-65 input[type="checkbox"]:checked + .cbx svg {
+    stroke-dashoffset: 0;
+    transition: all 0.15s ease;
+}
+
+.queueOpt > label {
+    font-size: clamp(7px, 0.75vw, 14px);
+}
+.queueOpt > * {
+    font-size: clamp(8px, 2vw, 14px);
+}
+
+#paletteContainer {
+    /* display:none; */
+    grid-area: palette;
+    justify-self: right;
+    align-self: center;
+
+    display: flex;
+    justify-content: right;
+    align-items: flex-end;
+
+    height: 100%;
+    width: 100%;
+}
+
+#palette {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 10px;
+    /* padding-right: 10px; */
+    height: 100%;
+    width: 100%;
+}
+
+.paletteColor {
+    box-sizing: border-box;
+    border-radius: 10px 0 0 10px;
+    height: 6%;
+    aspect-ratio: 1/1;
+    margin-right: 0em;
+
+    animation-duration: 0.5s;
+    /* animation-name: slidein; */
+}
+
+.paletteColor:hover {
+    cursor: pointer;
+}
+
+#rainbow {
+    background: linear-gradient(
+            217deg,
+            rgba(255, 0, 0, 1),
+            rgba(255, 0, 0, 0.1) 60.71%
+        ),
+        linear-gradient(127deg, rgba(0, 255, 0, 1), rgba(0, 255, 0, 0.1) 80.71%),
+        linear-gradient(336deg, rgba(0, 0, 255, 1), rgba(0, 0, 255, 0.1) 90.71%);
+}
+
+@keyframes showPalette {
+    from {
+        margin-right: -5em;
+    }
+    to {
+        margin-right: 0;
+    }
+}
+
+@keyframes hidePalette {
+    from {
+        margin-right: 0;
+    }
+    to {
+        margin-right: -5em;
+    }
+}
+
+.activeColor {
+    border: 2px solid white;
+    aspect-ratio: 7/5;
+}
+
+.activeColor:hover {
+    cursor: default;
+}
+
+#help {
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+#help > * path {
+    fill: #555555;
+}
+
+#help:hover > * path {
+    fill: #ffbf00;
+}
+
+#infoPanel {
+    display: none;
+    position: fixed;
+    height: fit-content;
+    width: 150px;
+    padding: 10px;
+    background: rgb(29, 31, 40);
+    left: 0;
+    top: 0;
+    border-radius: 5px;
+    border: 1px solid rgb(215, 212, 212);
+    z-index: 100;
+}
+
+#paletteSvg {
+    cursor: pointer;
+    height: 8%;
+    aspect-ratio: 1/1;
+    /* width: 3em; */
+    margin-right: 1em;
+}
+
+#paletteSvg > * path {
+    fill: #555555;
+}
+
+#paletteSvg:hover > * path {
+    fill: #c6c6c6;
+}
+
+#panelTab {
+    display: flex;
+    display: flex;
+    justify-content: center;
+    padding: 0px;
+
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
+    border: 2px solid black;
+    border-right: none;
+    box-shadow: 0 0 10px black;
+
+    height: 6%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+
+    border-radius: 10px 10px 0px 10px;
+    background: rgb(43, 46, 59);
+    z-index: 90;
+
+    /* animation-duration: 0.5s; */
+}
+
+#panelTab:hover {
+    cursor: pointer;
+}
+
+#panelTab:hover > * path {
+    stroke: rgb(165, 168, 188);
+}
+
+#panelIcon {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+    /* transform: rotate(180deg); */
+}
+
+#panelIconLeft {
+    width: 55%;
+    display: flex;
+    overflow: hidden;
+    animation-duration: 0.5s;
+}
+
+#panelIconMid {
+    display: flex;
+    justify-content: center;
+    width: 15%;
+    overflow: hidden;
+}
+
+#panelIconRight {
+    width: 0;
+    display: flex;
+    overflow: hidden;
+    animation-duration: 0.5s;
+}
+
+#leftSvg {
+    float: left;
+    height: 90%;
+    align-self: center;
+}
+
+#rightSvg {
+    float: right;
+    height: 90%;
+    align-self: center;
+}
+
+#midSvg {
+    float: center;
+    height: 90%;
+    align-self: center;
+}
+
+@keyframes expandIcon {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 55%;
+    }
+}
+
+@keyframes collapseIcon {
+    from {
+        width: 55%;
+    }
+    to {
+        width: 0%;
+    }
+}
+
+#sidePanel {
+    position: relative;
+
+    height: min(80vh, 80vw); /*needs to match boardArea*/
+    min-height: 30em;
+    width: 30em;
+
+    margin-left: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    background: rgb(28, 31, 39);
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 5;
+
+    animation-duration: 0.5s;
+}
+
+@keyframes expandPanel {
+    from {
+        width: 0;
+        /* border: 0px solid rgb(23, 22, 22); */
+    }
+    to {
+        width: 30em;
+        /* border: 2px solid rgb(23, 22, 22); */
+    }
+}
+
+@keyframes collapsePanel {
+    from {
+        width: 30em;
+        /* border: 2px solid rgb(23, 22, 22); */
+    }
+    to {
+        width: 0;
+        /* border: 0px solid rgb(23, 22, 22); */
+    }
+}
+
+@media screen and (max-width: 70em) {
+    #panelIconLeft {
+        width: 0;
+    }
+
+    #panelIconRight {
+        width: 55%;
+    }
+    #panelIcon {
+        transform: rotate(180deg);
+    }
+
+    #sidePanel {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        width: 0;
+        box-shadow: 0 0 30px black;
+        border-radius: 10px;
+        z-index: 50;
+    }
+
+    #sidePanelContent {
+        z-index: 50;
+    }
+}
+
+#sidePanelContent {
+    position: relative;
+    height: min(80vh, 80vw); /*needs to match boardArea*/
+    min-height: 30em;
+    width: 30em;
+
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    float: right;
+    overflow: hidden;
+    /* border: 2px solid rgb(23, 22, 22); */
+    /* border: 2px solid orange; */
+
+    z-index: 5;
+}
+
+#tabs {
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+    padding-left: 10px;
+    border-bottom: 3px solid black;
+
+    width: 100%;
+    height: 10%;
+}
+
+.tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(80, 80, 95);
+    height: 50%;
+    width: 30%;
+    margin: 0;
+    border-radius: 2em 2em 0 0;
+    cursor: pointer;
+    animation-duration: 0.3s;
+    z-index: 40;
+}
+
+.activeTab {
+    background: rgb(100, 100, 118);
+    box-shadow: 0 0 10px black;
+    cursor: default;
+    z-index: 50;
+}
+
+.tab > h2 {
+    padding: 0px;
+    margin: 0px;
+    font-size: 1.5em;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 100%;
+    }
+    to {
+        opacity: 0%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 100%;
+    }
+}
+
+#panelMain {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+    /* padding-bottom: 20px; */
+    height: 90%;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background: rgb(43, 46, 59);
+}
+
+#settings {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 1.1em;
+    height: 90%;
+    width: 100%;
+}
+
+#settings > h3 {
+    padding: 0;
+    margin: 0;
+}
+
+#handling {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    float: right;
+    gap: 5px;
+    padding: 10px;
+    border: solid rgb(109, 110, 111);
+}
+
+#handling > .setting > h4 {
+    flex: 3 0 10%;
+}
+
+#handling > .setting > input {
+    flex: 3 0 10%;
+}
+
+#handling > .setting > p {
+    flex: 1 0 10%;
+}
+
+/* slider styles */
+/********** Range Input Styles **********/
+/*Range Reset*/
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 15rem;
+}
+
+/* Removes default focus */
+input[type="range"]:focus {
+    outline: none;
+}
+
+/***** Chrome, Safari, Opera and Edge Chromium styles *****/
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
+    background-color: #6c7880;
+    border-radius: 0.5rem;
+    height: 0.5rem;
+}
+
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    margin-top: -12px; /* Centers thumb on the track */
+
+    /*custom styles*/
+    background-color: #a4a4a4;
+    height: 2rem;
+    width: 1rem;
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {
+    border: 1px solid #053a5f;
+    outline: 3px solid #393e60;
+    outline-offset: 0.125rem;
+}
+
+/******** Firefox styles ********/
+/* slider track */
+input[type="range"]::-moz-range-track {
+    background-color: #6c7880;
+    border-radius: 0.5rem;
+    height: 0.5rem;
+}
+
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
+    border: none; /*Removes extra border that FF applies*/
+    border-radius: 0; /*Removes default border-radius that FF applies*/
+
+    /*custom styles*/
+    background-color: #a4a4a4;
+    height: 2rem;
+    width: 1rem;
+}
+
+input[type="range"]:focus::-moz-range-thumb {
+    border: 1px solid #053a5f;
+    outline: 3px solid #393e60;
+    outline-offset: 0.125rem;
+}
+
+#keyBinds {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    float: right;
+    gap: 5px;
+    padding: 10px;
+    border: solid rgb(109, 110, 111);
+}
+
+#keyBindButtons {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+.key {
+    display: flex;
+    flex-basis: 15%;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgb(71, 71, 71);
+    border-radius: 10px;
+    box-shadow: 0 0 10px black;
+    padding-left: 1em;
+    padding-right: 1em;
+
+    height: 3em;
+    width: 6em;
+}
+
+button {
+    background: rgb(85, 85, 87);
+    color: white;
+    border: 2px black;
+    font-family: "Outfit", sans-serif;
+    cursor: pointer;
+    animation-duration: 3s;
+}
+
+button:hover {
+    background: rgb(110, 110, 111);
+    color: white;
+}
+
+button:disabled {
+    background: rgb(71, 71, 71);
+    color: rgb(169, 169, 169);
+    cursor: default;
+}
+
+.setting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+}
+
+#keyBinds > .setting > h4 {
+    flex-basis: 40%;
+    text-align: left;
+}
+
+#keyBinds > .setting > button {
+    flex-basis: 10%;
+}
+
+#data {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 1.1em;
+    height: 90%;
+    width: 100%;
+}
+
+/* #data > * button{
+  height: 2em;
+
+} */
+
+#import {
+    position: relative;
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: solid rgb(109, 110, 111);
+    height: fit-content;
+    width: 100%;
+}
+
+#export {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
+    gap: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: solid rgb(109, 110, 111);
+    height: fit-content;
+    width: 100%;
+}
+
+#exportOptions {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    /* justify-content: flex-start; */
+    gap: 5px;
+}
+
+.exportOption {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+    gap: 3em;
+}
+
+.exportOption > h4 {
+    flex-basis: 50%;
+}
+
+.exportOption > button {
+    margin: 0;
+    flex-basis: 10%;
+}
+
+input {
+    background-color: #37383b;
+    color: white;
+    align-self: center;
+    height: fit-content;
+    width: 1em;
+}
+
+textarea {
+    background-color: #37383b;
+    color: white;
+}
+
+#customQueue {
+    font-family: "Roboto Mono", monospace;
+    background-color: #37383b;
+    color: white;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /* overflow: hidden; */
+    min-height: 3em;
+    height: 5em;
+    width: 8ch;
+    font-size: 0.95em;
+
+    resize: vertical;
+}
+
+#exportArea,
+#importText {
+    background-color: #37383b;
+    color: white;
+    resize: vertical;
+    height: 8vh;
+    width: 100%;
+}
+
+#exportButtons,
+#importButtonWrapper {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+}
+
+@keyframes copyAnim {
+    from {
+        background-color: green;
+    }
+    to {
+        background: rgb(85, 85, 87);
+    }
+}
