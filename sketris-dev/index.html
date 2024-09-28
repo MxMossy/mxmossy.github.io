@@ -1,48 +1,815 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="./favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		
-		<link href="./_app/immutable/assets/0.lwzs5UXB.css" rel="stylesheet">
-		<link href="./_app/immutable/assets/2.C-lBZ-y-.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.CUzwWQwI.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/entry.9qsX_ys6.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.BGp2qE9-.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/paths.BWhq2Y-c.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.bM9rruTG.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index.D5MamWBh.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.BW0weyL4.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/2.CDzCvrif.js">
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">  <div class="flex h-screen w-screen flex-col"><div id="header" class="flex h-[10%] w-full bg-black"><h1>Sketris .</h1></div> <div class="flex h-[90%] w-full"> <div id="leftPanel" class="fixed z-10 flex h-full w-0 bg-gray min-w-12 overflow-hidden md:relative md:w-0 svelte-19a13s5"><div class="fixed z-10 flex h-full w-12 flex-col gap-5 overflow-x-hidden bg-slate-900"><button class="h-12 w-full bg-black"></button><button class="h-12 w-full bg-black"></button></div> <div id="drawer" class="z-0 ml-12 flex h-full w-full flex-col gap-5 bg-black ease-in-out"><div class="settings svelte-187dzyv"><div class="settings-header svelte-187dzyv" data-svelte-h="svelte-6xbdyd"><h2>Settings</h2></div> <div class="settings-body svelte-187dzyv"><div class="settings-row svelte-187dzyv"><div class="settings-label svelte-187dzyv" data-svelte-h="svelte-j6ufr8">Rows:</div> <div class="settings-input svelte-187dzyv"><input type="number" min="1" max="100" class="svelte-187dzyv" value="20"></div></div> <div class="settings-row svelte-187dzyv"><div class="settings-label svelte-187dzyv" data-svelte-h="svelte-1uarjwa">Columns:</div> <div class="settings-input svelte-187dzyv"><input type="number" min="1" max="100" class="svelte-187dzyv" value="10"></div></div></div> </div></div> </div> <div class="ml-12 flex h-full w-full flex-col bg-slate-700 md:ml-0"><div id="boardArea" class="flex h-full w-full flex-col items-center justify-center bg-slate-700 svelte-70nvr3"><div class="relative flex h-full w-full items-center justify-center"><div class="gameboard svelte-11775e8" tabindex="-1"><canvas class="hold svelte-14t9kzb" data-svelte-h="svelte-18uw5vo"></canvas>   <div class="playfield svelte-4clmuf"><canvas class="background svelte-4clmuf" data-svelte-h="svelte-10lt553"></canvas> <canvas class="field svelte-4clmuf" data-svelte-h="svelte-164o0vd"></canvas> </div> <canvas class="queue svelte-1nkya6s" data-svelte-h="svelte-1pkw9w8"></canvas></div> </div></div> <div class="flex h-1/2 w-full flex-col items-center justify-center bg-slate-800"><button id="switch" data-state="checked" type="button" role="switch" aria-checked="true" data-melt-switch="" class="relative h-6 cursor-default rounded-full bg-slate-400 transition-colors data-[state=checked]:bg-slate-800 svelte-1telzjs"><span class="thumb block rounded-full bg-white transition svelte-1telzjs"></span></button> <input type="checkbox" aria-hidden hidden tabindex="-1" name="" value="" checked style="position:absolute;opacity:0;pointer-events:none;margin:0;transform:translateX(-100%);" data-melt-switch-input="" class="svelte-1telzjs"> ON <div class="h-1/2 w-full p-10"><span id="slider" dir="ltr" data-orientation="horizontal" style="touch-action: pan-y" data-melt-id="CNT1_6i5L7" data-melt-slider="" class="relative flex h-[20px] w-full items-center svelte-ytyedv" role="none"><span class="h-[3px] w-full bg-black/40" data-svelte-h="svelte-75lnr4"></span> <span data-bounded data-value="0" style="position:absolute;left:0%;translate:0% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="1" style="position:absolute;left:1%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="2" style="position:absolute;left:2%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="3" style="position:absolute;left:3%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="4" style="position:absolute;left:4%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="5" style="position:absolute;left:5%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="6" style="position:absolute;left:6%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="7" style="position:absolute;left:7.000000000000001%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="8" style="position:absolute;left:8%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="9" style="position:absolute;left:9%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="10" style="position:absolute;left:10%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="11" style="position:absolute;left:11%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="12" style="position:absolute;left:12%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="13" style="position:absolute;left:13%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="14" style="position:absolute;left:14.000000000000002%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="15" style="position:absolute;left:15%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="16" style="position:absolute;left:16%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="17" style="position:absolute;left:17%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="18" style="position:absolute;left:18%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="19" style="position:absolute;left:19%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="20" style="position:absolute;left:20%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="21" style="position:absolute;left:21%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="22" style="position:absolute;left:22%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="23" style="position:absolute;left:23%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="24" style="position:absolute;left:24%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="25" style="position:absolute;left:25%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="26" style="position:absolute;left:26%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="27" style="position:absolute;left:27%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="28" style="position:absolute;left:28.000000000000004%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="29" style="position:absolute;left:28.999999999999996%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="30" style="position:absolute;left:30%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="31" style="position:absolute;left:31%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="32" style="position:absolute;left:32%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="33" style="position:absolute;left:33%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="34" style="position:absolute;left:34%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="35" style="position:absolute;left:35%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="36" style="position:absolute;left:36%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="37" style="position:absolute;left:37%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="38" style="position:absolute;left:38%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="39" style="position:absolute;left:39%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="40" style="position:absolute;left:40%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="41" style="position:absolute;left:41%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="42" style="position:absolute;left:42%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="43" style="position:absolute;left:43%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="44" style="position:absolute;left:44%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="45" style="position:absolute;left:45%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="46" style="position:absolute;left:46%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="47" style="position:absolute;left:47%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="48" style="position:absolute;left:48%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="49" style="position:absolute;left:49%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="50" style="position:absolute;left:50%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="51" style="position:absolute;left:51%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="52" style="position:absolute;left:52%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="53" style="position:absolute;left:53%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="54" style="position:absolute;left:54%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="55" style="position:absolute;left:55.00000000000001%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="56" style="position:absolute;left:56.00000000000001%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="57" style="position:absolute;left:57.00000000000001%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="58" style="position:absolute;left:57.99999999999999%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="59" style="position:absolute;left:59%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="60" style="position:absolute;left:60%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="61" style="position:absolute;left:61%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="62" style="position:absolute;left:62%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="63" style="position:absolute;left:63%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="64" style="position:absolute;left:64%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="65" style="position:absolute;left:65%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="66" style="position:absolute;left:66%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="67" style="position:absolute;left:67%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="68" style="position:absolute;left:68%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="69" style="position:absolute;left:69%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="70" style="position:absolute;left:70%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="71" style="position:absolute;left:71%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="72" style="position:absolute;left:72%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="73" style="position:absolute;left:73%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="74" style="position:absolute;left:74%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="75" style="position:absolute;left:75%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="76" style="position:absolute;left:76%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="77" style="position:absolute;left:77%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="78" style="position:absolute;left:78%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="79" style="position:absolute;left:79%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="80" style="position:absolute;left:80%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="81" style="position:absolute;left:81%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="82" style="position:absolute;left:82%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="83" style="position:absolute;left:83%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="84" style="position:absolute;left:84%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="85" style="position:absolute;left:85%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="86" style="position:absolute;left:86%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="87" style="position:absolute;left:87%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="88" style="position:absolute;left:88%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="89" style="position:absolute;left:89%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="90" style="position:absolute;left:90%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="91" style="position:absolute;left:91%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="92" style="position:absolute;left:92%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="93" style="position:absolute;left:93%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="94" style="position:absolute;left:94%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="95" style="position:absolute;left:95%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="96" style="position:absolute;left:96%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="97" style="position:absolute;left:97%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="98" style="position:absolute;left:98%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="99" style="position:absolute;left:99%;translate:-50% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span><span data-value="100" style="position:absolute;left:100%;translate:-100% 0;" data-melt-slider-tick="" class="h-[5px] w-[3px] rounded-full bg-white/50 svelte-ytyedv"></span> <span id="slider" dir="ltr" data-orientation="horizontal" style="touch-action: pan-y" data-melt-id="-S0n6rJLwc" data-melt-slider="" class="relative flex h-[20px] w-full items-center svelte-1hyjtqm" role="none"><span id="thumb" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="1" aria-orientation="horizontal" data-melt-part="thumb" data-value="1" style="position:absolute;left:1%;translate:-50% 0;" data-melt-slider-thumb="" class="h-5 w-2 bg-slate-500 svelte-1hyjtqm"></span> </span> <span role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-orientation="horizontal" data-melt-part="thumb" data-value="0" style="position:absolute;left:0%;translate:-50% 0;" tabindex="0" data-melt-slider-thumb="" class="h-5 w-2 bg-white svelte-ytyedv"></span> </span> 0</div></div></div> </div> </div> 
-			
-			<script>
-				{
-					__sveltekit_zti13m = {
-						base: new URL(".", location).pathname.slice(0, -1),
-						assets: "/sketris-dev"
-					};
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-QXMC4LY9NB"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
 
-					const element = document.currentScript.parentElement;
+            gtag("config", "G-QXMC4LY9NB");
+        </script>
 
-					const data = [null,null];
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@300&family=Roboto+Mono&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="./main.css" />
 
-					Promise.all([
-						import("./_app/immutable/entry/start.CUzwWQwI.js"),
-						import("./_app/immutable/entry/app.bM9rruTG.js")
-					]).then(([kit, app]) => {
-						kit.start(app, element, {
-							node_ids: [0, 2],
-							data,
-							form: null,
-							error: null
-						});
-					});
-				}
-			</script>
-		</div>
-	</body>
+        <title>Sketris</title>
+    </head>
+
+    <body>
+        <div id="header">
+            <a id="titleLink" href="/">
+                <h1 id="titleText">Sketris</h1>
+            </a>
+            <div id="roomDiv">
+                <div id="roomInfo">
+                    <div id="roomManager">
+                        <button id="createRoom">Share Session</button>
+                        <button id="copyRoom">Copy Link</button>
+                        <p id="roomText">Disconnected</p>
+                        <div id="washLoader">
+                            <div id="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modalOverlay" id="pasterOverlay">
+            <div class="modal" id="pasterModal">
+                <div id="pasterFields">
+                    <div id="imageEditor">
+                        <canvas id="imageCanvas"></canvas>
+                        <canvas id="imageControls"></canvas>
+                    </div>
+
+                    <div id="previewContainer">
+                        <div id="preview"></div>
+                        <div id="previewInputs">
+                            <h4>Hold:</h4>
+                            <input
+                                id="previewHold"
+                                type="text"
+                                maxlength="1"
+                                autocomplete="off"
+                            />
+
+                            <h4>Queue:</h4>
+                            <textarea
+                                id="previewQueue"
+                                cols="7"
+                                wrap="soft"
+                                spellcheck="false"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pasterButtons">
+                    <button id="pasterCancel">Cancel</button>
+                    <button id="pasterAccept">Accept</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modalOverlay" id="changeLogOverlay">
+            <div class="modal" id="changeLogModal">
+                <div id="about">
+                    <div id="aboutText">
+                        <p>
+                            Sketris is actively being developed by mxmossy
+                            (discord). Feel free to message me if you find a bug
+                            🙂.
+                        </p>
+                    </div>
+                </div>
+                <div id="changeLogTitle">
+                    <h1>Sketris Change Log</h1>
+                </div>
+                <svg
+                    id="changeLogCloseSvg"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g
+                        id="SVGRepo_tracerCarrier"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M19.207 6.207a1 1 0 0 0-1.414-1.414L12 10.586 6.207 4.793a1 1 0 0 0-1.414 1.414L10.586 12l-5.793 5.793a1 1 0 1 0 1.414 1.414L12 13.414l5.793 5.793a1 1 0 0 0 1.414-1.414L13.414 12l5.793-5.793z"
+                        ></path>
+                    </g>
+                </svg>
+                <div id="changeLogInfo">
+                    <h3 id="curVer">Ver 0.2.2 - 3/22/24</h3>
+                    <ul>
+                        <li>
+                            Paster upgrades
+                            <ul>
+                                <li>
+                                    On image paste, will try to guess the
+                                    queue/hold if color detected
+                                </li>
+                                <li>Can edit queue/hold directly in paster</li>
+                            </ul>
+                        </li>
+                        <li>
+                            General
+                            <ul>
+                                <li>
+                                    Current tile under cursor is now highlighted
+                                </li>
+                                <li>Change log displays on version change</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h3>Ver 0.2.1 - 3/6/24</h3>
+                    <ul>
+                        <li>
+                            Bug fix
+                            <ul>
+                                <li>
+                                    Fixed desync issue when editing queue/hold
+                                    in shared session (thanks Bennxt)
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h3>Ver 0.2.0 - 2/14/24</h3>
+                    <ul>
+                        <li>Happy Valentines Day!</li>
+                        <li>
+                            Experimental collaborative mode
+                            <ul>
+                                <li>
+                                    Host a session and send a link to friends!
+                                </li>
+                                <li>Supports multiple people</li>
+                            </ul>
+                        </li>
+                        <li>
+                            General Improvements
+                            <ul>
+                                <li>
+                                    Improved rendering for snappier gameplay
+                                </li>
+                                <li>Added help popup for sketching controls</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a
+                                href="https://mxmoss.me/sketris/?data=goAAhQCBgIFQ9QEZTIwBAl0BAQOZAgEGjE0CAJ0DAQGZBAEGjQOcXQMAmQFZAwEEjQMBAVycXJ0BmQFZApgBBY0B0ACcXQGdAQEBWQGYWQEBBtBRAV0CnAEBmFkBmQIBB1EB0J0BAQKZAViZAgEG0QFQAQWZBAEI0AEHmQIBAw=="
+                                >Valentines Easter Egg Puzzle</a
+                            >
+                        </li>
+                    </ul>
+                    <h3>Ver 0.1.1 - 12/31/23</h3>
+                    <ul>
+                        <li>small new year&#39;s eve update</li>
+                        <li>
+                            Bug fixes
+                            <ul>
+                                <li>instant soft drop preserved</li>
+                                <li>
+                                    queue editor uses monospace font for proper
+                                    line wrapping
+                                </li>
+                                <li>autocoloring glitches fixed</li>
+                            </ul>
+                        </li>
+                        <li>palette open by default for discoverability</li>
+                    </ul>
+                    <h3>Ver 0.1.0 - 12/18/23</h3>
+                    <ul>
+                        <li>The Big Christmas Update!</li>
+                        <li>
+                            Cosmetic updates
+                            <ul>
+                                <li>Viewable Changelog</li>
+                                <li>Side panel has tabs</li>
+                                <li>Bag indicator reworked</li>
+                                <li>Settings look nicer</li>
+                                <li>Palette looks nicer</li>
+                                <li>Everything looks nicer</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Sketching Updates
+                            <ul>
+                                <li>
+                                    Introducing the &quot;Magic Marker&quot;
+                                    which autocolors pieces (even when
+                                    disconnected!)
+                                </li>
+                                <li>
+                                    Middle mouse now activates garbage drawing
+                                    mode! (idea cred: IndigoLaser)
+                                    <ul>
+                                        <li>draw up to create garbage</li>
+                                        <li>draw down to compress lines</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Piece selections don&#39;t overwrite the
+                                    board during drag now until mouse release
+                                </li>
+                                <li>Removed color dropper</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Data Import/Export
+                            <ul>
+                                <li>
+                                    Sketris board states can be shared via link
+                                    using the &quot;data&quot; query parameter
+                                    in url
+                                    <ul>
+                                        <li>
+                                            data can be copied as link or text
+                                        </li>
+                                        <li>
+                                            Current queue and hold can be edited
+                                        </li>
+                                        <li>
+                                            Queue regen can be enabled/disabled
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Pasted screenshots can be interpreted as
+                                    boards
+                                    <ul>
+                                        <li>
+                                            images can be cropped to board size
+                                        </li>
+                                        <li>
+                                            automatic color guessing (tested
+                                            with jstris/tetrio default colors)
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h4 id="ver-0-0-10-11-12-23">Ver 0.0.10 - 11/12/23</h4>
+                    <ul>
+                        <li>ghost tiles can now be drawn by holding Alt</li>
+                    </ul>
+                    <h4 id="ver-0-0-9-11-7-23">Ver 0.0.9 - 11/7/23</h4>
+                    <ul>
+                        <li>fixed compatibility issues with firefox</li>
+                        <li>tile selection works with Control now</li>
+                    </ul>
+                    <h4 id="ver-0-0-8-11-5-23">Ver 0.0.8 - 11/5/23</h4>
+                    <ul>
+                        <li>migrated project to use npm webpack</li>
+                    </ul>
+                    <h4 id="ver-0-0-7-10-30-23">Ver 0.0.7 - 10/30/23</h4>
+                    <ul>
+                        <li>added bag postion indicator to queue</li>
+                        <li>
+                            Eyedropper: sketching color can be changed by
+                            middle-clicking on a block
+                        </li>
+                    </ul>
+                    <h4 id="ver-0-0-6-10-25-23">Ver 0.0.6 - 10/25/23</h4>
+                    <ul>
+                        <li>implemented color drawing</li>
+                    </ul>
+                    <h4 id="ver-0-0-5-10-20-23">Ver 0.0.5 - 10/20/23</h4>
+                    <ul>
+                        <li>
+                            settings are now saved/loaded via browser cookie
+                        </li>
+                    </ul>
+                    <h4 id="ver-0-0-4-10-20-23">Ver 0.0.4 - 10/20/23</h4>
+                    <ul>
+                        <li>Implemented highlighting blocks holding shift</li>
+                        <li>highlighted blocks are draggable</li>
+                    </ul>
+                    <h4 id="ver-0-0-3-7-12-23">Ver 0.0.3 - 7/12/23</h4>
+                    <ul>
+                        <li>Can update queue with custom piece order</li>
+                    </ul>
+                    <h4 id="ver-0-0-2-7-10-23">Ver 0.0.2 - 7/10/23</h4>
+                    <ul>
+                        <li>Added board state history with undo/redo</li>
+                    </ul>
+                    <h4 id="ver-0-0-1-7-8-23">Ver 0.0.1 - 7/8/23</h4>
+                    <ul>
+                        <li>Added basic board block sketching functionality</li>
+                    </ul>
+                    <h2 id="ver-0-0-0-7-7-23">Ver 0.0.0 - 7/7/23</h2>
+                    <ul>
+                        <li>Playable implementation with DAS/ARR !</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="container">
+            <div id="mainDiv">
+                <div id="boardArea" tabindex="0">
+                    <div id="connectedUsers">
+                        <div id="userIcon"></div>
+                        <div id="usersNum">1</div>
+                    </div>
+                    <div id="gameBoard" oncontextmenu="return false;">
+                        <div id="paletteContainer">
+                            <div id="palette">
+                                <div id="infoPanel">
+                                    <h2 id="controls">Controls</h2>
+                                    <p>
+                                        <b>Left Click</b> - Normal drawing
+                                        (toggle on/off)
+                                    </p>
+                                    <p><b>Right Click</b> - Area drawing</p>
+                                    <p>
+                                        <b>Middle Click</b> - Garbage drawing
+                                        (drag up to create, down to remove)
+                                    </p>
+                                    <p><b>Alt Click</b> - Ghost drawing</p>
+                                    <p>
+                                        <b>Shift/Ctrl Click</b> - Tile Selection
+                                        (click and drag, Esc to deselect)
+                                    </p>
+                                    <p>
+                                        Paste images directly into window
+                                        (Ctrl-V)
+                                    </p>
+                                </div>
+                                <svg
+                                    id="help"
+                                    width="32px"
+                                    height="32px"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <g
+                                        id="SVGRepo_bgCarrier"
+                                        stroke-width="0"
+                                    ></g>
+                                    <g
+                                        id="SVGRepo_tracerCarrier"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    ></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M12 19.5C16.1421 19.5 19.5 16.1421 19.5 12C19.5 7.85786 16.1421 4.5 12 4.5C7.85786 4.5 4.5 7.85786 4.5 12C4.5 16.1421 7.85786 19.5 12 19.5ZM12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21ZM12.75 15V16.5H11.25V15H12.75ZM10.5 10.4318C10.5 9.66263 11.1497 9 12 9C12.8503 9 13.5 9.66263 13.5 10.4318C13.5 10.739 13.3151 11.1031 12.9076 11.5159C12.5126 11.9161 12.0104 12.2593 11.5928 12.5292L11.25 12.7509V14.25H12.75V13.5623C13.1312 13.303 13.5828 12.9671 13.9752 12.5696C14.4818 12.0564 15 11.3296 15 10.4318C15 8.79103 13.6349 7.5 12 7.5C10.3651 7.5 9 8.79103 9 10.4318H10.5Z"
+                                            fill="#000000"
+                                        ></path>
+                                    </g>
+                                </svg>
+
+                                <svg
+                                    id="paletteSvg"
+                                    version="1.1"
+                                    id="_x32_"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    viewBox="0 0 512 512"
+                                    xml:space="preserve"
+                                    fill="#000000"
+                                    stroke="#ffffff"
+                                >
+                                    <g
+                                        id="SVGRepo_bgCarrier"
+                                        stroke-width="0"
+                                    ></g>
+                                    <g
+                                        id="SVGRepo_tracerCarrier"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    ></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <g>
+                                            <path
+                                                class="st0"
+                                                d="M468.277,116.662c-27.602-40.846-66.66-73.285-112.616-92.728c-30.638-12.955-64.35-20.122-99.654-20.122 c-35.303,0-68.914,7.166-99.421,20.135c-30.507,12.97-57.911,31.72-80.944,54.876C29.582,125.11,0.966,189.104,0.014,259.601v0.013 C0.007,260.484,0,261.354,0,262.21c0,18.834,2.796,34.96,7.865,48.553c5.056,13.585,12.442,24.608,21.286,32.857 c5.892,5.508,12.407,9.77,19.176,12.812c9.037,4.056,18.491,5.946,27.658,5.946c8.187,0,16.147-1.493,23.485-4.384 c7.331-2.898,14.065-7.2,19.587-12.921c14.641-15.181,35.708-24.334,59.042-24.341c17.401,0.007,33.44,5.262,46.826,14.298 c13.373,9.03,24.019,21.854,30.363,36.865c4.234,10.016,6.577,20.998,6.577,32.603c0.007,4.679-0.753,9.551-1.966,14.894 c-1.192,5.33-2.843,11.071-4.281,17.415c-1.35,5.988-2.014,11.722-2.014,17.196c-0.028,10.125,2.37,19.388,6.694,27.061 c4.302,7.694,10.406,13.654,17.072,17.867c4.446,2.822,9.153,4.905,13.914,6.385c6.351,1.96,12.798,2.864,19.053,2.871 c5.857-0.007,11.564-0.788,16.976-2.46c52.951-16.387,99.058-48.594,132.012-91.364c32.946-42.75,52.69-96.215,52.677-154.558 C512.013,206.841,495.872,157.507,468.277,116.662z M435.803,396.25c-29.157,37.872-70.167,66.564-117.261,81.129 c-2.165,0.671-5.076,1.137-8.207,1.124c-3.775,0.013-7.852-0.644-11.483-1.946c-3.652-1.294-6.816-3.192-9.235-5.549 c-1.616-1.576-2.932-3.357-3.98-5.508c-1.384-2.878-2.343-6.482-2.357-11.496c0-3.042,0.37-6.584,1.295-10.674 c1.164-5.214,2.822-10.975,4.281-17.408c1.446-6.427,2.686-13.565,2.686-21.424c0.006-23.443-7.153-45.353-19.382-63.439 c-12.229-18.1-29.52-32.467-49.902-41.086c-13.579-5.748-28.541-8.926-44.161-8.926c-31.124,0-60.014,12.277-80.403,33.418 c-2.274,2.357-5.378,4.44-9.118,5.92c-3.727,1.466-8.057,2.316-12.592,2.316c-5.714,0-11.715-1.329-17.402-4.268 c-5.686-2.953-11.133-7.475-15.867-14.312c-3.151-4.563-5.981-10.167-8.2-17.073c-2.967-9.194-4.837-20.703-4.837-34.837 c0-0.733,0.007-1.472,0.014-2.213v0.007c0.637-47.012,15.072-90.563,39.44-126.73c24.382-36.159,58.699-64.858,99.065-82.012 c26.917-11.442,56.521-17.771,87.809-17.771c46.922,0.007,90.385,14.236,126.524,38.639c36.132,24.403,64.844,58.994,82.013,99.585 c11.448,27.068,17.778,56.802,17.778,88.09C482.308,311.428,464.961,358.364,435.803,396.25z"
+                                            ></path>
+                                            <path
+                                                class="st0"
+                                                d="M392.273,296.061c-6.221-2.631-13.086-4.09-20.225-4.09c-10.708-0.007-20.772,3.282-29.048,8.886 c-8.282,5.59-14.846,13.496-18.799,22.834c-2.637,6.22-4.09,13.085-4.09,20.217c-0.007,10.715,3.282,20.779,8.879,29.048 c5.597,8.29,13.503,14.852,22.841,18.806c6.22,2.638,13.085,4.09,20.217,4.09c10.716,0,20.78-3.281,29.055-8.879 c8.276-5.604,14.846-13.503,18.799-22.841c2.638-6.221,4.09-13.085,4.09-20.224c0.007-10.708-3.281-20.772-8.878-29.048 C409.516,306.584,401.61,300.007,392.273,296.061z M393.594,358.418c-2.802,4.152-6.796,7.467-11.44,9.427 c-3.097,1.302-6.482,2.028-10.106,2.035c-5.418-0.007-10.345-1.624-14.503-4.433c-4.152-2.795-7.468-6.789-9.427-11.434 c-1.308-3.096-2.034-6.482-2.034-10.106c0.006-5.419,1.623-10.345,4.425-14.51c2.802-4.152,6.796-7.454,11.441-9.42 c3.097-1.308,6.481-2.034,10.098-2.034c5.426,0.006,10.352,1.63,14.518,4.426c4.145,2.809,7.461,6.796,9.42,11.441 c1.309,3.097,2.035,6.481,2.035,10.098C398.014,349.334,396.396,354.26,393.594,358.418z"
+                                            ></path>
+                                            <path
+                                                class="st0"
+                                                d="M126.462,175.094c-20.998,0-38.022,17.024-38.022,38.03c0,20.991,17.024,38.023,38.022,38.023 c21.005,0,38.03-17.032,38.03-38.023C164.492,192.118,147.467,175.094,126.462,175.094z"
+                                            ></path>
+                                            <path
+                                                class="st0"
+                                                d="M193.245,100.274c-18.265,0-33.076,14.812-33.076,33.077c0,18.271,14.812,33.083,33.076,33.083 c18.271,0,33.084-14.812,33.084-33.083C226.329,115.086,211.516,100.274,193.245,100.274z"
+                                            ></path>
+                                            <path
+                                                class="st0"
+                                                d="M288.782,90.382c-16.387,0-29.679,13.29-29.679,29.678c0,16.388,13.292,29.679,29.679,29.679 s29.678-13.291,29.678-29.679C318.46,103.672,305.169,90.382,288.782,90.382z"
+                                            ></path>
+                                            <path
+                                                class="st0"
+                                                d="M361.745,190.392c14.599,0,26.431-11.838,26.431-26.431c0-14.599-11.832-26.431-26.431-26.431 c-14.6,0-26.431,11.832-26.431,26.431C335.314,178.553,347.145,190.392,361.745,190.392z"
+                                            ></path>
+                                            <path
+                                                class="st0"
+                                                d="M376.933,233.834c0,11.42,9.262,20.669,20.676,20.669c11.42,0,20.676-9.249,20.676-20.669 c0-11.42-9.256-20.67-20.676-20.67C386.195,213.164,376.933,222.414,376.933,233.834z"
+                                            ></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <div id="timerWrapper">
+                            <div id="timer">10:10.2020</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="panelTab">
+                    <div id="panelIcon">
+                        <div id="panelIconLeft">
+                            <svg
+                                id="leftSvg"
+                                viewBox="6 0 14 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g
+                                    id="SVGRepo_tracerCarrier"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                ></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M6 12H18M6 12L11 7M6 12L11 17"
+                                        stroke="gray"
+                                        stroke-width="1"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    ></path>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <div id="panelIconMid">
+                            <svg
+                                id="midSvg"
+                                viewBox="11.5 0 1 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g
+                                    id="SVGRepo_tracerCarrier"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                ></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <g id="Interface / Line_Xl">
+                                        <path
+                                            id="Vector"
+                                            d="M12 21V3"
+                                            stroke="gray"
+                                            stroke-width="1"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        ></path>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <div id="panelIconRight">
+                            <svg
+                                id="rightSvg"
+                                viewBox="6 0 14 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                transform="rotate(180)"
+                            >
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g
+                                    id="SVGRepo_tracerCarrier"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                ></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M6 12H18M6 12L11 7M6 12L11 17"
+                                        stroke="gray"
+                                        stroke-width="1"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    ></path>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sidePanel">
+                    <div id="sidePanelContent" tabindex="1">
+                        <div id="tabs">
+                            <div id="dataTab" class="tab activeTab">
+                                <h2>Data</h2>
+                            </div>
+                            <div id="settingsTab" class="tab">
+                                <h2>Settings</h2>
+                            </div>
+                        </div>
+
+                        <div id="panelMain">
+                            <div id="settings">
+                                <h3>Handling</h3>
+                                <div id="handling">
+                                    <div class="setting">
+                                        <h4>DAS (ms):</h4>
+                                        <input
+                                            type="range"
+                                            id="dasSlider"
+                                            name="das"
+                                            min="10"
+                                            max="200"
+                                            value="130"
+                                            step="1"
+                                        />
+                                        <p id="dasSliderVal"></p>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>ARR (ms):</h4>
+                                        <input
+                                            type="range"
+                                            id="arrSlider"
+                                            name="arr"
+                                            min="0"
+                                            max="200"
+                                            value="50"
+                                            step="1"
+                                        />
+                                        <p id="arrSliderVal"></p>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Soft Drop (ms):</h4>
+                                        <input
+                                            type="range"
+                                            id="softDropSlider"
+                                            name="softdrop"
+                                            min="0"
+                                            max="200"
+                                            value="50"
+                                            step="1"
+                                        />
+                                        <p id="softDropSliderVal"></p>
+                                    </div>
+                                </div>
+
+                                <h3>Key Binds</h3>
+                                <div id="keyBinds">
+                                    <div id="keyBindButtons">
+                                        <button id="resetAll">
+                                            Reset to Defaults
+                                        </button>
+                                        <button id="changeAll">
+                                            Change All Key Binds
+                                        </button>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Left:</h4>
+                                        <div class="key">
+                                            <p id="leftKeyText"></p>
+                                        </div>
+                                        <button id="leftKeyButton">
+                                            change
+                                        </button>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Right:</h4>
+                                        <div class="key">
+                                            <p id="rightKeyText"></p>
+                                        </div>
+                                        <button id="rightKeyButton">
+                                            change
+                                        </button>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Soft Drop:</h4>
+                                        <div class="key">
+                                            <p id="softKeyText"></p>
+                                        </div>
+                                        <button id="softKeyButton">
+                                            change
+                                        </button>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Hard Drop:</h4>
+                                        <div class="key">
+                                            <p id="hardKeyText"></p>
+                                        </div>
+                                        <button id="hardKeyButton">
+                                            change
+                                        </button>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Hold:</h4>
+                                        <div class="key">
+                                            <p id="holdKeyText"></p>
+                                        </div>
+                                        <button id="holdKeyButton">
+                                            change
+                                        </button>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Rotate Counterclockwise:</h4>
+                                        <div class="key">
+                                            <p id="ccrKeyText"></p>
+                                        </div>
+                                        <button id="ccrKeyButton">
+                                            change
+                                        </button>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Rotate Clockwise:</h4>
+                                        <div class="key">
+                                            <p id="crKeyText"></p>
+                                        </div>
+                                        <button id="crKeyButton">change</button>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Rotate 180:</h4>
+                                        <div class="key">
+                                            <p id="r180KeyText"></p>
+                                        </div>
+                                        <button id="r180KeyButton">
+                                            change
+                                        </button>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Restart:</h4>
+                                        <div class="key">
+                                            <p id="restartKeyText"></p>
+                                        </div>
+                                        <button id="restartKeyButton">
+                                            change
+                                        </button>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Undo:</h4>
+                                        <div class="key">
+                                            <p id="undoKeyText"></p>
+                                        </div>
+                                        <button id="undoKeyButton">
+                                            change
+                                        </button>
+                                    </div>
+                                    <div class="setting">
+                                        <h4>Redo:</h4>
+                                        <div class="key">
+                                            <p id="redoKeyText"></p>
+                                        </div>
+                                        <button id="redoKeyButton">
+                                            change
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="data">
+                                <h3>Import Board State</h3>
+                                <div id="import">
+                                    <!-- <h4>Data:</h4> -->
+                                    <textarea
+                                        id="importText"
+                                        cols="30"
+                                        rows="10"
+                                        spellcheck="false"
+                                    ></textarea>
+                                    <div id="importButtonWrapper">
+                                        <button id="importButton">
+                                            Import
+                                        </button>
+                                        <button id="clearImport">Clear</button>
+                                    </div>
+                                </div>
+                                <h3>Export Board State</h3>
+                                <div id="export">
+                                    <div id="exportOptions">
+                                        <div class="exportOption"></div>
+
+                                        <div class="exportOption">
+                                            <div id="customInputs">
+                                                <div class="exportOption">
+                                                    <h4>Current Hold:</h4>
+                                                    <input
+                                                        type="text"
+                                                        id="holdInput"
+                                                        maxlength="1"
+                                                    />
+                                                </div>
+
+                                                <div class="exportOption">
+                                                    <h4>Current Queue:</h4>
+                                                    <!-- <textarea id="customQueue" cols="7" rows="5" wrap="soft"></textarea> -->
+                                                    <textarea
+                                                        id="customQueue"
+                                                        cols="7"
+                                                        wrap="soft"
+                                                        spellcheck="false"
+                                                    ></textarea>
+                                                </div>
+                                            </div>
+
+                                            <!-- <button id="modifyQueueHold" disabled>Update</button> -->
+                                        </div>
+
+                                        <div class="exportOption">
+                                            <div class="checkbox-wrapper-65">
+                                                <label for="queueRegen">
+                                                    <input
+                                                        type="checkbox"
+                                                        id="queueRegen"
+                                                    />
+                                                    <span class="cbx">
+                                                        <svg
+                                                            width="12px"
+                                                            height="11px"
+                                                            viewBox="0 0 12 11"
+                                                        >
+                                                            <polyline
+                                                                points="1 6.29411765 4.5 10 11 1"
+                                                            ></polyline>
+                                                        </svg>
+                                                    </span>
+                                                    <span
+                                                        >Regenerate queue?</span
+                                                    >
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <textarea
+                                        name="exportText"
+                                        id="exportArea"
+                                        readonly="true"
+                                        cols="30"
+                                        rows="10"
+                                        spellcheck="false"
+                                    ></textarea>
+                                    <div id="exportButtons">
+                                        <button id="copyAsLink">
+                                            Copy As Link
+                                        </button>
+                                        <button id="copyRaw">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="version">
+            <p id="versionNum">Ver 0.2.1</p>
+            <svg
+                id="changeLogSvg"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M10.9436 1.25H13.0564C14.8942 1.24998 16.3498 1.24997 17.489 1.40314C18.6614 1.56076 19.6104 1.89288 20.3588 2.64124C20.6516 2.93414 20.6516 3.40901 20.3588 3.7019C20.0659 3.9948 19.591 3.9948 19.2981 3.7019C18.8749 3.27869 18.2952 3.02502 17.2892 2.88976C16.2615 2.75159 14.9068 2.75 13 2.75H11C9.09318 2.75 7.73851 2.75159 6.71085 2.88976C5.70476 3.02502 5.12511 3.27869 4.7019 3.7019C4.27869 4.12511 4.02502 4.70476 3.88976 5.71085C3.75159 6.73851 3.75 8.09318 3.75 10V14C3.75 15.9068 3.75159 17.2615 3.88976 18.2892C4.02502 19.2952 4.27869 19.8749 4.7019 20.2981C5.12511 20.7213 5.70476 20.975 6.71085 21.1102C7.73851 21.2484 9.09318 21.25 11 21.25H13C14.9068 21.25 16.2615 21.2484 17.2892 21.1102C18.2952 20.975 18.8749 20.7213 19.2981 20.2981C19.994 19.6022 20.2048 18.5208 20.2414 15.9892C20.2474 15.575 20.588 15.2441 21.0022 15.2501C21.4163 15.2561 21.7472 15.5967 21.7412 16.0108C21.7061 18.4383 21.549 20.1685 20.3588 21.3588C19.6104 22.1071 18.6614 22.4392 17.489 22.5969C16.3498 22.75 14.8942 22.75 13.0564 22.75H10.9436C9.10583 22.75 7.65019 22.75 6.51098 22.5969C5.33856 22.4392 4.38961 22.1071 3.64124 21.3588C2.89288 20.6104 2.56076 19.6614 2.40314 18.489C2.24997 17.3498 2.24998 15.8942 2.25 14.0564V9.94358C2.24998 8.10582 2.24997 6.65019 2.40314 5.51098C2.56076 4.33856 2.89288 3.38961 3.64124 2.64124C4.38961 1.89288 5.33856 1.56076 6.51098 1.40314C7.65019 1.24997 9.10582 1.24998 10.9436 1.25ZM18.1131 7.04556C19.1739 5.98481 20.8937 5.98481 21.9544 7.04556C23.0152 8.1063 23.0152 9.82611 21.9544 10.8869L17.1991 15.6422C16.9404 15.901 16.7654 16.076 16.5693 16.2289C16.3387 16.4088 16.0892 16.563 15.8252 16.6889C15.6007 16.7958 15.3659 16.8741 15.0187 16.9897L12.9351 17.6843C12.4751 17.8376 11.9679 17.7179 11.625 17.375C11.2821 17.0321 11.1624 16.5249 11.3157 16.0649L11.9963 14.0232C12.001 14.0091 12.0056 13.9951 12.0102 13.9813C12.1259 13.6342 12.2042 13.3993 12.3111 13.1748C12.437 12.9108 12.5912 12.6613 12.7711 12.4307C12.924 12.2346 13.099 12.0596 13.3578 11.8009C13.3681 11.7906 13.3785 11.7802 13.3891 11.7696L18.1131 7.04556ZM20.8938 8.10622C20.4188 7.63126 19.6488 7.63126 19.1738 8.10622L18.992 8.288C19.0019 8.32149 19.0132 8.3571 19.0262 8.39452C19.1202 8.66565 19.2988 9.02427 19.6372 9.36276C19.9757 9.70125 20.3343 9.87975 20.6055 9.97382C20.6429 9.9868 20.6785 9.99812 20.712 10.008L20.8938 9.8262C21.3687 9.35124 21.3687 8.58118 20.8938 8.10622ZM19.5664 11.1536C19.2485 10.9866 18.9053 10.7521 18.5766 10.4234C18.2479 10.0947 18.0134 9.75146 17.8464 9.43357L14.4497 12.8303C14.1487 13.1314 14.043 13.2388 13.9538 13.3532C13.841 13.4979 13.7442 13.6545 13.6652 13.8202C13.6028 13.9511 13.5539 14.0936 13.4193 14.4976L13.019 15.6985L13.3015 15.981L14.5024 15.5807C14.9064 15.4461 15.0489 15.3972 15.1798 15.3348C15.3455 15.2558 15.5021 15.159 15.6468 15.0462C15.7612 14.957 15.8686 14.8513 16.1697 14.5503L19.5664 11.1536ZM7.25 9C7.25 8.58579 7.58579 8.25 8 8.25H14.5C14.9142 8.25 15.25 8.58579 15.25 9C15.25 9.41421 14.9142 9.75 14.5 9.75H8C7.58579 9.75 7.25 9.41421 7.25 9ZM7.25 13C7.25 12.5858 7.58579 12.25 8 12.25H10.5C10.9142 12.25 11.25 12.5858 11.25 13C11.25 13.4142 10.9142 13.75 10.5 13.75H8C7.58579 13.75 7.25 13.4142 7.25 13ZM7.25 17C7.25 16.5858 7.58579 16.25 8 16.25H9.5C9.91421 16.25 10.25 16.5858 10.25 17C10.25 17.4142 9.91421 17.75 9.5 17.75H8C7.58579 17.75 7.25 17.4142 7.25 17Z"
+                    ></path>
+                </g>
+            </svg>
+        </div>
+
+        <script src="main.js"></script>
+    </body>
 </html>
