@@ -160,6 +160,10 @@ body {
 }
 
 /*Valentine Easter Egg */
+#hack {
+    z-index: 30;
+}
+
 #ValentineOverlay {
     display: none;
     position: absolute;
